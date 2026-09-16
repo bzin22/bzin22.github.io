@@ -1,7 +1,9 @@
-# Agent Guidelines for Academic Pages (academicpages.github.io, v.0.9.x)
+# Agent Guidelines for bzin22.github.io
 
 **This file contains important information for coding agents working in this repo.**
 
-`academicpages.github.io` is a Jekyll theme for academic, professional, and personal portfolio-oriented websites. The the typical use pattern is to "Use this template" to "Create a new repository" (see [Creating a repository from a template](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) where the user will make their own edits to customize the template to create their own personal GitHub pages website. 
+This repo is Bryan Zin's personal website, built from the [Academic Pages](https://github.com/academicpages/academicpages.github.io) Jekyll template and served by GitHub Pages at https://bzin22.github.io. It is a personal site, not the template: there is **no need** to open a pull request against `academicpages.github.io`, and template-wide features do not belong here.
 
-If a user has created a personal website, there is **no need** to create a pull request back to the `academicpages.github.io` repository.
+The template's demo collections (`_talks`, `_publications`, `_teaching`, `_portfolio`, `_posts`) and their pages were removed. Do not reintroduce them, and do not add navigation entries for pages that do not exist. See README.md for where content lives and how to build and check the site.
+
+Content facts (degrees, roles, dates, project claims) come from `files/bryan-zin-cv.pdf`. Do not add a credential or a conclusion the CV does not support.
