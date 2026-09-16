@@ -17,7 +17,7 @@ from urllib.parse import unquote, urljoin, urlparse
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "_site")
 
 # Nav order comes from _data/navigation.yml. Header link 0 is the site title.
-EXPECTED_NAV = ["Home", "Research", "Projects", "Experience", "CV", "Contact"]
+EXPECTED_NAV = ["Home", "Research", "Projects", "Experience", "Resume", "Contact"]
 
 # permalink -> text that must appear in the rendered page body
 EXPECTED_PAGES = {
@@ -25,7 +25,7 @@ EXPECTED_PAGES = {
     "/research/": "Supply-Chain Risk &amp; Financial Markets",
     "/projects/": "Technical skills",
     "/experience/": "Reframe Innovations, Inc.",
-    "/cv/": "bryan-zin-cv.pdf",
+    "/resume/": 'src="/images/bryan-zin-resume.png?v=2"',
     "/contact/": "bz297@cornell.edu",
 }
 
@@ -36,7 +36,7 @@ EXPECTED_TITLES = {
     "/research/": "Research Bryan Zin",
     "/projects/": "Projects Bryan Zin",
     "/experience/": "Experience Bryan Zin",
-    "/cv/": "CV Bryan Zin",
+    "/resume/": "Resume Bryan Zin",
     "/contact/": "Contact Bryan Zin",
 }
 

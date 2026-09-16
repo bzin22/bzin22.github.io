@@ -6,10 +6,10 @@ builds it with Jekyll on every push to `master`.
 ## Where the content lives
 
 - `_pages/` holds one Markdown file per page: `about.md` (Home), `research.md`,
-  `projects.md`, `experience.md`, `cv.md`, `contact.md`, plus `sitemap.md` and
+  `projects.md`, `experience.md`, `resume.md`, `contact.md`, plus `sitemap.md` and
   `404.md`.
 - `_data/navigation.yml` sets the header menu: Home, Research, Projects,
-  Experience, CV, Contact.
+  Experience, Resume, Contact.
 - `_config.yml` holds site-wide settings and the sidebar profile (name, bio,
   photo, email, GitHub, LinkedIn).
 - `files/` holds downloads such as `bryan-zin-cv.pdf`. They are served at
@@ -78,7 +78,7 @@ If you are using [Visual Studio Code](https://code.visualstudio.com/) you can us
 
 `scripts/test_site.py` checks the built site in `_site/`. It asserts the six
 pages render their expected content, the nav is Home, Research, Projects,
-Experience, CV, Contact in that order, each page title is right, every internal
+Experience, Resume, Contact in that order, each page title is right, every internal
 link and asset resolves to a built file, and no template placeholder text is
 left behind.
 
