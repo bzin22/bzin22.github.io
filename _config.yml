@@ -9,10 +9,10 @@
 # Basic Site Settings
 locale: "en-US"
 site_theme: "default" # The available themes options are "default", "air", "sunrise", "mint", "dirt" and "contrast"
-title: "Pre-doc Researcher"
+title: "Bryan Zin"
 title_separator: ""
 name: &name "Bryan Zin"
-description: &description "Bryan's academic portfolio" # Update this with a general description of your site, this is the default if not overridden by a page
+description: &description "Researcher in supply-chain risk, financial markets, and machine learning."
 url:
   https://bzin22.github.io # The base hostname & protocol for your site e.g. "https://[your GitHub username].github.io",
   # or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
@@ -24,12 +24,12 @@ repository: "bzin22/bzin22.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar: "profile.png"
+  avatar: "bryan-zin.png"
   name: "Bryan Zin"
   pronouns: # example: "she/her"
-  bio: "Short biography for the left-hand sidebar"
+  bio: "Researcher in supply-chain risk, financial markets, and machine learning."
   location: "San Francisco, CA"
-  employer: "Cornell University"
+  employer:
   uri: # URL
   email: "bz297@cornell.edu"
 
@@ -39,10 +39,10 @@ author:
   googlescholar: # URL
   inspire-hep: # URL
   impactstory: # URL
-  orcid: "https://orcid.org/yourorcidurl"
+  orcid:
   semantic: # URL
   ssrn: # URL
-  pubmed: "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
+  pubmed:
   researchgate: # URL
   scopus: # URL
   zotero: # URL
@@ -51,13 +51,13 @@ author:
   bitbucket: # Username - Update with your username on the site
   codepen: # Username
   dribbble: # Username
-  github: "academicpages"
+  github: "bzin22"
   kaggle: # Username
   stackoverflow: # User number or user number and name (i.e., use "1" or "1/jeff-atwood")
 
   # Social media
   artstation: # Username
-  bluesky: "bsky.app" # Replace this with you Bluesky username
+  bluesky:
   facebook: # Username
   flickr: # Username
   foursquare: # Username
@@ -66,7 +66,7 @@ author:
   keybase: # Username
   instagram: # Username
   lastfm: # Username
-  linkedin: # Username
+  linkedin: "bryan-zin"
   mastodon: # URL
   medium: # URL
   pinterest: # Username
