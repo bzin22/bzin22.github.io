@@ -6,7 +6,7 @@ author_profile: true
 
 ## Reframe Innovations, Inc.
 
-**Founder | San Francisco, CA | 2025 - Present**
+**Founder \| San Francisco, CA \| 2026 - Present**
 
 - Accepted into Y Combinator (W26) and raised $1.2M in seed funding to build AI-driven procurement automation for hardware teams.
 - Architected automated workflows across bill-of-materials management, vendor quoting, POs, and component tracking.
@@ -15,7 +15,7 @@ author_profile: true
 
 ## Apple Inc.
 
-**Product Design Engineer III | Cupertino, CA | Jan 2022 - May 2025**
+**Product Design Engineer III \| Cupertino, CA \| Jan 2022 - May 2025**
 
 - Owned mechanical architecture design, structural integration, and rigorous testing for several flagship device generations, including iPhone 15 Pro Max, iPhone 17 Air, and iPhone 17.
 - Formulated validation protocols and evaluated yield datasets to assess critical failure modes and verify engineering modifications.

@@ -10,7 +10,7 @@ My interests center on using machine learning and computational modeling to unde
 
 ## Supply-Chain Risk & Financial Markets
 
-**Independent Research | 2026 - Present**
+**Independent Research \| 2026 - Present**
 
 This project examines whether elevated supply-chain risk is associated with negative abnormal returns. I developed a Python pipeline to collect and analyze SEC 10-Ks, XBRL, and equity-market data across 450 public companies in nine sectors.
 
