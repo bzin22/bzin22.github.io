@@ -12,7 +12,7 @@ site_theme: "default" # The available themes options are "default", "air", "sunr
 title: "Bryan Zin"
 title_separator: ""
 name: &name "Bryan Zin"
-description: &description "Researcher in supply-chain risk, financial markets, and machine learning."
+description: &description "Bryan Zin’s research and projects in applied machine learning, supply-chain risk, model evaluation, and computational analysis of firms and markets."
 url:
   https://bzin22.github.io # The base hostname & protocol for your site e.g. "https://[your GitHub username].github.io",
   # or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
@@ -27,7 +27,8 @@ author:
   avatar: "bryan-zin.png"
   name: "Bryan Zin"
   pronouns: # example: "she/her"
-  bio: "Researcher in supply-chain risk, financial markets, and machine learning."
+  bio: "Independent researcher working on machine learning, supply chains, and firm behavior. Previously at Apple."
+  education: "Cornell University · B.S. in Mechanical Engineering"
   location: "San Francisco, CA"
   employer:
   uri: # URL

@@ -6,6 +6,8 @@ redirect_from:
   - /cv/
 ---
 
+[Download my resume (PDF)]({{ '/files/bryan-zin-cv.pdf' | relative_url }})
+
 <div class="resume-frame">
   <img
     class="resume-image"

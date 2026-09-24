@@ -217,6 +217,14 @@
   }
 }
 
+.author__education {
+  margin: 0;
+
+  @include breakpoint($large) {
+    margin-bottom: 20px;
+  }
+}
+
 .author__urls-wrapper {
   position: relative;
   display: table-cell;

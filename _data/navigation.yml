@@ -14,11 +14,8 @@ main:
   - title: "Projects"
     url: /projects/
 
-  - title: "Experience"
+  - title: "CV"
     url: /experience/
 
   - title: "Resume"
     url: /resume/
-
-  - title: "Contact"
-    url: /contact/
