@@ -73,7 +73,7 @@ EXPECTED_SNIPPETS = {
         '<button class="tidy" type="button" id="tidy" aria-pressed="false"',
         # Badge matches the plain sidebar.
         '<p class="bio">Independent researcher, YC founder, Apple Engineer</p>',
-        '<p class="edu">Cornell University · B.S. in Mechanical Engineering</p>',
+        '<p class="edu">Cornell University<br>B.S. in Mechanical Engineering</p>',
         '<a href="mailto:bz297@cornell.edu">Email</a>',
         '<span class="paperclip"></span>\n      <p class="cover-title">Resume</p>',
         '<section class="obj win folder closed" id="freshfleet" aria-label="Freshfleet">',
@@ -221,7 +221,7 @@ def check_sidebar_bio(fail):
     content = re.search(r'author__content">(.*?)</div>', body, re.S)
     content = content.group(1) if content else ""
     for expected in ('<p class="author__bio">Independent researcher, YC founder, Apple Engineer</p>',
-                     '<p class="author__bio author__education">Cornell University · B.S. in Mechanical Engineering</p>'):
+                     '<p class="author__bio author__education">Cornell University<br>B.S. in Mechanical Engineering</p>'):
         if expected not in content:
             fail(f"sidebar is missing {expected!r}")
     if "Previously at Apple" in content:
