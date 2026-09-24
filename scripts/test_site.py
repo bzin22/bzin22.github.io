@@ -58,6 +58,7 @@ EXPECTED_SNIPPETS = {
         'alt="Mean two-day abnormal returns decrease across fractional risk portfolios, from 0.52% in Q1 to −0.41% in Q5; error bars show firm-clustered 95% intervals."',
         "<figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, 2010–2019. Bars show 95% intervals clustered by firm. Final sample: 52,533 calls from 2,026 firms. Portfolios share observations when scores are tied.</figcaption>",
     ],
+    "/projects/": ['<p><a href="https://github.com/bzin22/adam-optimizer-recreation">Repository</a></p>'],
     "/resume/": ['<a href="/files/bryan-zin-cv.pdf">Download my resume (PDF)</a>'],
 }
 
@@ -71,6 +72,8 @@ FORBIDDEN_TEXT = [
     "$1.2M",
     "$50M",
     "repository visibility",
+    "Optimizer implementation",
+    "Experiment results",
     "private",
 ]
 
@@ -181,10 +184,28 @@ def check_snippets(fail):
                 fail(f"{route} is missing {snippet!r}")
 
 
-def check_sidebar_education(fail):
+def check_sidebar_bio(fail):
+    """The sidebar is only the short bio: no "Previously at Apple", no education line."""
     body = read("/")
-    if '<p class="author__education">Cornell University · B.S. in Mechanical Engineering</p>' not in body:
-        fail("sidebar is missing the separate Cornell education line")
+    expected = '<p class="author__bio">Independent researcher working on machine learning, supply chains, and firm behavior.</p>'
+    if expected not in body:
+        fail("sidebar bio is not the short one-sentence bio")
+    content = re.search(r'author__content">(.*?)</div>', body, re.S)
+    content = content.group(1) if content else ""
+    for phrase in ("Previously at Apple", "Cornell University"):
+        if phrase in content:
+            fail(f"sidebar still contains {phrase!r}")
+
+
+def check_footer(fail):
+    """The footer follow row keeps GitHub but no longer links the feed."""
+    for route in EXPECTED_PAGES:
+        footer = re.search(r'page__footer-follow.*?</ul>', read(route), re.S)
+        footer = footer.group(0) if footer else ""
+        if "feed.xml" in footer:
+            fail(f"{route} footer still links the feed")
+        if "https://github.com/bzin22" not in footer:
+            fail(f"{route} footer lost its GitHub link")
 
 
 def check_forbidden_text(fail):
@@ -252,7 +273,8 @@ def main():
         check_removed,
         check_redirects,
         check_snippets,
-        check_sidebar_education,
+        check_sidebar_bio,
+        check_footer,
         check_forbidden_text,
         check_placeholders,
         check_escaped_pipes,

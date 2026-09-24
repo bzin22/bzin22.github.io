@@ -28,7 +28,7 @@ The experiments revisit optimizer comparisons from Kingma and Ba’s Adam paper.
 
 The project demonstrates numerical implementation, experiment design, and diagnosis of reproduction gaps. The CIFAR-10 extension is unfinished.
 
-[Repository](https://github.com/bzin22/adam-optimizer-recreation) · [Optimizer implementation](https://github.com/bzin22/adam-optimizer-recreation/blob/main/optimizers.py) · [Experiment results](https://github.com/bzin22/adam-optimizer-recreation#experiments)
+[Repository](https://github.com/bzin22/adam-optimizer-recreation)
 
 ## Freshfleet: robotic cleaning end effectors
 

@@ -12,7 +12,7 @@ builds it with Jekyll on every push to `master`.
 - `_data/navigation.yml` sets the header menu: Home, Research, Projects, CV,
   Resume.
 - `_config.yml` holds site-wide settings and the sidebar profile (name, bio,
-  education line, photo, email, GitHub, LinkedIn).
+  photo, email, GitHub, LinkedIn).
 - `files/` holds downloads such as `bryan-zin-cv.pdf`. They are served at
   https://bzin22.github.io/files/bryan-zin-cv.pdf.
 - `images/` holds the profile photo (`bryan-zin.png`), the resume preview
