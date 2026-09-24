@@ -82,8 +82,6 @@ permalink: /
     border-radius: 999px; padding: 3px 10px; cursor: pointer; color: var(--ink);
   }
   .menubar .tidy:hover { background: #2a2a22; color: #f6f0df; }
-  .menubar .tidy[aria-pressed="true"] { background: var(--mat); border-color: var(--mat); color: #f6f0df; }
-  .menubar .tidy[aria-pressed="true"]:hover { background: var(--mat-dark); }
   .menubar .clock { padding: 0 6px 0 10px; white-space: nowrap; color: var(--ink-soft); }
   .sun {
     position: relative; display: inline-grid; place-items: center;
@@ -194,7 +192,6 @@ permalink: /
   .win.closed .bar, .win.closed .content { display: none; }
   .win.closed .cover { display: block; }
   .win.closed { cursor: grab; }
-  #freshfleet.closed { display: none; } /* the photo on the desk stands in for its cover */
 
   .content h1, .content h2, .content h3 {
     font-family: "Fraunces", Georgia, serif; font-weight: 700; line-height: 1.2;
@@ -345,12 +342,7 @@ permalink: /
     background: repeating-linear-gradient(90deg, var(--red) 0 18px, #e9b949 18px 36px, var(--mat) 36px 54px, var(--blue) 54px 72px);
   }
 
-  /* polaroids + placeholders */
-  .polaroid { background: #fffdf7; padding: 9px 9px 10px; width: 160px; cursor: pointer; }
-  .polaroid .ph { aspect-ratio: 1 / 1; }
-  .polaroid .ph .ph-label { display: none; }
-  .polaroid .cap { font: 700 16px/1.05 "Caveat", cursive; margin-top: 7px; color: #333; }
-  .polaroid .cap b { display: block; font: 600 9.5px "IBM Plex Mono", monospace; letter-spacing: .1em; color: var(--red); margin-bottom: 2px; }
+  /* CV illustrations */
   .ph { position: relative; overflow: hidden; border-radius: 2px; }
   .ph svg { display: block; width: 100%; height: 100%; }
   .ph-inline { aspect-ratio: 16 / 9; margin: .4em 0 1.2em; border: 1px solid rgba(0,0,0,.12); }
@@ -364,11 +356,6 @@ permalink: /
     padding: 2px 7px; border-radius: 3px; font-size: 10.5px;
   }
   .ph-label span { background: rgba(255,255,255,.9); color: var(--ink); padding: 2px 7px; border-radius: 3px; }
-
-  /* figure print on the desk */
-  .print { background: #fff; padding: 10px 10px 8px; width: 300px; cursor: pointer; }
-  .print img { display: block; width: 100%; height: auto; pointer-events: none; }
-  .print .cap { font: 700 17px "Caveat", cursive; color: #333; margin-top: 4px; }
 
   /* sticky note */
   .sticky {
@@ -431,7 +418,6 @@ permalink: /
     .win .cover { display: none !important; }
     .win.closed .bar, .win.closed .content { display: block; }
     .win.closed .bar { display: flex; }
-    #freshfleet.closed { display: flex; }
     .win .content { overflow: visible; padding: 4px 18px 20px; font-size: 15.5px; }
     .notebook .content { padding-left: 34px; }
     .folder .content, .clipboard .content, .paper .content { padding: 10px; }
@@ -455,7 +441,7 @@ permalink: /
     <a href="#resume" data-open="resume">Resume</a>
   </nav>
   <div class="spacer"></div>
-  <button class="tidy" type="button" id="tidy" aria-pressed="false" title="Line everything up. Click again to undo.">Tidy desk</button>
+  <button class="tidy" type="button" id="tidy" title="Line everything up">Tidy desk</button>
   <span class="clock" id="clock"></span>
   <a class="sun" href="{{ '/about/' | relative_url }}" data-tip="If you prefer something plainer" aria-label="If you prefer something plainer" title="If you prefer something plainer">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
@@ -484,7 +470,7 @@ permalink: /
   </aside>
 
   <!-- Home -->
-  <section class="obj win card-index" id="home" data-tilt="0.6" aria-label="Home">
+  <section class="obj win card-index closed" id="home" data-tilt="0.6" aria-label="Home">
     <div class="bar"><span class="grip"></span><span class="title">Home</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
     <div class="cover index-cover">
       <p class="cover-title">Home</p>
@@ -495,7 +481,7 @@ permalink: /
       </ul>
     </div>
     <div class="content">
-      <h1>Bryan Zin</h1>
+      <h1>About me</h1>
       <p>I work on machine learning and empirical analysis for questions about supply chains, firms, and markets. My current research measures supply-chain risk in corporate disclosures and examines its relationship with stock-market reactions. My projects also examine how modeling and evaluation choices affect prediction, from chronological validation to numerical optimization.</p>
       <p>My background is in mechanical engineering and manufacturing. At Apple, I worked on product design, validation, and failure analysis. After leaving Apple, I designed a robotic system for performing maintenance on autonomous vehicles. Shortly after, I founded Reframe, an AI procurement tool for mechanical hardware, as part of <a href="https://www.ycombinator.com/companies/usereframe">Y Combinator’s</a> W26 batch.</p>
       <p>I am seeking research associate and fellowship opportunities in applied machine learning and operations research as I prepare for doctoral study.</p>
@@ -510,7 +496,7 @@ permalink: /
   </section>
 
   <!-- Research: notebook -->
-  <section class="obj win notebook" id="research" data-tilt="-0.5" aria-label="Research">
+  <section class="obj win notebook closed" id="research" data-tilt="-0.5" aria-label="Research">
     <div class="bar"><span class="grip"></span><span class="title">Research</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
     <div class="cover notebook-cover">
       <div class="label">
@@ -578,20 +564,6 @@ permalink: /
     </div>
   </section>
 
-  <!-- Freshfleet: its own folder, opened from the Freshfleet photo on the desk -->
-  <section class="obj win folder closed" id="freshfleet" aria-label="Freshfleet">
-    <div class="bar"><span class="grip"></span><span class="title">Freshfleet</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
-    <div class="content">
-      <div class="sheet">
-        <h2>Freshfleet: robotic cleaning end effectors</h2>
-        <p class="meta"><strong>Mechanical design case study · Write-up in preparation</strong></p>
-        <div class="ph ph-inline" data-ph="freshfleet"></div>
-        <p>At Freshfleet, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.</p>
-        <p>CAD renders and a write-up of the end-effector design are in preparation.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- CV: clipboard -->
   <section class="obj win clipboard closed" id="cv" data-tilt="-2.2" aria-label="CV">
     <div class="bar"><span class="grip"></span><span class="title">CV</span><span class="kind">clipboard</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
@@ -602,6 +574,7 @@ permalink: /
         <ul class="cover-list">
           <li>Reframe Innovations<br><span class="meta">Founder · 2026</span></li>
           <li>Apple<br><span class="meta">Product Design Engineer III · January 2022–May 2025</span></li>
+          <li>Freshfleet<br><span class="meta">Mechanical design</span></li>
           <li>Education</li>
         </ul>
       </div>
@@ -617,6 +590,11 @@ permalink: /
         <p class="meta"><strong>Product Design Engineer III · January 2022–May 2025</strong></p>
         <div class="ph ph-inline" data-ph="apple"></div>
         <p>I worked on mechanical design, structural integration, and validation for iPhone 15 Pro Max, iPhone 17, and iPhone 17 Air. I developed validation protocols, analyzed yield and failure data, and worked with engineering and manufacturing teams across the United States, China, India, and Singapore.</p>
+        <h2>Freshfleet: robotic cleaning end effectors</h2>
+        <p class="meta"><strong>Mechanical design case study · Write-up in preparation</strong></p>
+        <div class="ph ph-inline" data-ph="freshfleet"></div>
+        <p>At Freshfleet, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.</p>
+        <p>CAD renders and a write-up of the end-effector design are in preparation.</p>
         <h2>Education</h2>
         <p class="meta"><strong>Cornell University — B.S. in Mechanical Engineering · December 2021</strong></p>
       </div>
@@ -638,25 +616,6 @@ permalink: /
   </section>
 
   <!-- Desk decor -->
-  <div class="obj print decor drag-whole" id="print" data-tilt="-1.8" data-opens="research" role="button" tabindex="0" aria-label="Open research notebook">
-    <span class="tape" style="top:-11px;left:50%;margin-left:-43px;transform:rotate(-2deg)"></span>
-    <img src="{{ '/images/scrisk-result.png' | relative_url }}" alt="" width="1980" height="1530">
-    <div class="cap">Fig. SCRisk portfolios, Q1 to Q5</div>
-  </div>
-
-  <div class="obj polaroid decor drag-whole" id="p-freshfleet" data-tilt="-5" data-opens="freshfleet" role="button" tabindex="0" aria-label="Open Freshfleet folder">
-    <div class="ph" data-ph="freshfleet"></div>
-    <div class="cap"><b>PLACEHOLDER</b>Freshfleet end-effector render</div>
-  </div>
-  <div class="obj polaroid decor drag-whole" id="p-reframe" data-tilt="4" data-opens="cv" role="button" tabindex="0" aria-label="Open CV clipboard">
-    <div class="ph" data-ph="reframe"></div>
-    <div class="cap"><b>PLACEHOLDER</b>Reframe app screenshot, YC W26</div>
-  </div>
-  <div class="obj polaroid decor drag-whole" id="p-apple" data-tilt="-2.5" data-opens="cv" role="button" tabindex="0" aria-label="Open CV clipboard">
-    <div class="ph" data-ph="apple"></div>
-    <div class="cap"><b>PLACEHOLDER</b>iPhone design and validation</div>
-  </div>
-
   <div class="obj sticky decor drag-whole" id="sticky" data-tilt="3.5">
     <p>Drag anything around.</p>
     <p>Click a folder to open it.</p>
@@ -748,59 +707,13 @@ permalink: /
   var mobile = window.matchMedia('(max-width: 860px)');
   var z = 10;
   var REF_W = 1440, REF_H = 962;
-  // Reference layout for a 1440 x 962 desk. [x, y, width, height|null]
-  var LAYOUT = {
-    badge:         [34, 26, 288, null],
-    home:          [346, 22, 580, 598],
-    research:      [952, 30, 456, 588],
-    projects:      [362, 662, 262, null],
-    cv:            [650, 652, 236, null],
-    print:         [912, 674, 290, null],
-    resume:        [1226, 660, 176, null],
-    'p-freshfleet':[30, 352, 156, null],
-    'p-reframe':   [178, 410, 156, null],
-    'p-apple':     [36, 628, 156, null],
-    sticky:        [196, 690, 142, null],
-    pencil:        [120, 900, 230, null]
-  };
-  var OPEN_SIZE = { home: [580, 598], research: [456, 588], projects: [660, 720], cv: [620, 700], resume: [600, 760], freshfleet: [620, 620] };
-  var COVER_W = { home: 250, research: 230, projects: 262, cv: 236, resume: 176, freshfleet: 262 };
+  var OPEN_SIZE = { home: [580, 598], research: [456, 588], projects: [660, 720], cv: [620, 700], resume: [600, 760] };
 
   function metrics() {
     var W = desk.clientWidth, H = desk.clientHeight;
-    return { W: W, H: H, sx: W / REF_W, sy: H / REF_H, sw: Math.min(1, Math.max(.72, W / REF_W)), sh: Math.min(1.12, Math.max(.8, H / REF_H)) };
+    return { W: W, H: H, sw: Math.min(1, Math.max(.72, W / REF_W)), sh: Math.min(1.12, Math.max(.8, H / REF_H)) };
   }
-  function place(el, x, y) {
-    var m = metrics();
-    var w = el.offsetWidth, h = el.offsetHeight;
-    x = Math.max(8, Math.min(x, m.W - w - 8));
-    y = Math.max(8, Math.min(y, m.H - Math.min(h, m.H - 16) - 8));
-    el.style.left = x + 'px'; el.style.top = y + 'px';
-  }
-  var LEFT_COL = ['p-freshfleet', 'p-reframe', 'p-apple', 'sticky', 'pencil'];
-  var BOTTOM_ROW = ['projects', 'cv', 'print', 'resume'];
-  function bottomOf(id) { var e = document.getElementById(id); return e.classList.contains('closed') ? 0 : e.offsetTop + e.offsetHeight; }
   function setTilt(el, deg) { el.style.setProperty('--tilt', deg + 'deg'); }
-
-  function layout() {
-    if (mobile.matches) return;
-    var m = metrics();
-    Object.keys(LAYOUT).forEach(function (id) {
-      var el = document.getElementById(id); if (!el) return;
-      var L = LAYOUT[id];
-      var isWin = el.classList.contains('win');
-      var open = isWin && !el.classList.contains('closed');
-      var w = isWin ? (open ? OPEN_SIZE[id][0] : COVER_W[id]) * m.sw : L[2] * m.sw;
-      el.style.width = Math.min(w, m.W - 24) + 'px';
-      el.style.height = open ? Math.min(OPEN_SIZE[id][1] * m.sh, m.H - 30) + 'px' : '';
-      setTilt(el, el.getAttribute('data-tilt') || 0);
-      var y = L[1] * m.sy;
-      // Left column sits under the badge; the bottom row sits under the two open windows.
-      if (LEFT_COL.indexOf(id) > -1) y += Math.max(0, bottomOf('badge') - 330 * m.sy);
-      if (BOTTOM_ROW.indexOf(id) > -1) y = Math.max(y, Math.max(bottomOf('home'), bottomOf('research')) + 34);
-      place(el, L[0] * m.sx, y);
-    });
-  }
 
   function focusObj(el) {
     document.querySelectorAll('.obj.focused').forEach(function (o) { if (o !== el) o.classList.remove('focused'); });
@@ -834,14 +747,7 @@ permalink: /
     focusObj(el);
   }
   function closeWin(el) {
-    if (tidied && el._slot) { putInSlot(el); return; }
-    var m = metrics();
-    var cx = el.offsetLeft + el.offsetWidth / 2, cy = el.offsetTop + 60;
-    el.classList.add('closed');
-    el.classList.remove('focused');
-    var w = COVER_W[el.id] * m.sw;
-    el.style.width = w + 'px'; el.style.height = '';
-    place(el, cx - w / 2, cy - 40);
+    putInSlot(el);
   }
   function reveal(id) {
     var el = document.getElementById(id); if (!el) return;
@@ -867,12 +773,9 @@ permalink: /
   document.querySelectorAll('[data-opens]').forEach(function (o) {
     o.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); reveal(o.getAttribute('data-opens')); } });
   });
-  // Tidy desk is a toggle. On: close every window, straighten everything, and line it up in
-  // equal columns; each object remembers its slot, and "put away" sends a window back to it.
-  // Off: everything returns to the original page-load arrangement.
-  var TIDY_ORDER = ['badge', 'home', 'research', 'projects', 'cv', 'resume', 'print', 'p-freshfleet', 'p-reframe', 'p-apple', 'sticky', 'pencil'];
+  // The aligned desk is the default; this button restores it after objects move.
+  var TIDY_ORDER = ['badge', 'home', 'research', 'projects', 'cv', 'resume', 'sticky', 'pencil'];
   var TIDY = { pad: 36, gapX: 28, gapY: 32, minCell: 220, maxCell: 280 };
-  var tidied = false;
   var tidyBtn = document.getElementById('tidy');
   function tidyEls() { return TIDY_ORDER.map(function (id) { return document.getElementById(id); }).filter(Boolean); }
   function putInSlot(el) {
@@ -882,54 +785,46 @@ permalink: /
     el.style.left = el._slot.left + 'px'; el.style.top = el._slot.top + 'px';
     el.setAttribute('data-tilt', 0); setTilt(el, 0);
   }
-  // Work out the grid slots for the current desk width. Open windows keep their place;
-  // their slot is sized from the closed height they had when tidy was switched on.
+  // Work out grid slots for the current desk width. Open windows keep their place;
+  // their slot keeps the height measured when they were closed.
   function tidySlots() {
     var W = desk.clientWidth;
     var cols = Math.max(1, Math.floor((W - 2 * TIDY.pad + TIDY.gapX) / (TIDY.minCell + TIDY.gapX)));
     var cell = Math.min(TIDY.maxCell, (W - 2 * TIDY.pad - (cols - 1) * TIDY.gapX) / cols);
     var left0 = (W - (cols * cell + (cols - 1) * TIDY.gapX)) / 2;
-    var els = tidyEls(), top = TIDY.pad;
-    els.forEach(function (el) {
+    var els = tidyEls(), pencil = document.getElementById('pencil');
+    var gridEls = els.filter(function (el) { return el !== pencil; }), top = TIDY.pad;
+    gridEls.forEach(function (el) {
       if (el.classList.contains('closed') || !el.classList.contains('win')) {
         el.style.width = cell + 'px'; el._closedH = el.offsetHeight;
       }
     });
-    for (var r = 0; r < els.length; r += cols) {
-      var row = els.slice(r, r + cols), rowH = 0;
+    for (var r = 0; r < gridEls.length; r += cols) {
+      var row = gridEls.slice(r, r + cols), rowH = 0;
       row.forEach(function (el, c) {
         el._slot = { left: left0 + c * (cell + TIDY.gapX), top: top, width: cell };
         rowH = Math.max(rowH, el._closedH);
       });
       top += rowH + TIDY.gapY;
     }
+    var sticky = document.getElementById('sticky');
+    pencil.style.width = Math.min(230, cell - 28) + 'px';
+    pencil._closedH = pencil.offsetHeight;
+    pencil._slot = {
+      left: sticky._slot.left + (cell - pencil.offsetWidth) / 2,
+      top: sticky._slot.top + sticky._closedH + 24,
+      width: pencil.offsetWidth
+    };
     // Let the mat grow if the grid is taller than the window.
-    desk.style.minHeight = Math.max(900, top) + 'px';
+    desk.style.minHeight = Math.max(900, top, pencil._slot.top + pencil._closedH + TIDY.pad) + 'px';
     els.forEach(function (el) { if (el.classList.contains('closed') || !el.classList.contains('win')) putInSlot(el); });
   }
-  function tidyOn() {
+  function tidyDesk() {
     if (mobile.matches) return;
     tidyEls().forEach(function (el) { if (el.classList.contains('win')) el.classList.add('closed'); el.style.height = ''; });
-    document.getElementById('freshfleet').classList.add('closed');
-    tidied = true;
     tidySlots();
-    tidyBtn.setAttribute('aria-pressed', 'true');
   }
-  function tidyOff() {
-    tidied = false;
-    tidyBtn.setAttribute('aria-pressed', 'false');
-    desk.style.minHeight = '';
-    document.getElementById('freshfleet').classList.add('closed');
-    tidyEls().forEach(function (el) {
-      el._slot = null;
-      el.classList.toggle('closed', el.classList.contains('win') && INITIAL_OPEN.indexOf(el.id) < 0);
-      el.classList.remove('focused', 'popped', 'flash'); el.style.zIndex = '';
-      el.setAttribute('data-tilt', el.getAttribute('data-tilt0') || 0);
-    });
-    layout();
-    focusObj(document.getElementById('home'));
-  }
-  tidyBtn.addEventListener('click', function () { if (tidied) tidyOff(); else tidyOn(); });
+  tidyBtn.addEventListener('click', tidyDesk);
 
   /* ---------- resizing open windows by the corner handle ---------- */
   var MIN_W = 280, MIN_H = 220;
@@ -990,7 +885,6 @@ permalink: /
     if (drag.moved) {
       var t = (Math.random() * 5 - 2.5).toFixed(2);
       if (el.id === 'pencil') t = (Math.random() * 60 - 30).toFixed(1);
-      if (tidied) t = 0; // a tidy desk stays straight
       el.setAttribute('data-tilt', t); setTilt(el, t);
     } else {
       if (el.classList.contains('win') && el.classList.contains('closed')) openWin(el);
@@ -1002,10 +896,12 @@ permalink: /
   desk.addEventListener('pointercancel', endDrag);
 
   /* ---------- init ---------- */
-  var INITIAL_OPEN = [].map.call(document.querySelectorAll('.win:not(.closed)'), function (w) { return w.id; });
-  function init() { document.querySelectorAll('.obj').forEach(function (o) { o.setAttribute('data-tilt0', o.getAttribute('data-tilt') || 0); }); layout(); focusObj(document.getElementById('home')); }
+  function init() {
+    if (!mobile.matches) tidySlots();
+    focusObj(document.getElementById('home'));
+  }
   var rT;
-  function relayout() { if (tidied) tidySlots(); else layout(); }
+  function relayout() { if (!mobile.matches) tidySlots(); }
   window.addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(relayout, 120); });
   mobile.addEventListener('change', function () { if (!mobile.matches) relayout(); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);

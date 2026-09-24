@@ -49,11 +49,26 @@ async function run() {
   if (d.fonts) await Promise.race([d.fonts.ready, sleep(3000)]);
   await sleep(400);
   const menuH = d.querySelector('.menubar').offsetHeight;
-  // Objects on the desk. The Freshfleet folder is hidden while closed (its photo stands in for it).
+  // Objects on the desk.
   const shown = () => [...d.querySelectorAll('.obj')].filter(e => e.offsetWidth > 0);
   const boxesOf = () => shown().map(e => ({id: e.id, left: e.offsetLeft, top: e.offsetTop, width: e.offsetWidth, height: e.offsetHeight, tilt: e.style.getPropertyValue('--tilt'), closed: e.classList.contains('closed')}));
   const bioLines = () => { const b = d.querySelector('#badge .bio'); return Math.round(b.offsetHeight / parseFloat(w.getComputedStyle(b).lineHeight)); };
-  out.initial = {boxes: boxesOf(), bioLines: bioLines()};
+  out.initial = {boxes: boxesOf(), bioLines: bioLines(),
+    button: d.getElementById('tidy').textContent.trim(),
+    pressed: d.getElementById('tidy').hasAttribute('aria-pressed'),
+    open: [...d.querySelectorAll('.win:not(.closed)')].map(e => e.id),
+    homeHeading: d.querySelector('#home .content h1').textContent.trim(),
+    cvArt: ['reframe', 'apple', 'freshfleet'].every(name => !!d.querySelector('#cv [data-ph="' + name + '"]')),
+    cvText: d.getElementById('cv').textContent.includes('UR10e robot arm'),
+    removed: ['print', 'p-freshfleet', 'p-reframe', 'p-apple', 'freshfleet'].every(id => !d.getElementById(id))};
+  // Move a desk item so Tidy desk has a real change to undo.
+  const sticky = d.getElementById('sticky');
+  const oldSticky = {left: sticky.offsetLeft, top: sticky.offsetTop};
+  const [sx, sy] = center(sticky.getBoundingClientRect());
+  pointer(sticky, 'pointerdown', sx, sy);
+  pointer(sticky, 'pointermove', sx + 65, sy + 20);
+  pointer(sticky, 'pointerup', sx + 65, sy + 20);
+  out.moved = {before: oldSticky, after: {left: sticky.offsetLeft, top: sticky.offsetTop}};
 
   // 1. Menu underline stays within the word.
   await step('underline', async () => { out.underline = [...d.querySelectorAll('.menubar nav a')].map(a => {
@@ -99,19 +114,7 @@ async function run() {
     cx: center(cr)[0], cy: center(cr)[1], wantCx: w.innerWidth / 2, wantCy: (menuH + w.innerHeight) / 2};
   });
 
-  // 4b. The Freshfleet photo opens the Freshfleet folder (it is no longer inside Projects).
-  await step('freshfleet', async () => {
-  const photo = d.getElementById('p-freshfleet');
-  photo.scrollIntoView({block: 'center'}); await sleep(50);
-  const [fx, fy] = center(photo.getBoundingClientRect());
-  pointer(photo, 'pointerdown', fx, fy); pointer(photo, 'pointerup', fx, fy);
-  await sleep(450);
-  const fw = d.getElementById('freshfleet');
-  out.freshfleet = {closed: fw.classList.contains('closed'), width: fw.offsetWidth, text: fw.innerText.includes('UR10e robot arm')};
-  fw.querySelector('[data-toggle]').click(); await sleep(300);
-  });
-
-  // 5. Tidy desk: everything closed, untilted, equal width, in aligned rows and columns, no overlaps.
+  // 5. Tidy desk closes open windows and restores the moved item to the aligned grid.
   await step('tidy', async () => {
   w.scrollTo(0, 0);
   out.beforeTidyOpen = [...d.querySelectorAll('.win:not(.closed)')].map(e => e.id);
@@ -123,12 +126,13 @@ async function run() {
     tilted: objs.filter(e => { const t = w.getComputedStyle(e).transform; return t !== 'none' && t !== 'matrix(1, 0, 0, 1, 0, 0)'; }).map(e => e.id + ' ' + w.getComputedStyle(e).transform),
     boxes: objs.map(e => ({id: e.id, left: e.offsetLeft, top: e.offsetTop, width: e.offsetWidth, height: e.offsetHeight})),
     deskW: d.getElementById('desk').clientWidth,
-    pressed: d.getElementById('tidy').getAttribute('aria-pressed'),
+    button: d.getElementById('tidy').textContent.trim(),
+    pressed: d.getElementById('tidy').hasAttribute('aria-pressed'),
     bioLines: bioLines()
   };
   });
 
-  // 6. While tidy is on, opening a window and putting it away sends it back to its grid slot.
+  // 6. Opening a window and putting it away sends it back to its grid slot.
   await step('putAway', async () => {
   const slot = d.getElementById('projects'), before = {left: slot.offsetLeft, top: slot.offsetTop, width: slot.offsetWidth};
   d.querySelector('.menubar nav a[data-open="projects"]').click(); await sleep(450);
@@ -136,13 +140,14 @@ async function run() {
   slot.querySelector('[data-toggle]').click(); await sleep(450);
   out.putAway = {before: before, openedAt: openedAt, after: {left: slot.offsetLeft, top: slot.offsetTop, width: slot.offsetWidth},
     closed: slot.classList.contains('closed'), tilt: slot.style.getPropertyValue('--tilt'),
-    pressed: d.getElementById('tidy').getAttribute('aria-pressed')};
+    button: d.getElementById('tidy').textContent.trim()};
   });
 
-  // 7. Pressing Tidy desk again switches it off and restores the page-load arrangement.
-  await step('untidy', async () => {
+  // 7. Pressing Tidy desk again must leave the desk aligned.
+  await step('secondTidy', async () => {
   d.getElementById('tidy').click(); await sleep(450);
-  out.untidy = {pressed: d.getElementById('tidy').getAttribute('aria-pressed'), boxes: boxesOf()};
+  out.secondTidy = {button: d.getElementById('tidy').textContent.trim(),
+    open: [...d.querySelectorAll('.win:not(.closed)')].map(e => e.id), boxes: boxesOf()};
   });
   await report(JSON.stringify(out));
 }
@@ -209,7 +214,7 @@ def check(r, fail):
     if "error" in r:
         fail(f"harness crashed: {r['error']}")
         return
-    for name in ("underline", "openFromMenu", "resize", "openFromDesk", "freshfleet", "tidy", "putAway", "untidy"):
+    for name in ("underline", "openFromMenu", "resize", "openFromDesk", "tidy", "putAway", "secondTidy"):
         if isinstance(r.get(name), dict) and "error" in r[name]:
             fail(f"{name} step threw: {r[name]['error']}")
             r.pop(name)
@@ -247,64 +252,72 @@ def check(r, fail):
     if "tidy" in r and r["tidy"]["bioLines"] > 3:
         fail(f"badge bio wraps to {r['tidy']['bioLines']} lines on the tidy desk, expected 3 or fewer")
 
-    ff = r.get("freshfleet")
-    if ff and (ff["closed"] or ff["width"] == 0 or not ff["text"]):
-        fail(f"clicking the Freshfleet photo did not open the Freshfleet folder: {ff}")
-
     pa = r.get("putAway")
     if pa:
         if pa["openedAt"]["closed"]:
-            fail("with tidy on, Projects did not open")
+            fail("Projects did not open after tidying")
         elif (pa["openedAt"]["left"], pa["openedAt"]["top"]) == (pa["before"]["left"], pa["before"]["top"]):
-            fail("with tidy on, Projects opened in its slot, so the put-away check proves nothing")
+            fail("Projects opened in its slot, so the put-away check proves nothing")
         if not pa["closed"]:
             fail("put away did not close Projects")
         if pa["after"] != pa["before"]:
             fail(f"with tidy on, put away left Projects at {pa['after']}, expected its slot {pa['before']}")
         if pa["tilt"] != "0deg":
-            fail(f"with tidy on, put away left Projects tilted {pa['tilt']}")
-        if pa["pressed"] != "true":
-            fail("opening and putting away a window switched tidy off")
-
-    u = r.get("untidy")
-    if u:
-        if u["pressed"] != "false":
-            fail("second press of Tidy desk did not switch it off")
-        start = {b["id"]: b for b in r["initial"]["boxes"]}
-        for b in u["boxes"]:
-            s0 = start[b["id"]]
-            # 1px tolerance for sub-pixel rounding of scaled positions.
-            moved = any(abs(b[k] - s0[k]) > 1 for k in ("left", "top", "width", "height"))
-            if moved or b["tilt"] != s0["tilt"] or b["closed"] != s0["closed"]:
-                fail(f"untidy left {b['id']} at {b}, expected the starting {s0}")
+            fail(f"put away left Projects tilted {pa['tilt']}")
+        if pa["button"] != "Tidy desk":
+            fail("putting away a window changed the Tidy desk button")
 
     if "tidy" not in r:
         return
-    if r["tidy"]["pressed"] != "true":
-        fail("Tidy desk button does not show as pressed after turning tidy on")
-    # The page starts with Home and Research open; tidy must put them away too.
+    if r["initial"]["button"] != "Tidy desk" or r["initial"]["pressed"] or r["initial"]["open"]:
+        fail("the page did not load aligned with Tidy desk as an action button")
+    if r["initial"]["homeHeading"] != "About me":
+        fail("the fancy Home heading is not About me")
+    if r["moved"]["before"] == r["moved"]["after"]:
+        fail("the desk item did not move before Tidy desk was clicked")
+    if r["tidy"]["button"] != "Tidy desk" or r["tidy"]["pressed"]:
+        fail("Tidy desk changed into a toggle after clicking")
+    # The menu/desk interactions open windows; tidy must put them away too.
     if not r["beforeTidyOpen"]:
         fail("no windows were open before Tidy desk, so the tidy check proves nothing")
     t = r["tidy"]
+    if not r["initial"]["cvArt"] or not r["initial"]["cvText"] or not r["initial"]["removed"]:
+        fail("the CV illustrations or desk object cleanup is missing")
     if t["open"]:
         fail(f"Tidy desk left these windows open: {t['open']}")
     if t["tilted"]:
         fail(f"Tidy desk left these objects tilted: {t['tilted']}")
     boxes = t["boxes"]
-    widths = {b["width"] for b in boxes}
+    widths = {b["width"] for b in boxes if b["id"] != "pencil"}
     if len(widths) != 1:
         fail(f"Tidy desk objects have different widths: {sorted(widths)}")
-    lefts = sorted({b["left"] for b in boxes})
-    tops = sorted({b["top"] for b in boxes})
-    cols = max(sum(1 for b in boxes if b["top"] == top) for top in tops)
+    grid_boxes = [b for b in boxes if b["id"] != "pencil"]
+    lefts = sorted({b["left"] for b in grid_boxes})
+    tops = sorted({b["top"] for b in grid_boxes})
+    cols = max(sum(1 for b in grid_boxes if b["top"] == top) for top in tops)
     if len(lefts) != cols:
         fail(f"Tidy desk columns do not line up: {len(lefts)} distinct left edges for {cols} columns")
+    for stage in (r["initial"]["boxes"], boxes):
+        placed = {b["id"]: b for b in stage}
+        note, pencil = placed["sticky"], placed["pencil"]
+        if abs((note["left"] + note["width"] / 2) - (pencil["left"] + pencil["width"] / 2)) > 1:
+            fail("the pencil is not centered below the sticky note")
+        if pencil["top"] < note["top"] + note["height"] + 12:
+            fail("the pencil is not below the sticky note")
     for i, a in enumerate(boxes):
         if a["left"] < 0 or a["left"] + a["width"] > t["deskW"]:
             fail(f"after Tidy desk, {a['id']} sticks out of the desk")
         for b in boxes[i + 1:]:
             if overlaps(a, b):
                 fail(f"after Tidy desk, {a['id']} overlaps {b['id']}")
+    start = {b["id"]: b for b in r["initial"]["boxes"]}
+    for b in boxes:
+        s0 = start[b["id"]]
+        if any(abs(b[k] - s0[k]) > 1 for k in ("left", "top", "width", "height")):
+            fail(f"Tidy desk left {b['id']} away from its original slot")
+    again = r.get("secondTidy")
+    if again and (again["button"] != "Tidy desk" or again["open"] or again["boxes"] != r["initial"]["boxes"]):
+        fail("clicking Tidy desk again scattered the desk")
 
 
 def main():
@@ -319,7 +332,7 @@ def main():
     if failures:
         print(f"\n{len(failures)} failure(s)")
         return 1
-    print("OK: menu underline, centered open (menu and desk), corner resize, tidy grid")
+    print("OK: menu underline, centered open, corner resize, one-way tidy button")
     return 0
 
 
