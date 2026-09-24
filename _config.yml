@@ -27,7 +27,8 @@ author:
   avatar: "bryan-zin.png"
   name: "Bryan Zin"
   pronouns: # example: "she/her"
-  bio: "Independent researcher working on machine learning, supply chains, and firm behavior."
+  bio: "Independent researcher, YC founder, Apple Engineer"
+  education: "Cornell University · B.S. in Mechanical Engineering" # shown under the bio in the sidebar
   location: "San Francisco, CA"
   employer:
   uri: # URL

@@ -1,9 +1,8 @@
 ---
-permalink: /
+permalink: /about/
 title: "Bryan Zin"
 author_profile: true
 redirect_from:
-  - /about/
   - /about.html
   - /contact/
 ---

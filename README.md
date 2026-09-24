@@ -5,14 +5,19 @@ builds it with Jekyll on every push to `master`.
 
 ## Where the content lives
 
-- `_pages/` holds one Markdown file per page: `about.md` (Home), `research.md`,
-  `projects.md`, `experience.md` (CV, served at `/experience/`), `resume.md`, plus
-  `sitemap.md` and `404.md`. `/contact/` redirects to Home and `/cv/` redirects to
-  Resume.
+- `index.html` is the home page at `/`: the workbench, a desk of draggable
+  objects (one self-contained file, no theme layout). Its content copies the
+  plain pages, so edit both when the text changes. The sun button in its menu bar
+  goes to the plain site.
+- `_pages/` holds the plain site, one Markdown file per page: `about.md` (Home,
+  served at `/about/`), `research.md`, `projects.md`, `experience.md` (CV, served
+  at `/experience/`), `resume.md`, plus `sitemap.md` and `404.md`. `/contact/`
+  redirects to Home and `/cv/` redirects to Resume. The sun button in the plain
+  header goes back to the workbench.
 - `_data/navigation.yml` sets the header menu: Home, Research, Projects, CV,
   Resume.
 - `_config.yml` holds site-wide settings and the sidebar profile (name, bio,
-  photo, email, GitHub, LinkedIn).
+  education line, photo, email, GitHub, LinkedIn).
 - `files/` holds downloads such as `bryan-zin-cv.pdf`. They are served at
   https://bzin22.github.io/files/bryan-zin-cv.pdf.
 - `images/` holds the profile photo (`bryan-zin.png`), the resume preview
@@ -78,16 +83,22 @@ If you are using [Visual Studio Code](https://code.visualstudio.com/) you can us
 
 ## Checking the site locally
 
-`scripts/test_site.py` checks the built site in `_site/`. It asserts the five
-pages render their expected content, the nav is Home, Research, Projects, CV,
+`scripts/test_site.py` checks the built site in `_site/`. It asserts the
+workbench and the five plain pages render their expected content, the nav is Home, Research, Projects, CV,
 Resume in that order, each page title is right, `/contact/` and `/cv/` are
 redirects, the Research figure, Home links, and resume download link are present,
 removed copy stays removed, every internal link and asset resolves to a built
 file, and no template placeholder text is left behind.
 
+`scripts/test_workbench.py` opens the built workbench in headless Chrome and
+checks Tidy desk (grid, put away returns to the slot, second press restores the
+start), windows opening centered, corner resize, the Freshfleet folder, and the
+menu underline.
+
 ```bash
 bundle exec jekyll build
 python3 scripts/test_site.py
+python3 scripts/test_workbench.py
 ```
 
 It prints one `FAIL:` line per problem and exits non-zero. Python standard
