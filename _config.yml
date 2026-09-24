@@ -27,8 +27,7 @@ author:
   avatar: "bryan-zin.png"
   name: "Bryan Zin"
   pronouns: # example: "she/her"
-  bio: "Independent researcher working on machine learning, supply chains, and firm behavior. Previously at Apple."
-  education: "Cornell University · B.S. in Mechanical Engineering"
+  bio: "Independent researcher working on machine learning, supply chains, and firm behavior."
   location: "San Francisco, CA"
   employer:
   uri: # URL
@@ -125,7 +124,7 @@ staticman:
       options:
         format: "iso8601" # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
 atom_feed:
-  hide: false # change to true to hide the RSS feed in the footer
+  hide: true # change to true to hide the RSS feed in the footer
   path: # blank (default) uses feed.xml
 
 # SEO Related
