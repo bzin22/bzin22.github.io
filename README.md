@@ -6,9 +6,9 @@ builds it with Jekyll on every push to `master`.
 ## Where the content lives
 
 - `index.html` is the home page at `/`: the workbench, a desk of draggable
-  objects (one self-contained file, no theme layout). Its content copies the
-  plain pages, so edit both when the text changes. The sun button in its menu bar
-  goes to the plain site.
+  objects (one self-contained file, no theme layout). It opens in the aligned
+  layout. Its content copies the plain pages, so edit both when the text changes.
+  The sun button in its menu bar goes to the plain site.
 - `_pages/` holds the plain site, one Markdown file per page: `about.md` (Home,
   served at `/about/`), `research.md`, `projects.md`, `experience.md` (CV, served
   at `/experience/`), `resume.md`, plus `sitemap.md` and `404.md`. `/contact/`
@@ -16,8 +16,9 @@ builds it with Jekyll on every push to `master`.
   header goes back to the workbench.
 - `_data/navigation.yml` sets the header menu: Home, Research, Projects, CV,
   Resume.
-- `_config.yml` holds site-wide settings and the sidebar profile (name, bio,
-  education line, photo, email, GitHub, LinkedIn).
+- `_config.yml` holds site-wide settings and the plain sidebar profile (name,
+  bio, optional education line, photo, email, GitHub, LinkedIn). The workbench
+  badge in `index.html` has its own text.
 - `files/` holds downloads such as `bryan-zin-cv.pdf`. They are served at
   https://bzin22.github.io/files/bryan-zin-cv.pdf.
 - `images/` holds the profile photo (`bryan-zin.png`), the resume preview
@@ -31,38 +32,26 @@ The theme itself (`_includes/`, `_layouts/`, `_sass/`, `assets/`) comes from the
 
 Preview changes locally before pushing them to GitHub.
 
-### Using ruby and bundler directly
-1. Make sure you have ruby-dev, bundler, and nodejs installed
+### Using Ruby and Bundler directly
 
-    On most Linux distributions and [Windows Subsystem Linux](https://learn.microsoft.com/en-us/windows/wsl/about) the command is:
-    ```bash
-    sudo apt install ruby-dev ruby-bundler nodejs
-    ```
-    If you see error `Unable to locate package ruby-bundler`, `Unable to locate package nodejs `, run the following:
-    ```bash
-    sudo apt update && sudo apt upgrade -y
-    ```
-    then try running `sudo apt install ruby-dev ruby-bundler nodejs` again.
+On Apple Silicon macOS, this site was tested with Ruby 3.3 and Bundler 2.5.23:
 
-    On MacOS the commands are:
-    ```bash
-    brew install ruby
-    brew install node
-    gem install bundler
-    ```
-1. Run `bundle install` to install ruby dependencies. If you get errors, delete Gemfile.lock and try again.
+```bash
+brew install ruby@3.3
+export PATH="$(brew --prefix ruby@3.3)/bin:$PATH"
+gem install bundler -v 2.5.23
+bundle _2.5.23_ config set --local path vendor/bundle
+bundle _2.5.23_ install
+bundle _2.5.23_ exec jekyll serve -l -H localhost
+```
 
-    If you see file permission error like `Fetching bundler-2.6.3.gem ERROR:  While executing gem (Gem::FilePermissionError) You don't have write permissions for the /var/lib/gems/3.2.0 directory.` or `Bundler::PermissionError: There was an error while trying to write to /usr/local/bin.`
-    Install Gems Locally (Recommended):
-    ```bash
-    bundle config set --local path 'vendor/bundle'
-    ```
-    then try run `bundle install` again. If succeeded, you should see a folder called `vendor` and `.bundle`.
+Open `http://localhost:4000`. The `export` applies to the current terminal; add it to
+`~/.zshrc` if you want Ruby 3.3 in future zsh sessions. Jekyll rebuilds after edits
+to Markdown and HTML files; restart it after changing `_config.yml`.
 
-1. Run `jekyll serve -l -H localhost` to generate the HTML and serve it from `localhost:4000` the local server will automatically rebuild and refresh the pages on change to Markdown (*.md) and HTML files, while changes to the core template and configuration (i.e., `_config.yml`) will require stopping and restarting Jekyll.
-    You may also try `bundle exec jekyll serve -l -H localhost` to ensure jekyll to use specific dependencies on your own local machine.
-
-If you are running on Linux it may be necessary to install some additional dependencies prior to being able to run locally: `sudo apt install build-essential gcc make`
+On Linux or [WSL](https://learn.microsoft.com/en-us/windows/wsl/about), install
+Ruby 3.x, Bundler, and build tools for your distribution, then run `bundle
+install` and `bundle exec jekyll serve -l -H localhost`.
 
 ## Using Docker
 
@@ -91,9 +80,8 @@ removed copy stays removed, every internal link and asset resolves to a built
 file, and no template placeholder text is left behind.
 
 `scripts/test_workbench.py` opens the built workbench in headless Chrome and
-checks Tidy desk (grid, put away returns to the slot, second press restores the
-start), windows opening centered, corner resize, the Freshfleet folder, and the
-menu underline.
+checks the default aligned desk, the one-way Tidy desk button, putting windows
+away, centered opening, corner resize, CV illustrations, and the menu underline.
 
 ```bash
 bundle exec jekyll build

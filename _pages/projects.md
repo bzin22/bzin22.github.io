@@ -30,14 +30,6 @@ The project demonstrates numerical implementation, experiment design, and diagno
 
 [Repository](https://github.com/bzin22/adam-optimizer-recreation)
 
-## Freshfleet: robotic cleaning end effectors
-
-**Mechanical design case study · Write-up in preparation**
-
-At Freshfleet, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.
-
-CAD renders and a write-up of the end-effector design are in preparation.
-
 ## Technical preparation
 
 **Programming languages:** Python.

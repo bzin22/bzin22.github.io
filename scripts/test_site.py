@@ -14,7 +14,8 @@ import re
 import sys
 from urllib.parse import unquote, urljoin, urlparse
 
-SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "_site")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE = os.environ.get("SITE_DIR", os.path.join(ROOT, "_site"))
 
 # Nav order comes from _data/navigation.yml. Header link 0 is the site title.
 # CV is the former Experience page and keeps /experience/. Contact was removed.
@@ -31,11 +32,10 @@ EXPECTED_PAGES = {
     "/resume/": 'src="/images/bryan-zin-resume.png?v=2"',
 }
 
-# permalink -> exact <title> text. The home page's page.title equals site.title,
-# so it must render the name once, not "Bryan Zin Bryan Zin" or "About Me Bryan Zin".
+# permalink -> exact <title> text. The workbench uses the name alone.
 EXPECTED_TITLES = {
     "/": "Bryan Zin",
-    "/about/": "Bryan Zin",
+    "/about/": "About me Bryan Zin",
     "/research/": "Research Bryan Zin",
     "/projects/": "Projects Bryan Zin",
     "/experience/": "CV Bryan Zin",
@@ -70,14 +70,13 @@ EXPECTED_SNIPPETS = {
         'src="/images/bryan-zin-resume.png?v=2"',
         'href="/files/bryan-zin-cv.pdf"',
         '<a class="sun" href="/about/" data-tip="If you prefer something plainer"',
-        '<button class="tidy" type="button" id="tidy" aria-pressed="false"',
-        # Badge matches the plain sidebar.
+        '<button class="tidy" type="button" id="tidy" title="Line everything up">Tidy desk</button>',
+        # The workbench badge has its own text in index.html.
         '<p class="bio">Independent researcher, YC founder, Apple Engineer</p>',
         '<p class="edu">Cornell University<br>B.S. in Mechanical Engineering</p>',
         '<a href="mailto:bz297@cornell.edu">Email</a>',
         '<span class="paperclip"></span>\n      <p class="cover-title">Resume</p>',
-        '<section class="obj win folder closed" id="freshfleet" aria-label="Freshfleet">',
-        'id="p-freshfleet" data-tilt="-5" data-opens="freshfleet"',
+        '<div class="ph ph-inline" data-ph="freshfleet"></div>',
     ],
 }
 
@@ -216,14 +215,21 @@ def check_snippets(fail):
 
 
 def check_sidebar_bio(fail):
-    """The sidebar is the one-line bio with the degree under it, same text as the workbench badge."""
+    """The plain sidebar reflects the active author fields in _config.yml."""
     body = read("/about/")
     content = re.search(r'author__content">(.*?)</div>', body, re.S)
     content = content.group(1) if content else ""
-    for expected in ('<p class="author__bio">Independent researcher, YC founder, Apple Engineer</p>',
-                     '<p class="author__bio author__education">Cornell University<br>B.S. in Mechanical Engineering</p>'):
-        if expected not in content:
-            fail(f"sidebar is missing {expected!r}")
+    expected_bio = '<p class="author__bio">Independent researcher, YC founder, Apple Engineer</p>'
+    if expected_bio not in content:
+        fail(f"sidebar is missing {expected_bio!r}")
+    with open(os.path.join(ROOT, "_config.yml"), encoding="utf-8") as fh:
+        config = fh.read()
+    active_education = re.search(r'^  education:\s*(.+?)\s*(?:#.*)?$', config, re.M)
+    education = active_education.group(1).strip().strip('"\'') if active_education else ""
+    if education and education not in content:
+        fail("sidebar does not show the education field from _config.yml")
+    if not education and 'author__education' in content:
+        fail("sidebar shows education even though it is disabled in _config.yml")
     if "Previously at Apple" in content:
         fail("sidebar still contains 'Previously at Apple'")
 
@@ -259,13 +265,19 @@ def check_workbench_removed(fail):
     for phrase in WORKBENCH_FORBIDDEN:
         if phrase in body:
             fail(f"/ still shows {phrase!r}")
-    # Freshfleet has its own folder on the workbench, so the Projects folder no longer carries it.
     projects = re.search(r'<section [^>]*id="projects".*?</section>', body, re.S)
     if projects and "Freshfleet" in projects.group(0):
         fail("/ Projects folder still contains Freshfleet")
-    fresh = re.search(r'<section [^>]*id="freshfleet".*?</section>', body, re.S)
-    if not fresh or "UR10e robot arm" not in fresh.group(0):
-        fail("/ Freshfleet folder is missing its write-up")
+    cv = re.search(r'<section [^>]*id="cv".*?</section>', body, re.S)
+    if not cv or any(f'data-ph="{name}"' not in cv.group(0) for name in ("reframe", "apple", "freshfleet")) or "UR10e robot arm" not in cv.group(0):
+        fail("/ CV is missing the Reframe, Apple, or Freshfleet content")
+    for old_id in ("print", "p-freshfleet", "p-reframe", "p-apple", "freshfleet"):
+        if re.search(rf'id="{old_id}"', body):
+            fail(f"/ still has the separate {old_id} desk object")
+    if "Freshfleet: robotic cleaning end effectors" in read("/projects/"):
+        fail("/projects/ still contains the Freshfleet case study")
+    if "Freshfleet: robotic cleaning end effectors" not in read("/experience/"):
+        fail("/experience/ is missing the Freshfleet case study")
 
 
 def check_placeholders(fail):

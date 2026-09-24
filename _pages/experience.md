@@ -18,6 +18,14 @@ We evaluated negotiation behavior by labeling supplier conversations, documentin
 
 I worked on mechanical design, structural integration, and validation for iPhone 15 Pro Max, iPhone 17, and iPhone 17 Air. I developed validation protocols, analyzed yield and failure data, and worked with engineering and manufacturing teams across the United States, China, India, and Singapore.
 
+## Freshfleet: robotic cleaning end effectors
+
+**Mechanical design case study · Write-up in preparation**
+
+At Freshfleet, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.
+
+CAD renders and a write-up of the end-effector design are in preparation.
+
 ## Education
 
 **Cornell University — B.S. in Mechanical Engineering · December 2021**
