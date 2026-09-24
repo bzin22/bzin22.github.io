@@ -1,0 +1,1017 @@
+---
+layout: null
+permalink: /
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bryan Zin</title>
+<meta name="description" content="Independent researcher working on machine learning, supply chains, and firm behavior.">
+<link rel="icon" type="image/svg+xml" href="{{ '/images/favicon.svg' | relative_url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/images/favicon-32x32.png' | relative_url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/images/apple-touch-icon-180x180.png' | relative_url }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  :root {
+    --mat: #2f5f50;
+    --mat-dark: #264e42;
+    --mat-line: rgba(233, 240, 222, 0.10);
+    --mat-line-major: rgba(233, 240, 222, 0.22);
+    --mat-ink: #e8dcae;
+    --paper: #fbf8ef;
+    --paper-edge: #e7e0cc;
+    --ink: #22261f;
+    --ink-soft: #545a4c;
+    --red: #d2533c;
+    --blue: #2c4f9e;
+    --manila: #ecd49c;
+    --manila-dark: #d9ba74;
+    --board: #a9763f;
+    --tape: rgba(241, 228, 186, 0.88);
+    --bar-h: 36px;
+    --menu-h: 38px;
+    --shadow: 0 1px 1px rgba(0,0,0,.18), 0 6px 14px rgba(0,0,0,.22), 0 18px 34px rgba(0,0,0,.16);
+    --shadow-lift: 0 2px 2px rgba(0,0,0,.14), 0 18px 30px rgba(0,0,0,.28), 0 40px 60px rgba(0,0,0,.22);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mat);
+    overflow-x: hidden;
+  }
+  a { color: var(--blue); text-underline-offset: 2px; }
+  img { max-width: 100%; }
+
+  /* ---------- menu bar ---------- */
+  .menubar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10000;
+    height: var(--menu-h);
+    display: flex; align-items: center; gap: 4px;
+    padding: 0 12px;
+    background: #f6f0df;
+    border-bottom: 1.5px solid #2a2a22;
+    font-family: "IBM Plex Mono", monospace; font-size: 13px;
+    box-shadow: 0 2px 0 rgba(0,0,0,.08);
+  }
+  .menubar .brand {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 600; padding: 0 10px 0 2px; white-space: nowrap;
+  }
+  .brand .dot {
+    width: 14px; height: 14px; border-radius: 3px;
+    background: conic-gradient(var(--red) 0 25%, #e9b949 0 50%, var(--mat) 0 75%, var(--blue) 0);
+    border: 1.5px solid #2a2a22;
+  }
+  .menubar nav { display: flex; gap: 2px; }
+  .menubar nav a {
+    position: relative;
+    color: var(--ink); text-decoration: none;
+    padding: 5px 9px; border-radius: 4px;
+  }
+  .menubar nav a:hover, .menubar nav a:focus-visible { background: #2a2a22; color: #f6f0df; outline: none; }
+  .menubar .spacer { flex: 1; }
+  .menubar .tidy {
+    font: inherit; font-size: 12px; background: none; border: 1.5px solid #2a2a22;
+    border-radius: 999px; padding: 3px 10px; cursor: pointer; color: var(--ink);
+  }
+  .menubar .tidy:hover { background: #2a2a22; color: #f6f0df; }
+  .menubar .tidy[aria-pressed="true"] { background: var(--mat); border-color: var(--mat); color: #f6f0df; }
+  .menubar .tidy[aria-pressed="true"]:hover { background: var(--mat-dark); }
+  .menubar .clock { padding: 0 6px 0 10px; white-space: nowrap; color: var(--ink-soft); }
+  .sun {
+    position: relative; display: inline-grid; place-items: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    color: #c98a12; text-decoration: none;
+  }
+  .sun svg { width: 20px; height: 20px; transition: transform .6s ease; }
+  .sun:hover svg, .sun:focus-visible svg { transform: rotate(90deg); }
+  .sun:hover, .sun:focus-visible { background: #fbe7ae; outline: none; }
+  .sun::after {
+    content: attr(data-tip);
+    position: absolute; top: calc(100% + 8px); right: -4px;
+    background: #2a2a22; color: #f6f0df;
+    font: 500 12px/1.2 "IBM Plex Mono", monospace;
+    padding: 7px 10px; border-radius: 6px; white-space: nowrap;
+    opacity: 0; transform: translateY(-4px); pointer-events: none;
+    transition: opacity .15s, transform .15s;
+  }
+  .sun::before {
+    content: ""; position: absolute; top: calc(100% + 3px); right: 10px;
+    border: 5px solid transparent; border-bottom-color: #2a2a22; border-top: 0;
+    opacity: 0; transition: opacity .15s;
+  }
+  .sun:hover::after, .sun:focus-visible::after, .sun.show-tip::after { opacity: 1; transform: none; }
+  .sun:hover::before, .sun:focus-visible::before, .sun.show-tip::before { opacity: 1; }
+
+  /* ---------- cutting mat ---------- */
+  .desk {
+    position: relative;
+    margin-top: var(--menu-h);
+    height: calc(100vh - var(--menu-h));
+    min-height: 900px;
+    overflow: hidden;
+    background:
+      linear-gradient(var(--mat-line-major) 1px, transparent 1px) 0 0 / 120px 120px,
+      linear-gradient(90deg, var(--mat-line-major) 1px, transparent 1px) 0 0 / 120px 120px,
+      linear-gradient(var(--mat-line) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(90deg, var(--mat-line) 1px, transparent 1px) 0 0 / 24px 24px,
+      radial-gradient(ellipse at 30% 20%, #356a59, var(--mat) 55%, var(--mat-dark));
+  }
+  .desk::before { /* 45 and 60 degree guide lines, like a real mat */
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(135deg, transparent calc(50% - .6px), rgba(233,240,222,.13) 50%, transparent calc(50% + .6px)),
+      linear-gradient(45deg, transparent calc(50% - .6px), rgba(233,240,222,.08) 50%, transparent calc(50% + .6px));
+  }
+  .ruler {
+    position: absolute; pointer-events: none; color: var(--mat-ink);
+    font: 500 10px "IBM Plex Mono", monospace; opacity: .7;
+  }
+  .ruler.top { top: 3px; left: 0; right: 0; height: 14px; }
+  .ruler.left { top: 0; bottom: 0; left: 3px; width: 20px; }
+  .ruler span { position: absolute; }
+
+  /* ---------- generic desk object / window ---------- */
+  .obj {
+    position: absolute;
+    box-shadow: var(--shadow);
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform .25s cubic-bezier(.2,.8,.3,1.2), box-shadow .25s;
+    touch-action: none;
+  }
+  .obj.focused { transform: rotate(0deg); }
+  .obj.lifted {
+    transform: rotate(0deg) scale(1.025);
+    box-shadow: var(--shadow-lift);
+    transition: box-shadow .2s, transform .15s;
+    cursor: grabbing !important;
+  }
+  .obj.drag-whole { cursor: grab; }
+
+  .win { display: flex; flex-direction: column; }
+  .win .bar {
+    flex: 0 0 var(--bar-h);
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 8px 0 10px;
+    cursor: grab; user-select: none;
+  }
+  .grip {
+    width: 12px; height: 16px; flex: none; opacity: .45;
+    background: radial-gradient(circle, currentColor 1.3px, transparent 1.6px) 0 0 / 6px 5.4px;
+  }
+  .bar .title { font: 700 23px/1 "Caveat", cursive; white-space: nowrap; }
+  .bar .kind {
+    font: 500 10.5px "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase;
+    opacity: .6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .bar .fill { flex: 1; }
+  .bar button {
+    font: 500 11px "IBM Plex Mono", monospace;
+    border: 1.3px solid currentColor; background: transparent; color: inherit;
+    border-radius: 999px; padding: 2px 9px; cursor: pointer; opacity: .75;
+  }
+  .bar button:hover { opacity: 1; background: rgba(0,0,0,.07); }
+  .win .content {
+    flex: 1; min-height: 0; overflow: auto;
+    padding: 6px 26px 26px;
+    font-size: 15px; line-height: 1.62;
+    scrollbar-width: thin;
+  }
+  .win .cover { display: none; }
+  .resize-handle {
+    position: absolute; right: 0; bottom: 0; width: 22px; height: 22px; z-index: 3;
+    cursor: nwse-resize; touch-action: none;
+    background: linear-gradient(135deg, transparent 0 55%, rgba(0,0,0,.35) 55% 60%, transparent 60% 70%, rgba(0,0,0,.35) 70% 75%, transparent 75% 85%, rgba(0,0,0,.35) 85% 90%, transparent 90%);
+  }
+  .win.closed .resize-handle { display: none; }
+  .win.closed .bar, .win.closed .content { display: none; }
+  .win.closed .cover { display: block; }
+  .win.closed { cursor: grab; }
+  #freshfleet.closed { display: none; } /* the photo on the desk stands in for its cover */
+
+  .content h1, .content h2, .content h3 {
+    font-family: "Fraunces", Georgia, serif; font-weight: 700; line-height: 1.2;
+    margin: 1.3em 0 .45em;
+  }
+  .content h1 { font-size: 30px; margin-top: .5em; }
+  .content h2 { font-size: 21px; }
+  .content > :first-child { margin-top: .5em; }
+  .content p { margin: 0 0 .9em; }
+  .content ul { padding-left: 1.1em; margin: 0 0 1em; }
+  .content li { margin-bottom: .55em; }
+  .meta {
+    font: 500 12px/1.5 "IBM Plex Mono", monospace; color: var(--ink-soft);
+    margin: -.2em 0 .8em;
+  }
+  .meta strong { font-weight: 500; }
+
+  /* Home card */
+  .card-index { background: var(--paper); color: var(--ink); }
+  .card-index .bar { background: var(--paper); border-bottom: 2px solid var(--red); }
+  .card-index .content {
+    background:
+      linear-gradient(#fbf8ef, #fbf8ef) 0 0 / 100% 10px no-repeat,
+      repeating-linear-gradient(transparent 0 23.3px, rgba(44,79,158,.16) 23.3px 24.3px);
+    background-attachment: local;
+  }
+  .card-index .content h1 { color: var(--ink); }
+
+  /* notebook: Research */
+  .notebook { background: #fdfcf6; }
+  .notebook .bar { background: #1f2622; color: #f3eedb; }
+  .notebook .content {
+    padding-left: 40px;
+    background:
+      linear-gradient(90deg, transparent 22px, rgba(210,83,60,.35) 22px 23.5px, transparent 23.5px),
+      linear-gradient(rgba(44,79,158,.09) 1px, transparent 1px) 0 0 / 16px 16px,
+      linear-gradient(90deg, rgba(44,79,158,.09) 1px, transparent 1px) 0 0 / 16px 16px,
+      #fdfcf6;
+    background-attachment: local;
+  }
+  .research-figure { margin: 1.3em 0; position: relative; }
+  .research-figure img { display: block; width: 100%; height: auto; background: #fff; border: 1px solid #ddd6c2; }
+  .research-figure figcaption { font-size: 13px; line-height: 1.5; color: var(--ink-soft); margin-top: .6em; }
+  .tape {
+    position: absolute; width: 86px; height: 22px; background: var(--tape);
+    box-shadow: 0 1px 2px rgba(0,0,0,.12); z-index: 2;
+    clip-path: polygon(3% 0, 97% 4%, 100% 100%, 0 94%);
+  }
+
+  /* folder: Projects */
+  .folder { background: var(--manila); }
+  .folder .bar { background: var(--manila-dark); }
+  .folder .content { padding: 14px; }
+  .folder .sheet { background: var(--paper); padding: 4px 22px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.18); }
+  .folder .sheet + .sheet { margin-top: 12px; }
+
+  /* clipboard: CV */
+  .clipboard { background: var(--board); }
+  .clipboard .bar { color: #fff5e3; background: linear-gradient(#b8844b, #a06d38); }
+  .clipboard .content { padding: 10px 14px 14px; }
+  .clipboard .sheet { background: #fff; padding: 4px 24px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+
+  /* paper: Resume */
+  .paper { background: #f1ede2; }
+  .paper .bar { background: #e2dccb; }
+  .paper .content { padding: 10px 16px 18px; }
+  .resume-img { display: block; width: 100%; height: auto; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); margin-top: 10px; }
+  .dl {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 600 13px "IBM Plex Mono", monospace; color: var(--ink);
+    background: #fff; border: 1.5px solid var(--ink); border-radius: 999px; padding: 6px 14px;
+    text-decoration: none; box-shadow: 2px 2px 0 var(--ink);
+  }
+  .dl:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+
+  /* covers (closed state) */
+  .cover { width: 100%; height: 100%; position: relative; }
+  .cv-cover { background: var(--board); padding: 30px 14px 14px; border-radius: 6px; }
+  .cv-cover .clip {
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    width: 86px; height: 30px; border-radius: 6px 6px 3px 3px;
+    background: linear-gradient(#e3e5e8, #9ea3aa); border: 1px solid #6c7178;
+    box-shadow: 0 2px 3px rgba(0,0,0,.3);
+  }
+  .cv-cover .sheet { background: #fff; padding: 14px 16px; min-height: 230px; font-size: 13px; }
+  .cover-title { font: 700 30px/1 "Caveat", cursive; margin: 0 0 8px; }
+  .cover-list { list-style: none; margin: 0; padding: 0; font-size: 12.5px; line-height: 1.4; }
+  .cover-list li { padding: 6px 0; border-bottom: 1px dashed rgba(0,0,0,.18); }
+  .folder-cover { padding-top: 22px; }
+  .folder-cover .tab {
+    position: absolute; top: 0; left: 0; width: 46%; height: 26px;
+    background: var(--manila-dark); border-radius: 6px 10px 0 0;
+    font: 700 21px/26px "Caveat", cursive; padding-left: 12px;
+  }
+  .folder-cover .front { background: var(--manila); padding: 14px 16px 16px; border-radius: 0 6px 6px 6px; position: relative; }
+  .folder-cover .peek {
+    position: absolute; left: 10px; right: 16px; top: 8px; height: 30px; background: var(--paper);
+    transform: rotate(-1.5deg); box-shadow: 0 -1px 2px rgba(0,0,0,.1);
+  }
+  .notebook-cover {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,.14) 0 2px, transparent 3px) 0 0 / 9px 11px,
+      radial-gradient(circle at 60% 70%, rgba(255,255,255,.1) 0 3px, transparent 4px) 0 0 / 13px 7px,
+      #1d211f;
+    color: #f3eedb; padding: 26px 18px 22px 30px; border-radius: 3px 8px 8px 3px; min-height: 260px;
+  }
+  .notebook-cover::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 14px; background: #0f1210; }
+  .notebook-cover .label { background: var(--paper); color: var(--ink); padding: 10px 12px; }
+  .notebook-cover .label .cover-title { font-size: 28px; }
+  .notebook-cover .label p { margin: 0; font-size: 12.5px; line-height: 1.4; }
+  .index-cover { background: var(--paper); padding: 12px 16px; border-top: 3px solid var(--red); }
+  .index-cover .cover-list li { border-bottom-color: rgba(44,79,158,.2); }
+  .resume-cover { background: #fff; padding: 6px; }
+  .resume-cover .cover-title { margin: 4px 6px 8px; }
+  .resume-cover img { display: block; width: 100%; height: auto; }
+  .paperclip {
+    position: absolute; top: -14px; right: 22px; width: 16px; height: 50px;
+    border: 2.5px solid #9aa0a8; border-radius: 10px; border-bottom-color: #8c9199; z-index: 2;
+  }
+  .paperclip::after {
+    content: ""; position: absolute; left: 2px; top: 6px; width: 7px; height: 30px;
+    border: 2.5px solid #9aa0a8; border-radius: 8px; border-top: 0;
+  }
+
+  /* badge: sidebar info */
+  .badge {
+    background: var(--paper); padding: 26px 18px 16px; border-radius: 10px;
+    font-size: 13.5px; line-height: 1.45;
+  }
+  .badge::before { /* lanyard slot */
+    content: ""; position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+    width: 44px; height: 7px; border-radius: 4px; background: var(--mat-dark); opacity: .55;
+  }
+  .badge .top { display: flex; gap: 14px; align-items: center; }
+  .badge img {
+    width: 72px; height: auto; border-radius: 6px; flex: none;
+    border: 3px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25);
+    pointer-events: none;
+  }
+  .badge h1 { font: 700 24px/1.1 "Fraunces", Georgia, serif; margin: 2px 0 6px; }
+  .badge .bio { margin: 12px 0 0; color: var(--ink-soft); }
+  .badge .edu { margin: 4px 0 0; font: 500 11.5px/1.45 "IBM Plex Mono", monospace; color: var(--ink-soft); }
+  .badge ul { list-style: none; padding: 0; margin: 14px 0 0; border-top: 1.5px dashed rgba(0,0,0,.2); padding-top: 10px; }
+  .badge li { display: flex; gap: 10px; align-items: center; padding: 3px 0; }
+  .badge li i { width: 16px; text-align: center; color: var(--red); }
+  .badge .stripe {
+    margin: 12px -18px -16px; height: 12px; border-radius: 0 0 10px 10px;
+    background: repeating-linear-gradient(90deg, var(--red) 0 18px, #e9b949 18px 36px, var(--mat) 36px 54px, var(--blue) 54px 72px);
+  }
+
+  /* polaroids + placeholders */
+  .polaroid { background: #fffdf7; padding: 9px 9px 10px; width: 160px; cursor: pointer; }
+  .polaroid .ph { aspect-ratio: 1 / 1; }
+  .polaroid .ph .ph-label { display: none; }
+  .polaroid .cap { font: 700 16px/1.05 "Caveat", cursive; margin-top: 7px; color: #333; }
+  .polaroid .cap b { display: block; font: 600 9.5px "IBM Plex Mono", monospace; letter-spacing: .1em; color: var(--red); margin-bottom: 2px; }
+  .ph { position: relative; overflow: hidden; border-radius: 2px; }
+  .ph svg { display: block; width: 100%; height: 100%; }
+  .ph-inline { aspect-ratio: 16 / 9; margin: .4em 0 1.2em; border: 1px solid rgba(0,0,0,.12); }
+  .ph-label {
+    position: absolute; left: 10px; bottom: 10px; right: 10px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    font: 500 12px/1.3 "IBM Plex Mono", monospace;
+  }
+  .ph-label b {
+    background: var(--red); color: #fff; font-weight: 600; letter-spacing: .08em;
+    padding: 2px 7px; border-radius: 3px; font-size: 10.5px;
+  }
+  .ph-label span { background: rgba(255,255,255,.9); color: var(--ink); padding: 2px 7px; border-radius: 3px; }
+
+  /* figure print on the desk */
+  .print { background: #fff; padding: 10px 10px 8px; width: 300px; cursor: pointer; }
+  .print img { display: block; width: 100%; height: auto; pointer-events: none; }
+  .print .cap { font: 700 17px "Caveat", cursive; color: #333; margin-top: 4px; }
+
+  /* sticky note */
+  .sticky {
+    background: #f7de6f; width: 150px; padding: 14px 14px 16px;
+    font: 700 19px/1.1 "Caveat", cursive; color: #3b3312;
+    box-shadow: 0 1px 1px rgba(0,0,0,.15), 0 10px 16px rgba(0,0,0,.2);
+  }
+  .sticky p { margin: 0 0 8px; }
+  .sticky p:last-child { margin: 0; }
+
+  /* pencil */
+  .pencil {
+    width: 230px; height: 16px; border-radius: 2px 8px 8px 2px;
+    background:
+      linear-gradient(90deg, #e7c9a0 0 0) left/0 100% no-repeat,
+      linear-gradient(#f2c230 0 33%, #e3ad17 33% 66%, #cf9a0e 66%);
+    box-shadow: 0 5px 8px rgba(0,0,0,.25);
+  }
+  .pencil::before {
+    content: ""; position: absolute; left: -26px; top: 0;
+    border-right: 26px solid #e7c9a0; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+  }
+  .pencil::after {
+    content: ""; position: absolute; right: -2px; top: 0; width: 26px; height: 16px;
+    background: linear-gradient(90deg, #b9b9b9 0 40%, #e88a8a 40%); border-radius: 0 7px 7px 0;
+  }
+  .pencil i.tip {
+    position: absolute; left: -26px; top: 5px;
+    border-right: 9px solid #2a2a22; border-top: 3px solid transparent; border-bottom: 3px solid transparent;
+  }
+
+  /* marker scribble on menu hover (self-drawing underline) */
+  .menubar nav .word { position: relative; display: inline-block; }
+  .scribble { position: absolute; left: 0; width: 100%; bottom: -5px; height: 8px; pointer-events: none; overflow: visible; }
+  .scribble path { fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 101; stroke-dashoffset: 101; transition: stroke-dashoffset .35s ease; }
+  .menubar nav a:hover .scribble path, .menubar nav a:focus-visible .scribble path { stroke-dashoffset: 0; }
+  .menubar nav a:hover { background: transparent; color: var(--ink); }
+
+  .flash { animation: flash .6s ease; }
+  .win.popped { animation: pop .22s cubic-bezier(.2,.8,.3,1.2); }
+  @keyframes pop { from { opacity: .6; scale: .96; } to { opacity: 1; scale: 1; } }
+  @keyframes flash { 0% { box-shadow: 0 0 0 0 rgba(233,185,73,.9), var(--shadow); } 100% { box-shadow: 0 0 0 16px rgba(233,185,73,0), var(--shadow); } }
+
+  /* ---------- mobile: clean stacked layout ---------- */
+  @media (max-width: 860px) {
+    :root { --menu-h: 72px; }
+    .menubar { flex-wrap: wrap; height: auto; min-height: var(--menu-h); padding: 6px 10px 4px; row-gap: 2px; }
+    .menubar .brand { order: 1; }
+    .menubar .spacer { order: 2; }
+    .menubar .sun { order: 3; }
+    .menubar nav { order: 4; width: 100%; justify-content: space-between; }
+    .menubar nav a { padding: 5px 6px; }
+    .menubar .clock, .menubar .tidy { display: none; }
+    .sun::after { right: 0; }
+    .desk { height: auto; min-height: 0; overflow: visible; padding: 18px 14px 40px; display: flex; flex-direction: column; gap: 22px; }
+    .desk::before, .ruler, .decor { display: none; }
+    .obj { position: relative !important; left: auto !important; top: auto !important; width: auto !important; height: auto !important; transform: none !important; transition: none; touch-action: auto; }
+    .win .bar { cursor: default; }
+    .win .bar button, .grip, .resize-handle { display: none; }
+    .win .cover { display: none !important; }
+    .win.closed .bar, .win.closed .content { display: block; }
+    .win.closed .bar { display: flex; }
+    #freshfleet.closed { display: flex; }
+    .win .content { overflow: visible; padding: 4px 18px 20px; font-size: 15.5px; }
+    .notebook .content { padding-left: 34px; }
+    .folder .content, .clipboard .content, .paper .content { padding: 10px; }
+    .folder .sheet, .clipboard .sheet { padding: 4px 16px 14px; }
+    .badge { cursor: default; }
+    .content h1 { font-size: 27px; }
+    html { scroll-padding-top: calc(var(--menu-h) + 10px); }
+  }
+  @media (prefers-reduced-motion: reduce) { .obj, .sun svg, .scribble path { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="menubar">
+  <div class="brand"><span class="dot" aria-hidden="true"></span>Bryan Zin</div>
+  <nav aria-label="Sections">
+    <a href="#home" data-open="home">Home</a>
+    <a href="#research" data-open="research">Research</a>
+    <a href="#projects" data-open="projects">Projects</a>
+    <a href="#cv" data-open="cv">CV</a>
+    <a href="#resume" data-open="resume">Resume</a>
+  </nav>
+  <div class="spacer"></div>
+  <button class="tidy" type="button" id="tidy" aria-pressed="false" title="Line everything up. Click again to undo.">Tidy desk</button>
+  <span class="clock" id="clock"></span>
+  <a class="sun" href="{{ '/about/' | relative_url }}" data-tip="If you prefer something plainer" aria-label="If you prefer something plainer" title="If you prefer something plainer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+  </a>
+</header>
+
+<main class="desk" id="desk">
+  <div class="ruler top" id="rulerTop" aria-hidden="true"></div>
+  <div class="ruler left" id="rulerLeft" aria-hidden="true"></div>
+
+  <!-- Badge: sidebar info -->
+  <aside class="obj badge drag-whole" id="badge" data-tilt="-1.2" aria-label="About Bryan Zin">
+    <div class="top">
+      <img src="{{ '/images/bryan-zin.png' | relative_url }}" alt="Bryan Zin" width="350" height="391">
+      <h1>Bryan Zin</h1>
+    </div>
+    <p class="bio">Independent researcher, YC founder, Apple Engineer</p>
+    <p class="edu">Cornell University · B.S. in Mechanical Engineering</p>
+    <ul>
+      <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i>San Francisco, CA</li>
+      <li><i class="fa-solid fa-envelope" aria-hidden="true"></i><a href="mailto:bz297@cornell.edu">Email</a></li>
+      <li><i class="fa-brands fa-github" aria-hidden="true"></i><a href="https://github.com/bzin22">GitHub</a></li>
+      <li><i class="fa-brands fa-linkedin" aria-hidden="true"></i><a href="https://www.linkedin.com/in/bryan-zin">LinkedIn</a></li>
+    </ul>
+    <div class="stripe" aria-hidden="true"></div>
+  </aside>
+
+  <!-- Home -->
+  <section class="obj win card-index" id="home" data-tilt="0.6" aria-label="Home">
+    <div class="bar"><span class="grip"></span><span class="title">Home</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
+    <div class="cover index-cover">
+      <p class="cover-title">Home</p>
+      <ul class="cover-list">
+        <li>Supply-chain language and market reactions</li>
+        <li>Predicting Hacker News engagement</li>
+        <li>Reconstructing Adam experiments</li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1>Bryan Zin</h1>
+      <p>I work on machine learning and empirical analysis for questions about supply chains, firms, and markets. My current research measures supply-chain risk in corporate disclosures and examines its relationship with stock-market reactions. My projects also examine how modeling and evaluation choices affect prediction, from chronological validation to numerical optimization.</p>
+      <p>My background is in mechanical engineering and manufacturing. At Apple, I worked on product design, validation, and failure analysis. After leaving Apple, I designed a robotic system for performing maintenance on autonomous vehicles. Shortly after, I founded Reframe, an AI procurement tool for mechanical hardware, as part of <a href="https://www.ycombinator.com/companies/usereframe">Y Combinator’s</a> W26 batch.</p>
+      <p>I am seeking research associate and fellowship opportunities in applied machine learning and operations research as I prepare for doctoral study.</p>
+      <h2>Selected work</h2>
+      <ul>
+        <li><strong>Supply-chain language and market reactions:</strong> A 2010–2019 study combining dictionary-based NLP, event studies, and an investigation of how tied scores affect portfolio comparisons. <a href="#research" data-open="research">Research overview</a></li>
+        <li><strong>Predicting Hacker News engagement:</strong> Chronological evaluation of prediction models on a corpus of 4.7 million posts, with an emphasis on data quality and information available at submission. <a href="#projects" data-open="projects">Selected projects</a></li>
+        <li><strong>Reconstructing Adam experiments:</strong> NumPy implementations of five optimizers and manual backpropagation, including an investigation of results that differ from the original paper. <a href="https://github.com/bzin22/adam-optimizer-recreation">Code and experiments</a></li>
+      </ul>
+      <p>I hold a B.S. in Mechanical Engineering from Cornell University.</p>
+    </div>
+  </section>
+
+  <!-- Research: notebook -->
+  <section class="obj win notebook" id="research" data-tilt="-0.5" aria-label="Research">
+    <div class="bar"><span class="grip"></span><span class="title">Research</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
+    <div class="cover notebook-cover">
+      <div class="label">
+        <p class="cover-title">Research</p>
+        <p>Supply-chain language and stock-market reactions</p>
+      </div>
+    </div>
+    <div class="content">
+      <h2>Research direction</h2>
+      <p>I am interested in how firms make operational decisions under uncertainty, how disruptions move through production networks, and what can be learned about these processes from text and market data. My current work focuses on measurement and empirical evaluation. Longer term, I want to develop computational models that help evaluate how operational and policy decisions affect firms and markets.</p>
+      <h2>Supply-chain language and stock-market reactions</h2>
+      <p class="meta"><strong>Independent research · 2026 · Ongoing</strong></p>
+      <p><strong>Question.</strong> Is the language managers use to discuss supply-chain risk and its resolution associated with abnormal stock returns around earnings announcements?</p>
+      <p><strong>Data and methods.</strong> The analysis covers 58,305 earnings calls from 2,200 companies covering 2010–2019. The final portfolio sample contains 52,533 calls from 2,026 firms after market-data and industry-classification filters. The study uses reconstructed supply-chain, risk, and resolution dictionaries, with the supply-chain vocabulary derived using PPMI and truncated SVD. I compare text measures with cumulative abnormal returns from a Carhart four-factor model.</p>
+      <p><strong>Current finding.</strong> Mean two-day abnormal returns decline from +0.52% in the lowest fractional risk portfolio to −0.41% in the highest. The input data produced a significant number of supply chain risk scores with a value of zero, spanning the entirety of the first quintile and much of the second.</p>
+      <figure class="research-figure">
+        <span class="tape" style="top:-10px;left:-14px;transform:rotate(-8deg)"></span>
+        <span class="tape" style="top:-10px;right:-14px;transform:rotate(7deg)"></span>
+        <img src="{{ '/images/scrisk-result.png' | relative_url }}" alt="Mean two-day abnormal returns decrease across fractional risk portfolios, from 0.52% in Q1 to −0.41% in Q5; error bars show firm-clustered 95% intervals." width="1980" height="1530" decoding="async">
+        <figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, 2010–2019. Bars show 95% intervals clustered by firm. Final sample: 52,533 calls from 2,026 firms. Portfolios share observations when scores are tied.</figcaption>
+      </figure>
+      <p><strong>Scope and limitations.</strong> Events use reported earnings-release dates, which may differ from conference-call dates; the analysis makes no after-hours adjustment. Portfolio intervals account for repeated observations within firms; the analysis does not yet include controlled regressions or common-date dependence.</p>
+      <p><strong>Next question.</strong> I plan to examine a separately defined subset of hardware companies with documented international supply-chain exposure, retaining the full-sample baseline.</p>
+    </div>
+  </section>
+
+  <!-- Projects: folder -->
+  <section class="obj win folder closed" id="projects" data-tilt="2" aria-label="Projects">
+    <div class="bar"><span class="grip"></span><span class="title">Projects</span><span class="kind">folder</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
+    <div class="cover folder-cover">
+      <div class="tab">Projects</div>
+      <div class="front">
+        <ul class="cover-list">
+          <li>Predicting Hacker News engagement</li>
+          <li>Reconstructing Adam optimization experiments</li>
+          <li>Technical preparation</li>
+        </ul>
+      </div>
+    </div>
+    <div class="content">
+      <div class="sheet">
+        <h2>Predicting Hacker News engagement</h2>
+        <p class="meta"><strong>Independent project · Baseline evaluation complete; embedding experiments in progress</strong></p>
+        <p>How much of a post’s eventual engagement can be predicted using information available when it is submitted?</p>
+        <p>I designed and orchestrated the project. The Python pipeline processes 4,739,207 usable Hacker News stories and identified periods where archived scores reflected submission-time snapshots rather than mature outcomes. After excluding those periods, the baseline evaluation uses 3,568,252 training posts from 2006–2022 and 599,937 test posts from 2024–2025. Historical author and domain features use earlier observations with a score-settling lag.</p>
+        <p>I compared simple historical baselines, Ridge regression, and XGBoost. The combined-feature Ridge model achieved a test Spearman correlation of 0.297, compared with 0.050 for the trailing-mean baseline. RMSE on log-transformed scores improved by about 3.6%, showing that the features helped ranking more than prediction of score magnitude. XGBoost remained behind Ridge on ranking after early stopping.</p>
+        <p>The project also includes PyTorch implementations of CBOW and skip-gram objectives with negative sampling, with targeted training experiments on text8. The full embedding variants and their downstream Hacker News comparison remain unfinished.</p>
+        <p><strong>Tools:</strong> Python, pandas, scikit-learn, XGBoost, PyTorch.</p>
+      </div>
+      <div class="sheet">
+        <h2>Reconstructing Adam optimization experiments</h2>
+        <p class="meta"><strong>Independent implementation study · MNIST experiments complete</strong></p>
+        <p>I implemented Adam, AdaGrad, RMSProp, AdaDelta, and SGD with Nesterov momentum in NumPy, together with manual forward and backward passes for logistic regression and a multilayer perceptron.</p>
+        <p>The experiments revisit optimizer comparisons from Kingma and Ba’s Adam paper. In my 200-epoch MNIST experiment with dropout, AdaGrad reached a lower final training loss than Adam, differing from the paper’s reported ordering. I documented that discrepancy and possible explanations involving the tuning horizon and gradient sparsity; these remain hypotheses rather than established causes.</p>
+        <p>The project demonstrates numerical implementation, experiment design, and diagnosis of reproduction gaps. The CIFAR-10 extension is unfinished.</p>
+        <p><a href="https://github.com/bzin22/adam-optimizer-recreation">Repository</a></p>
+      </div>
+      <div class="sheet">
+        <h2>Technical preparation</h2>
+        <p><strong>Programming languages:</strong> Python.</p>
+        <p><strong>Methods demonstrated in projects:</strong> Text processing, dictionary-based NLP, chronological model evaluation, feature engineering, linear and tree-based prediction, numerical optimization, manual backpropagation, and event-study analysis.</p>
+        <p><strong>Libraries and tools:</strong> NumPy, pandas, PyTorch, scikit-learn, XGBoost, Git, and automated testing.</p>
+        <p><strong>Additional study:</strong> Reinforcement learning, Markov decision processes, and policy optimization through independent coursework.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Freshfleet: its own folder, opened from the Freshfleet photo on the desk -->
+  <section class="obj win folder closed" id="freshfleet" aria-label="Freshfleet">
+    <div class="bar"><span class="grip"></span><span class="title">Freshfleet</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
+    <div class="content">
+      <div class="sheet">
+        <h2>Freshfleet: robotic cleaning end effectors</h2>
+        <p class="meta"><strong>Mechanical design case study · Write-up in preparation</strong></p>
+        <div class="ph ph-inline" data-ph="freshfleet"></div>
+        <p>At Freshfleet, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.</p>
+        <p>CAD renders and a write-up of the end-effector design are in preparation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CV: clipboard -->
+  <section class="obj win clipboard closed" id="cv" data-tilt="-2.2" aria-label="CV">
+    <div class="bar"><span class="grip"></span><span class="title">CV</span><span class="kind">clipboard</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
+    <div class="cover cv-cover">
+      <span class="clip"></span>
+      <div class="sheet">
+        <p class="cover-title">CV</p>
+        <ul class="cover-list">
+          <li>Reframe Innovations<br><span class="meta">Founder · 2026</span></li>
+          <li>Apple<br><span class="meta">Product Design Engineer III · January 2022–May 2025</span></li>
+          <li>Education</li>
+        </ul>
+      </div>
+    </div>
+    <div class="content">
+      <div class="sheet">
+        <h2>Reframe Innovations</h2>
+        <p class="meta"><strong>Founder · 2026</strong></p>
+        <div class="ph ph-inline" data-ph="reframe"></div>
+        <p>At Reframe, we built procurement automation for hardware teams, connecting bill-of-materials planning, supplier communication, sourcing, and purchasing workflows. The application uses TypeScript, Supabase, TanStack Query for server state, Jotai for UI state, and Trigger.dev for Gmail synchronization and background workflows.</p>
+        <p>We evaluated negotiation behavior by labeling supplier conversations, documenting effective and ineffective tactics, and constructing preference pairs. We used these pairs to fine-tune gpt-oss with direct preference optimization through Unsloth.</p>
+        <h2>Apple</h2>
+        <p class="meta"><strong>Product Design Engineer III · January 2022–May 2025</strong></p>
+        <div class="ph ph-inline" data-ph="apple"></div>
+        <p>I worked on mechanical design, structural integration, and validation for iPhone 15 Pro Max, iPhone 17, and iPhone 17 Air. I developed validation protocols, analyzed yield and failure data, and worked with engineering and manufacturing teams across the United States, China, India, and Singapore.</p>
+        <h2>Education</h2>
+        <p class="meta"><strong>Cornell University — B.S. in Mechanical Engineering · December 2021</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resume: paper -->
+  <section class="obj win paper closed" id="resume" data-tilt="3" aria-label="Resume">
+    <div class="bar"><span class="grip"></span><span class="title">Resume</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
+    <div class="cover resume-cover">
+      <span class="paperclip"></span>
+      <p class="cover-title">Resume</p>
+      <img src="{{ '/images/bryan-zin-resume.png' | relative_url }}?v=2" alt="Bryan Zin resume" width="2550" height="3300" decoding="async">
+    </div>
+    <div class="content">
+      <a class="dl" href="{{ '/files/bryan-zin-cv.pdf' | relative_url }}"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>Download my resume (PDF)</a>
+      <img class="resume-img" src="{{ '/images/bryan-zin-resume.png' | relative_url }}?v=2" alt="Bryan Zin resume" width="2550" height="3300" decoding="async">
+    </div>
+  </section>
+
+  <!-- Desk decor -->
+  <div class="obj print decor drag-whole" id="print" data-tilt="-1.8" data-opens="research" role="button" tabindex="0" aria-label="Open research notebook">
+    <span class="tape" style="top:-11px;left:50%;margin-left:-43px;transform:rotate(-2deg)"></span>
+    <img src="{{ '/images/scrisk-result.png' | relative_url }}" alt="" width="1980" height="1530">
+    <div class="cap">Fig. SCRisk portfolios, Q1 to Q5</div>
+  </div>
+
+  <div class="obj polaroid decor drag-whole" id="p-freshfleet" data-tilt="-5" data-opens="freshfleet" role="button" tabindex="0" aria-label="Open Freshfleet folder">
+    <div class="ph" data-ph="freshfleet"></div>
+    <div class="cap"><b>PLACEHOLDER</b>Freshfleet end-effector render</div>
+  </div>
+  <div class="obj polaroid decor drag-whole" id="p-reframe" data-tilt="4" data-opens="cv" role="button" tabindex="0" aria-label="Open CV clipboard">
+    <div class="ph" data-ph="reframe"></div>
+    <div class="cap"><b>PLACEHOLDER</b>Reframe app screenshot, YC W26</div>
+  </div>
+  <div class="obj polaroid decor drag-whole" id="p-apple" data-tilt="-2.5" data-opens="cv" role="button" tabindex="0" aria-label="Open CV clipboard">
+    <div class="ph" data-ph="apple"></div>
+    <div class="cap"><b>PLACEHOLDER</b>iPhone design and validation</div>
+  </div>
+
+  <div class="obj sticky decor drag-whole" id="sticky" data-tilt="3.5">
+    <p>Drag anything around.</p>
+    <p>Click a folder to open it.</p>
+  </div>
+
+  <div class="obj pencil decor drag-whole" id="pencil" data-tilt="-14" aria-hidden="true"><i class="tip"></i></div>
+</main>
+
+<script>
+(function () {
+  /* ---------- placeholder art ---------- */
+  var PH = {
+    freshfleet: {
+      label: 'Placeholder: Freshfleet end-effector render',
+      svg: '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+        '<defs><pattern id="bp" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" fill="none" stroke="#5b83b8" stroke-width=".5" opacity=".6"/></pattern></defs>' +
+        '<rect width="320" height="180" fill="#1e3d68"/><rect width="320" height="180" fill="url(#bp)"/>' +
+        '<g fill="none" stroke="#dbe8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<rect x="46" y="140" width="48" height="14" rx="2"/><rect x="56" y="118" width="28" height="22" rx="4"/>' +
+        '<circle cx="70" cy="112" r="9"/><path d="M76 106 L150 58"/><path d="M66 106 L140 54"/><circle cx="146" cy="54" r="10"/>' +
+        '<path d="M152 60 L206 96"/><path d="M142 64 L198 102"/><circle cx="204" cy="102" r="7"/>' +
+        '<rect x="196" y="108" width="18" height="12" rx="2"/><path d="M190 120 h30 l-4 12 h-22z"/>' +
+        '<path d="M194 134 v8 M199 134 v9 M204 134 v9 M209 134 v9 M214 134 v8" stroke-width="1.4"/>' +
+        '<path d="M170 150 q40 -12 90 0 l6 16 h-102z" stroke-dasharray="4 3"/></g>' +
+        '<g font-family="IBM Plex Mono, monospace" font-size="8" fill="#9fc0ee"><text x="226" y="100">UR10e</text><text x="228" y="130">end effector</text><path d="M224 128 h-8" stroke="#9fc0ee"/></g></svg>'
+    },
+    reframe: {
+      label: 'Placeholder: Reframe procurement tool screenshot (YC W26)',
+      svg: '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+        '<rect width="320" height="180" fill="#efe6d2"/>' +
+        '<rect x="22" y="16" width="276" height="150" rx="6" fill="#fffdf8" stroke="#2a2a22" stroke-width="1.5"/>' +
+        '<path d="M22 32 h276" stroke="#2a2a22" stroke-width="1.5"/><circle cx="32" cy="24" r="2.5" fill="#d2533c"/><circle cx="41" cy="24" r="2.5" fill="#e9b949"/><circle cx="50" cy="24" r="2.5" fill="#2f5f50"/>' +
+        '<rect x="22" y="32" width="58" height="134" fill="#f3ecdc"/>' +
+        '<g fill="#c9bfa8"><rect x="30" y="42" width="40" height="6" rx="3"/><rect x="30" y="56" width="32" height="6" rx="3"/><rect x="30" y="70" width="36" height="6" rx="3"/></g>' +
+        '<g font-family="IBM Plex Mono, monospace" font-size="7" fill="#545a4c"><text x="90" y="46">PART</text><text x="170" y="46">QTY</text><text x="206" y="46">SUPPLIER</text><text x="262" y="46">STATUS</text></g>' +
+        '<g stroke="#e2d9c4"><path d="M88 52 h204 M88 68 h204 M88 84 h204 M88 100 h204 M88 116 h204"/></g>' +
+        '<g fill="#d8cfb9"><rect x="90" y="57" width="60" height="5" rx="2"/><rect x="90" y="73" width="48" height="5" rx="2"/><rect x="90" y="89" width="66" height="5" rx="2"/><rect x="90" y="105" width="52" height="5" rx="2"/>' +
+        '<rect x="170" y="57" width="14" height="5" rx="2"/><rect x="170" y="73" width="10" height="5" rx="2"/><rect x="170" y="89" width="14" height="5" rx="2"/><rect x="170" y="105" width="12" height="5" rx="2"/>' +
+        '<rect x="206" y="57" width="40" height="5" rx="2"/><rect x="206" y="73" width="34" height="5" rx="2"/><rect x="206" y="89" width="44" height="5" rx="2"/><rect x="206" y="105" width="30" height="5" rx="2"/></g>' +
+        '<rect x="262" y="56" width="26" height="8" rx="4" fill="#2f5f50" opacity=".7"/><rect x="262" y="72" width="26" height="8" rx="4" fill="#e9b949"/><rect x="262" y="88" width="26" height="8" rx="4" fill="#2f5f50" opacity=".7"/><rect x="262" y="104" width="26" height="8" rx="4" fill="#d2533c" opacity=".8"/>' +
+        '<rect x="186" y="126" width="102" height="30" rx="8" fill="#2c4f9e" opacity=".12" stroke="#2c4f9e"/><g fill="#2c4f9e" opacity=".5"><rect x="194" y="134" width="70" height="4" rx="2"/><rect x="194" y="143" width="50" height="4" rx="2"/></g></svg>'
+    },
+    apple: {
+      label: 'Placeholder: iPhone product design and validation photo',
+      svg: '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+        '<rect width="320" height="180" fill="#dcd8cf"/>' +
+        '<g fill="none" stroke="#2a2a22" stroke-width="1.6">' +
+        '<rect x="126" y="34" width="66" height="128" rx="14" transform="rotate(-8 159 98)" fill="#c9c4b8" opacity=".6"/>' +
+        '<rect x="140" y="26" width="66" height="128" rx="14" fill="#ebe8e1"/><rect x="146" y="32" width="54" height="116" rx="10" stroke-dasharray="3 3"/>' +
+        '<rect x="160" y="36" width="26" height="7" rx="3.5" fill="#2a2a22"/></g>' +
+        '<g stroke="#d2533c" stroke-width="1.2" fill="#d2533c" font-family="IBM Plex Mono, monospace" font-size="8">' +
+        '<path d="M214 26 h14 M214 154 h14 M222 28 v124" fill="none"/><text x="230" y="93" stroke="none">H</text>' +
+        '<path d="M140 164 v8 M206 164 v8 M142 168 h62" fill="none"/><text x="168" y="178" stroke="none">W</text></g>' +
+        '<g fill="none" stroke="#2c4f9e" stroke-width="1.3"><circle cx="82" cy="72" r="20"/><path d="M82 48 v48 M58 72 h48"/><text x="54" y="112" font-family="IBM Plex Mono, monospace" font-size="8" fill="#2c4f9e" stroke="none">drop test</text></g>' +
+        '<g fill="#2a2a22" opacity=".55"><rect x="40" y="130" width="60" height="4" rx="2"/><rect x="40" y="140" width="44" height="4" rx="2"/><rect x="40" y="150" width="52" height="4" rx="2"/></g></svg>'
+    }
+  };
+  document.querySelectorAll('[data-ph]').forEach(function (el) {
+    var p = PH[el.getAttribute('data-ph')];
+    el.setAttribute('role', 'img');
+    el.setAttribute('aria-label', p.label);
+    el.innerHTML = p.svg + '<div class="ph-label"><b>PLACEHOLDER</b><span>' + p.label.replace('Placeholder: ', '') + '</span></div>';
+  });
+
+  /* ---------- menu scribbles ---------- */
+  document.querySelectorAll('.menubar nav a').forEach(function (a) {
+    // The path runs x=2..98 of 100 so the round caps (1.2px) stay inside the word's box.
+    a.innerHTML = '<span class="word">' + a.textContent + '<svg class="scribble" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="M2 5 C 20 1, 35 8, 52 4 S 85 2, 98 5"/></svg></span>';
+  });
+
+  /* ---------- rulers ---------- */
+  var rt = document.getElementById('rulerTop'), rl = document.getElementById('rulerLeft');
+  for (var i = 1; i < 30; i++) {
+    rt.insertAdjacentHTML('beforeend', '<span style="left:' + (i * 120 + 3) + 'px">' + i * 5 + '</span>');
+    rl.insertAdjacentHTML('beforeend', '<span style="top:' + (i * 120 + 3) + 'px">' + i * 5 + '</span>');
+  }
+
+  /* ---------- clock ---------- */
+  var clock = document.getElementById('clock');
+  function tick() {
+    var d = new Date();
+    clock.textContent = d.toLocaleDateString('en-US', { weekday: 'short' }) + ' ' +
+      d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+  tick(); setInterval(tick, 15000);
+
+  /* ---------- workspace ---------- */
+  var desk = document.getElementById('desk');
+  var mobile = window.matchMedia('(max-width: 860px)');
+  var z = 10;
+  var REF_W = 1440, REF_H = 962;
+  // Reference layout for a 1440 x 962 desk. [x, y, width, height|null]
+  var LAYOUT = {
+    badge:         [34, 26, 288, null],
+    home:          [346, 22, 580, 598],
+    research:      [952, 30, 456, 588],
+    projects:      [362, 662, 262, null],
+    cv:            [650, 652, 236, null],
+    print:         [912, 674, 290, null],
+    resume:        [1226, 660, 176, null],
+    'p-freshfleet':[30, 352, 156, null],
+    'p-reframe':   [178, 410, 156, null],
+    'p-apple':     [36, 628, 156, null],
+    sticky:        [196, 690, 142, null],
+    pencil:        [120, 900, 230, null]
+  };
+  var OPEN_SIZE = { home: [580, 598], research: [456, 588], projects: [660, 720], cv: [620, 700], resume: [600, 760], freshfleet: [620, 620] };
+  var COVER_W = { home: 250, research: 230, projects: 262, cv: 236, resume: 176, freshfleet: 262 };
+
+  function metrics() {
+    var W = desk.clientWidth, H = desk.clientHeight;
+    return { W: W, H: H, sx: W / REF_W, sy: H / REF_H, sw: Math.min(1, Math.max(.72, W / REF_W)), sh: Math.min(1.12, Math.max(.8, H / REF_H)) };
+  }
+  function place(el, x, y) {
+    var m = metrics();
+    var w = el.offsetWidth, h = el.offsetHeight;
+    x = Math.max(8, Math.min(x, m.W - w - 8));
+    y = Math.max(8, Math.min(y, m.H - Math.min(h, m.H - 16) - 8));
+    el.style.left = x + 'px'; el.style.top = y + 'px';
+  }
+  var LEFT_COL = ['p-freshfleet', 'p-reframe', 'p-apple', 'sticky', 'pencil'];
+  var BOTTOM_ROW = ['projects', 'cv', 'print', 'resume'];
+  function bottomOf(id) { var e = document.getElementById(id); return e.classList.contains('closed') ? 0 : e.offsetTop + e.offsetHeight; }
+  function setTilt(el, deg) { el.style.setProperty('--tilt', deg + 'deg'); }
+
+  function layout() {
+    if (mobile.matches) return;
+    var m = metrics();
+    Object.keys(LAYOUT).forEach(function (id) {
+      var el = document.getElementById(id); if (!el) return;
+      var L = LAYOUT[id];
+      var isWin = el.classList.contains('win');
+      var open = isWin && !el.classList.contains('closed');
+      var w = isWin ? (open ? OPEN_SIZE[id][0] : COVER_W[id]) * m.sw : L[2] * m.sw;
+      el.style.width = Math.min(w, m.W - 24) + 'px';
+      el.style.height = open ? Math.min(OPEN_SIZE[id][1] * m.sh, m.H - 30) + 'px' : '';
+      setTilt(el, el.getAttribute('data-tilt') || 0);
+      var y = L[1] * m.sy;
+      // Left column sits under the badge; the bottom row sits under the two open windows.
+      if (LEFT_COL.indexOf(id) > -1) y += Math.max(0, bottomOf('badge') - 330 * m.sy);
+      if (BOTTOM_ROW.indexOf(id) > -1) y = Math.max(y, Math.max(bottomOf('home'), bottomOf('research')) + 34);
+      place(el, L[0] * m.sx, y);
+    });
+  }
+
+  function focusObj(el) {
+    document.querySelectorAll('.obj.focused').forEach(function (o) { if (o !== el) o.classList.remove('focused'); });
+    el.classList.add('focused');
+    el.style.zIndex = ++z;
+  }
+
+  // The part of the desk the reader can see right now, in desk coordinates (below the menu bar).
+  function visibleArea() {
+    var r = desk.getBoundingClientRect(), menuH = document.querySelector('.menubar').offsetHeight;
+    var top = Math.max(0, menuH - r.top), bottom = Math.min(desk.clientHeight, window.innerHeight - r.top);
+    return { top: top, bottom: Math.max(top + 1, bottom) };
+  }
+  function centerWin(el) {
+    var m = metrics(), v = visibleArea(), vh = v.bottom - v.top;
+    var w = el.offsetWidth, h = Math.min(el.offsetHeight, vh - 24);
+    el.style.height = h + 'px';
+    el.style.left = Math.max(8, (m.W - w) / 2) + 'px';
+    el.style.top = Math.max(v.top + 8, v.top + (vh - h) / 2) + 'px';
+  }
+  function openWin(el) {
+    if (mobile.matches) return;
+    var id = el.id, m = metrics(), v = visibleArea();
+    el.classList.remove('closed');
+    el.setAttribute('data-tilt', 0); setTilt(el, 0);
+    el.classList.remove('popped'); void el.offsetWidth; el.classList.add('popped');
+    var s = OPEN_SIZE[id];
+    el.style.width = Math.min(s[0] * m.sw, m.W - 24) + 'px';
+    el.style.height = Math.min(s[1] * m.sh, v.bottom - v.top - 24) + 'px';
+    centerWin(el);
+    focusObj(el);
+  }
+  function closeWin(el) {
+    if (tidied && el._slot) { putInSlot(el); return; }
+    var m = metrics();
+    var cx = el.offsetLeft + el.offsetWidth / 2, cy = el.offsetTop + 60;
+    el.classList.add('closed');
+    el.classList.remove('focused');
+    var w = COVER_W[el.id] * m.sw;
+    el.style.width = w + 'px'; el.style.height = '';
+    place(el, cx - w / 2, cy - 40);
+  }
+  function reveal(id) {
+    var el = document.getElementById(id); if (!el) return;
+    if (mobile.matches) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+    if (el.classList.contains('closed')) openWin(el); else { centerWin(el); focusObj(el); }
+    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  }
+
+  document.querySelectorAll('[data-open]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (mobile.matches) return; // plain anchor scroll on phones
+      e.preventDefault();
+      reveal(a.getAttribute('data-open'));
+    });
+  });
+  document.querySelectorAll('[data-toggle]').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var w = b.closest('.win');
+      if (w.classList.contains('closed')) openWin(w); else closeWin(w);
+    });
+  });
+  document.querySelectorAll('[data-opens]').forEach(function (o) {
+    o.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); reveal(o.getAttribute('data-opens')); } });
+  });
+  // Tidy desk is a toggle. On: close every window, straighten everything, and line it up in
+  // equal columns; each object remembers its slot, and "put away" sends a window back to it.
+  // Off: everything returns to the original page-load arrangement.
+  var TIDY_ORDER = ['badge', 'home', 'research', 'projects', 'cv', 'resume', 'print', 'p-freshfleet', 'p-reframe', 'p-apple', 'sticky', 'pencil'];
+  var TIDY = { pad: 36, gapX: 28, gapY: 32, minCell: 220, maxCell: 280 };
+  var tidied = false;
+  var tidyBtn = document.getElementById('tidy');
+  function tidyEls() { return TIDY_ORDER.map(function (id) { return document.getElementById(id); }).filter(Boolean); }
+  function putInSlot(el) {
+    if (el.classList.contains('win')) el.classList.add('closed');
+    el.classList.remove('focused', 'popped', 'flash');
+    el.style.zIndex = ''; el.style.height = ''; el.style.width = el._slot.width + 'px';
+    el.style.left = el._slot.left + 'px'; el.style.top = el._slot.top + 'px';
+    el.setAttribute('data-tilt', 0); setTilt(el, 0);
+  }
+  // Work out the grid slots for the current desk width. Open windows keep their place;
+  // their slot is sized from the closed height they had when tidy was switched on.
+  function tidySlots() {
+    var W = desk.clientWidth;
+    var cols = Math.max(1, Math.floor((W - 2 * TIDY.pad + TIDY.gapX) / (TIDY.minCell + TIDY.gapX)));
+    var cell = Math.min(TIDY.maxCell, (W - 2 * TIDY.pad - (cols - 1) * TIDY.gapX) / cols);
+    var left0 = (W - (cols * cell + (cols - 1) * TIDY.gapX)) / 2;
+    var els = tidyEls(), top = TIDY.pad;
+    els.forEach(function (el) {
+      if (el.classList.contains('closed') || !el.classList.contains('win')) {
+        el.style.width = cell + 'px'; el._closedH = el.offsetHeight;
+      }
+    });
+    for (var r = 0; r < els.length; r += cols) {
+      var row = els.slice(r, r + cols), rowH = 0;
+      row.forEach(function (el, c) {
+        el._slot = { left: left0 + c * (cell + TIDY.gapX), top: top, width: cell };
+        rowH = Math.max(rowH, el._closedH);
+      });
+      top += rowH + TIDY.gapY;
+    }
+    // Let the mat grow if the grid is taller than the window.
+    desk.style.minHeight = Math.max(900, top) + 'px';
+    els.forEach(function (el) { if (el.classList.contains('closed') || !el.classList.contains('win')) putInSlot(el); });
+  }
+  function tidyOn() {
+    if (mobile.matches) return;
+    tidyEls().forEach(function (el) { if (el.classList.contains('win')) el.classList.add('closed'); el.style.height = ''; });
+    document.getElementById('freshfleet').classList.add('closed');
+    tidied = true;
+    tidySlots();
+    tidyBtn.setAttribute('aria-pressed', 'true');
+  }
+  function tidyOff() {
+    tidied = false;
+    tidyBtn.setAttribute('aria-pressed', 'false');
+    desk.style.minHeight = '';
+    document.getElementById('freshfleet').classList.add('closed');
+    tidyEls().forEach(function (el) {
+      el._slot = null;
+      el.classList.toggle('closed', el.classList.contains('win') && INITIAL_OPEN.indexOf(el.id) < 0);
+      el.classList.remove('focused', 'popped', 'flash'); el.style.zIndex = '';
+      el.setAttribute('data-tilt', el.getAttribute('data-tilt0') || 0);
+    });
+    layout();
+    focusObj(document.getElementById('home'));
+  }
+  tidyBtn.addEventListener('click', function () { if (tidied) tidyOff(); else tidyOn(); });
+
+  /* ---------- resizing open windows by the corner handle ---------- */
+  var MIN_W = 280, MIN_H = 220;
+  var sizing = null;
+  document.querySelectorAll('.win').forEach(function (w) {
+    var h = document.createElement('div');
+    h.className = 'resize-handle'; h.setAttribute('aria-hidden', 'true'); h.title = 'Drag to resize';
+    w.appendChild(h);
+  });
+  desk.addEventListener('pointerdown', function (e) {
+    var h = e.target.closest('.resize-handle');
+    if (!h || mobile.matches || e.button !== 0) return;
+    var el = h.closest('.win');
+    focusObj(el);
+    sizing = { el: el, sx: e.clientX, sy: e.clientY, w: el.offsetWidth, h: el.offsetHeight, id: e.pointerId };
+    try { h.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault(); e.stopImmediatePropagation();
+  }, true);
+  desk.addEventListener('pointermove', function (e) {
+    if (!sizing || e.pointerId !== sizing.id) return;
+    var m = metrics(), el = sizing.el;
+    var w = Math.max(MIN_W, Math.min(sizing.w + e.clientX - sizing.sx, m.W - el.offsetLeft - 8));
+    var h = Math.max(MIN_H, Math.min(sizing.h + e.clientY - sizing.sy, m.H - el.offsetTop - 8));
+    el.style.width = w + 'px'; el.style.height = h + 'px';
+  });
+  function endSize(e) { if (sizing && e.pointerId === sizing.id) sizing = null; }
+  desk.addEventListener('pointerup', endSize);
+  desk.addEventListener('pointercancel', endSize);
+
+  /* ---------- dragging: pick up, move, drop with a fresh tilt ---------- */
+  var drag = null;
+  desk.addEventListener('pointerdown', function (e) {
+    if (mobile.matches || e.button !== 0) return;
+    var el = e.target.closest('.obj'); if (!el) return;
+    if (e.target.closest('button, a, input')) { focusObj(el); return; }
+    var isWin = el.classList.contains('win');
+    var handle = !isWin || el.classList.contains('closed') || e.target.closest('.bar');
+    focusObj(el);
+    if (!handle) return;
+    drag = { el: el, sx: e.clientX, sy: e.clientY, ox: el.offsetLeft, oy: el.offsetTop, moved: false, id: e.pointerId };
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault();
+  });
+  desk.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var dx = e.clientX - drag.sx, dy = e.clientY - drag.sy;
+    if (!drag.moved && Math.abs(dx) + Math.abs(dy) < 5) return;
+    if (!drag.moved) { drag.moved = true; drag.el.classList.add('lifted'); }
+    var m = metrics(), el = drag.el;
+    var x = Math.max(-el.offsetWidth + 60, Math.min(drag.ox + dx, m.W - 60));
+    var y = Math.max(0, Math.min(drag.oy + dy, m.H - 40));
+    el.style.left = x + 'px'; el.style.top = y + 'px';
+  });
+  function endDrag(e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    var el = drag.el;
+    el.classList.remove('lifted');
+    if (drag.moved) {
+      var t = (Math.random() * 5 - 2.5).toFixed(2);
+      if (el.id === 'pencil') t = (Math.random() * 60 - 30).toFixed(1);
+      if (tidied) t = 0; // a tidy desk stays straight
+      el.setAttribute('data-tilt', t); setTilt(el, t);
+    } else {
+      if (el.classList.contains('win') && el.classList.contains('closed')) openWin(el);
+      else if (el.hasAttribute('data-opens')) reveal(el.getAttribute('data-opens'));
+    }
+    drag = null;
+  }
+  desk.addEventListener('pointerup', endDrag);
+  desk.addEventListener('pointercancel', endDrag);
+
+  /* ---------- init ---------- */
+  var INITIAL_OPEN = [].map.call(document.querySelectorAll('.win:not(.closed)'), function (w) { return w.id; });
+  function init() { document.querySelectorAll('.obj').forEach(function (o) { o.setAttribute('data-tilt0', o.getAttribute('data-tilt') || 0); }); layout(); focusObj(document.getElementById('home')); }
+  var rT;
+  function relayout() { if (tidied) tidySlots(); else layout(); }
+  window.addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(relayout, 120); });
+  mobile.addEventListener('change', function () { if (!mobile.matches) relayout(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+  window.addEventListener('load', relayout);
+  init();
+})();
+</script>
+</body>
+</html>

@@ -4,8 +4,8 @@
       <nav id="site-nav" class="greedy-nav">
         <button><span class="navicon"></span></button>
         <ul class="visible-links">
-          <li class="masthead__menu-item masthead__menu-item--lg persist {% if page.url == '/' or page.url == '/index.html' %}selected{% endif %}">
-            <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+          <li class="masthead__menu-item masthead__menu-item--lg persist {% if page.url == '/about/' %}selected{% endif %}">
+            <a href="{{ '/about/' | relative_url }}">{{ site.title }}</a>
           </li>
           {% for link in site.data.navigation.main %}
             <li class="masthead__menu-item {% if page.url contains link.url and link.url != '/' %}selected{% endif %}">
@@ -16,8 +16,8 @@
               {% endif %}
             </li>
           {% endfor %}
-          <li id="theme-toggle" class="masthead__menu-item persist tail">
-            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          <li id="fancy-link" class="masthead__menu-item persist tail">
+            <a href="{{ '/' | relative_url }}" aria-label="If you prefer something fancier" data-tooltip="If you prefer something fancier"><i class="fa-solid fa-sun" aria-hidden="true"></i></a>
           </li>
         </ul>
         <ul class="hidden-links hidden"></ul>

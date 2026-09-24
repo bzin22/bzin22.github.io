@@ -20,9 +20,11 @@ SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
 # CV is the former Experience page and keeps /experience/. Contact was removed.
 EXPECTED_NAV = ["Home", "Research", "Projects", "CV", "Resume"]
 
-# permalink -> text that must appear in the rendered page body
+# permalink -> text that must appear in the rendered page body.
+# "/" is the workbench (index.html, its own layout). The plain Home moved to /about/.
 EXPECTED_PAGES = {
-    "/": "Selected work",
+    "/": "Tidy desk",
+    "/about/": "Selected work",
     "/research/": "Supply-chain language and stock-market reactions",
     "/projects/": "Technical preparation",
     "/experience/": "Reframe Innovations",
@@ -33,6 +35,7 @@ EXPECTED_PAGES = {
 # so it must render the name once, not "Bryan Zin Bryan Zin" or "About Me Bryan Zin".
 EXPECTED_TITLES = {
     "/": "Bryan Zin",
+    "/about/": "Bryan Zin",
     "/research/": "Research Bryan Zin",
     "/projects/": "Projects Bryan Zin",
     "/experience/": "CV Bryan Zin",
@@ -41,13 +44,13 @@ EXPECTED_TITLES = {
 
 # Old routes that must now be redirect stubs to another page, not pages of their own.
 EXPECTED_REDIRECTS = {
-    "/contact/": "/",
+    "/contact/": "/about/",
     "/cv/": "/resume/",
 }
 
 # route -> snippets of approved content that must be rendered exactly.
 EXPECTED_SNIPPETS = {
-    "/": [
+    "/about/": [
         'href="https://www.ycombinator.com/companies/usereframe"',
         'href="/research/">Research overview</a>',
         'href="/projects/">Selected projects</a>',
@@ -60,7 +63,30 @@ EXPECTED_SNIPPETS = {
     ],
     "/projects/": ['<p><a href="https://github.com/bzin22/adam-optimizer-recreation">Repository</a></p>'],
     "/resume/": ['<a href="/files/bryan-zin-cv.pdf">Download my resume (PDF)</a>'],
+    # The workbench uses the site's own images and PDF, and its sun leads back to the plain site.
+    "/": [
+        'src="/images/bryan-zin.png"',
+        'src="/images/scrisk-result.png"',
+        'src="/images/bryan-zin-resume.png?v=2"',
+        'href="/files/bryan-zin-cv.pdf"',
+        '<a class="sun" href="/about/" data-tip="If you prefer something plainer"',
+        '<button class="tidy" type="button" id="tidy" aria-pressed="false"',
+        # Badge matches the plain sidebar.
+        '<p class="bio">Independent researcher, YC founder, Apple Engineer</p>',
+        '<p class="edu">Cornell University · B.S. in Mechanical Engineering</p>',
+        '<a href="mailto:bz297@cornell.edu">Email</a>',
+        '<span class="paperclip"></span>\n      <p class="cover-title">Resume</p>',
+        '<section class="obj win folder closed" id="freshfleet" aria-label="Freshfleet">',
+        'id="p-freshfleet" data-tilt="-5" data-opens="freshfleet"',
+    ],
 }
+
+# Pages rendered with the plain theme (masthead, sidebar, footer). Everything but the workbench.
+PLAIN_PAGES = [route for route in EXPECTED_PAGES if route != "/"]
+
+# Text removed from the workbench.
+WORKBENCH_FORBIDDEN = ["SELF-HEALING", "24 PX GRID", "click to open", "cover-hint",
+                       "index card", "lab notebook", "one page", ">bz297@cornell.edu<"]
 
 # Content the approved copy removed, plus implementation notes that must never be published.
 FORBIDDEN_TEXT = [
@@ -115,6 +141,9 @@ def page_path(route):
 
 
 def read(route):
+    """Rendered HTML for a route, or "" if it was not built (check_pages reports that)."""
+    if not os.path.isfile(page_path(route)):
+        return ""
     with open(page_path(route), encoding="utf-8") as fh:
         return fh.read()
 
@@ -138,7 +167,7 @@ def check_pages(fail):
 
 
 def check_nav(fail):
-    body = read("/")
+    body = read("/about/")
     # nav_items[0] is the masthead site title, the rest are the menu.
     items = nav_items(body)[1:]
     if items != EXPECTED_NAV:
@@ -153,7 +182,7 @@ def check_removed(fail):
 
 def check_author_links(fail):
     """The sidebar social links come from _config.yml author.*, easy to leave on the demo values."""
-    body = read("/")
+    body = read("/about/")
     sidebar = re.search(r'author__urls-wrapper.*?</ul>', body, re.S)
     sidebar = sidebar.group(0) if sidebar else ""
     for expected in ("https://github.com/bzin22", "mailto:bz297@cornell.edu", "linkedin.com/in/bryan-zin"):
@@ -179,33 +208,41 @@ def check_redirects(fail):
 def check_snippets(fail):
     for route, snippets in EXPECTED_SNIPPETS.items():
         body = read(route)
+        if not body:
+            continue  # check_pages already reports the missing page
         for snippet in snippets:
             if snippet not in body:
                 fail(f"{route} is missing {snippet!r}")
 
 
 def check_sidebar_bio(fail):
-    """The sidebar is only the short bio: no "Previously at Apple", no education line."""
-    body = read("/")
-    expected = '<p class="author__bio">Independent researcher working on machine learning, supply chains, and firm behavior.</p>'
-    if expected not in body:
-        fail("sidebar bio is not the short one-sentence bio")
+    """The sidebar is the one-line bio with the degree under it, same text as the workbench badge."""
+    body = read("/about/")
     content = re.search(r'author__content">(.*?)</div>', body, re.S)
     content = content.group(1) if content else ""
-    for phrase in ("Previously at Apple", "Cornell University"):
-        if phrase in content:
-            fail(f"sidebar still contains {phrase!r}")
+    for expected in ('<p class="author__bio">Independent researcher, YC founder, Apple Engineer</p>',
+                     '<p class="author__bio author__education">Cornell University · B.S. in Mechanical Engineering</p>'):
+        if expected not in content:
+            fail(f"sidebar is missing {expected!r}")
+    if "Previously at Apple" in content:
+        fail("sidebar still contains 'Previously at Apple'")
 
 
 def check_footer(fail):
-    """The footer follow row keeps GitHub but no longer links the feed."""
-    for route in EXPECTED_PAGES:
-        footer = re.search(r'page__footer-follow.*?</ul>', read(route), re.S)
+    """The footer is only the copyright line and the last-updated date.
+
+    No follow row (GitHub is already in the sidebar), no Jekyll/AcademicPages credit, no sitemap link.
+    """
+    for route in PLAIN_PAGES:
+        footer = re.search(r'<div class="page__footer">.*?</footer>', read(route), re.S)
         footer = footer.group(0) if footer else ""
-        if "feed.xml" in footer:
-            fail(f"{route} footer still links the feed")
-        if "https://github.com/bzin22" not in footer:
-            fail(f"{route} footer lost its GitHub link")
+        if not re.search(r"&copy; \d{4} Bryan Zin<br />", footer):
+            fail(f"{route} footer does not read '© <year> Bryan Zin'")
+        if not re.search(r"Site last updated \d{4}-\d{2}-\d{2}\s*</div>", footer):
+            fail(f"{route} footer lost 'Site last updated <date>' or has something after it")
+        for gone in ("page__footer-follow", "Powered by", "Jekyll", "AcademicPages", "Minimal Mistakes", "Sitemap", "/sitemap/"):
+            if gone in footer:
+                fail(f"{route} footer still contains {gone!r}")
 
 
 def check_forbidden_text(fail):
@@ -215,6 +252,20 @@ def check_forbidden_text(fail):
         for phrase in FORBIDDEN_TEXT:
             if phrase in text:
                 fail(f"{route} still contains removed text {phrase!r}")
+
+
+def check_workbench_removed(fail):
+    body = read("/")
+    for phrase in WORKBENCH_FORBIDDEN:
+        if phrase in body:
+            fail(f"/ still shows {phrase!r}")
+    # Freshfleet has its own folder on the workbench, so the Projects folder no longer carries it.
+    projects = re.search(r'<section [^>]*id="projects".*?</section>', body, re.S)
+    if projects and "Freshfleet" in projects.group(0):
+        fail("/ Projects folder still contains Freshfleet")
+    fresh = re.search(r'<section [^>]*id="freshfleet".*?</section>', body, re.S)
+    if not fresh or "UR10e robot arm" not in fresh.group(0):
+        fail("/ Freshfleet folder is missing its write-up")
 
 
 def check_placeholders(fail):
@@ -233,6 +284,21 @@ def check_escaped_pipes(fail):
         text = re.sub(r"<[^>]+>", " ", article.group(0) if article else body)
         if "\\|" in text:
             fail(rf"{route} renders a literal backslash-pipe; pipes need no escaping here")
+
+
+def check_sun_tooltip(fail):
+    """The sun button keeps its icon, offers the fancier design on hover, and links to the workbench."""
+    for route in PLAIN_PAGES:
+        toggle = re.search(r'<li id="fancy-link".*?</li>', read(route), re.S)
+        toggle = toggle.group(0) if toggle else ""
+        if '<a href="/" ' not in toggle:
+            fail(f"{route} sun button does not link to the workbench at /")
+        if 'data-tooltip="If you prefer something fancier"' not in toggle:
+            fail(f"{route} sun button is missing the 'If you prefer something fancier' tooltip")
+        if "fa-sun" not in toggle:
+            fail(f"{route} sun button lost its sun icon")
+        if "toggle theme" in toggle:
+            fail(f"{route} sun button still says 'toggle theme'")
 
 
 def check_titles(fail):
@@ -277,7 +343,9 @@ def main():
         check_footer,
         check_forbidden_text,
         check_placeholders,
+        check_workbench_removed,
         check_escaped_pipes,
+        check_sun_tooltip,
         check_titles,
         check_internal_links,
     ):
@@ -288,7 +356,7 @@ def main():
     if failures:
         print(f"\n{len(failures)} failure(s)")
         return 1
-    print("OK: 5 pages, nav order, titles, redirects, figure, resume link, assets, links, no template leftovers")
+    print("OK: workbench + 5 plain pages, nav order, titles, redirects, figure, resume link, assets, links, no template leftovers")
     return 0
 
 
