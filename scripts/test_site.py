@@ -17,28 +17,62 @@ from urllib.parse import unquote, urljoin, urlparse
 SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "_site")
 
 # Nav order comes from _data/navigation.yml. Header link 0 is the site title.
-EXPECTED_NAV = ["Home", "Research", "Projects", "Experience", "Resume", "Contact"]
+# CV is the former Experience page and keeps /experience/. Contact was removed.
+EXPECTED_NAV = ["Home", "Research", "Projects", "CV", "Resume"]
 
 # permalink -> text that must appear in the rendered page body
 EXPECTED_PAGES = {
-    "/": "Research interests",
-    "/research/": "Supply-Chain Risk &amp; Financial Markets",
-    "/projects/": "Technical skills",
-    "/experience/": "Reframe Innovations, Inc.",
+    "/": "Selected work",
+    "/research/": "Supply-chain language and stock-market reactions",
+    "/projects/": "Technical preparation",
+    "/experience/": "Reframe Innovations",
     "/resume/": 'src="/images/bryan-zin-resume.png?v=2"',
-    "/contact/": "bz297@cornell.edu",
 }
 
 # permalink -> exact <title> text. The home page's page.title equals site.title,
-# so it must render the name once, not "Bryan Zin Bryan Zin".
+# so it must render the name once, not "Bryan Zin Bryan Zin" or "About Me Bryan Zin".
 EXPECTED_TITLES = {
     "/": "Bryan Zin",
     "/research/": "Research Bryan Zin",
     "/projects/": "Projects Bryan Zin",
-    "/experience/": "Experience Bryan Zin",
+    "/experience/": "CV Bryan Zin",
     "/resume/": "Resume Bryan Zin",
-    "/contact/": "Contact Bryan Zin",
 }
+
+# Old routes that must now be redirect stubs to another page, not pages of their own.
+EXPECTED_REDIRECTS = {
+    "/contact/": "/",
+    "/cv/": "/resume/",
+}
+
+# route -> snippets of approved content that must be rendered exactly.
+EXPECTED_SNIPPETS = {
+    "/": [
+        'href="https://www.ycombinator.com/companies/usereframe"',
+        'href="/research/">Research overview</a>',
+        'href="/projects/">Selected projects</a>',
+        'href="https://github.com/bzin22/adam-optimizer-recreation">Code and experiments</a>',
+    ],
+    "/research/": [
+        'src="/images/scrisk-result.png"',
+        'alt="Mean two-day abnormal returns decrease across fractional risk portfolios, from 0.52% in Q1 to −0.41% in Q5; error bars show firm-clustered 95% intervals."',
+        "<figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, 2010–2019. Bars show 95% intervals clustered by firm. Final sample: 52,533 calls from 2,026 firms. Portfolios share observations when scores are tied.</figcaption>",
+    ],
+    "/resume/": ['<a href="/files/bryan-zin-cv.pdf">Download my resume (PDF)</a>'],
+}
+
+# Content the approved copy removed, plus implementation notes that must never be published.
+FORBIDDEN_TEXT = [
+    "minor in Business",
+    "FinBERT",
+    "Word2Vec",
+    "Matlab",
+    "Research interests",
+    "$1.2M",
+    "$50M",
+    "repository visibility",
+    "private",
+]
 
 # Template pages that were removed; none of these should still be published.
 REMOVED_ROUTES = [
@@ -126,6 +160,42 @@ def check_author_links(fail):
         fail("sidebar GitHub link still points at the academicpages template")
 
 
+def check_redirects(fail):
+    for route, target in EXPECTED_REDIRECTS.items():
+        if not os.path.isfile(page_path(route)):
+            fail(f"{route} was not built; it should redirect to {target}")
+            continue
+        body = read(route)
+        refresh = re.search(r'http-equiv="refresh" content="0; url=([^"]+)"', body)
+        if not refresh or urlparse(refresh.group(1)).path != target:
+            fail(f"{route} does not redirect to {target}")
+        if "<article" in body:
+            fail(f"{route} renders a full page; it should only be a redirect stub")
+
+
+def check_snippets(fail):
+    for route, snippets in EXPECTED_SNIPPETS.items():
+        body = read(route)
+        for snippet in snippets:
+            if snippet not in body:
+                fail(f"{route} is missing {snippet!r}")
+
+
+def check_sidebar_education(fail):
+    body = read("/")
+    if '<p class="author__education">Cornell University · B.S. in Mechanical Engineering</p>' not in body:
+        fail("sidebar is missing the separate Cornell education line")
+
+
+def check_forbidden_text(fail):
+    for route in EXPECTED_PAGES:
+        article = re.search(r"<article.*?</article>", read(route), re.S)
+        text = article.group(0) if article else ""
+        for phrase in FORBIDDEN_TEXT:
+            if phrase in text:
+                fail(f"{route} still contains removed text {phrase!r}")
+
+
 def check_placeholders(fail):
     for route in EXPECTED_PAGES:
         body = read(route)
@@ -180,6 +250,10 @@ def main():
         check_nav,
         check_author_links,
         check_removed,
+        check_redirects,
+        check_snippets,
+        check_sidebar_education,
+        check_forbidden_text,
         check_placeholders,
         check_escaped_pipes,
         check_titles,
@@ -192,7 +266,7 @@ def main():
     if failures:
         print(f"\n{len(failures)} failure(s)")
         return 1
-    print("OK: 6 pages, nav order, titles, assets, links, no template leftovers")
+    print("OK: 5 pages, nav order, titles, redirects, figure, resume link, assets, links, no template leftovers")
     return 0
 
 

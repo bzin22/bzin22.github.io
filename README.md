@@ -6,15 +6,17 @@ builds it with Jekyll on every push to `master`.
 ## Where the content lives
 
 - `_pages/` holds one Markdown file per page: `about.md` (Home), `research.md`,
-  `projects.md`, `experience.md`, `resume.md`, `contact.md`, plus `sitemap.md` and
-  `404.md`.
-- `_data/navigation.yml` sets the header menu: Home, Research, Projects,
-  Experience, Resume, Contact.
+  `projects.md`, `experience.md` (CV, served at `/experience/`), `resume.md`, plus
+  `sitemap.md` and `404.md`. `/contact/` redirects to Home and `/cv/` redirects to
+  Resume.
+- `_data/navigation.yml` sets the header menu: Home, Research, Projects, CV,
+  Resume.
 - `_config.yml` holds site-wide settings and the sidebar profile (name, bio,
-  photo, email, GitHub, LinkedIn).
+  education line, photo, email, GitHub, LinkedIn).
 - `files/` holds downloads such as `bryan-zin-cv.pdf`. They are served at
   https://bzin22.github.io/files/bryan-zin-cv.pdf.
-- `images/` holds the profile photo (`bryan-zin.png`), the favicons, and the
+- `images/` holds the profile photo (`bryan-zin.png`), the resume preview
+  (`bryan-zin-resume.png`), the Research figure (`scrisk-result.png`), the favicons, and the
   template's theme screenshots under `images/themes/`.
 
 The theme itself (`_includes/`, `_layouts/`, `_sass/`, `assets/`) comes from the
@@ -76,11 +78,12 @@ If you are using [Visual Studio Code](https://code.visualstudio.com/) you can us
 
 ## Checking the site locally
 
-`scripts/test_site.py` checks the built site in `_site/`. It asserts the six
-pages render their expected content, the nav is Home, Research, Projects,
-Experience, Resume, Contact in that order, each page title is right, every internal
-link and asset resolves to a built file, and no template placeholder text is
-left behind.
+`scripts/test_site.py` checks the built site in `_site/`. It asserts the five
+pages render their expected content, the nav is Home, Research, Projects, CV,
+Resume in that order, each page title is right, `/contact/` and `/cv/` are
+redirects, the Research figure, Home links, and resume download link are present,
+removed copy stays removed, every internal link and asset resolves to a built
+file, and no template placeholder text is left behind.
 
 ```bash
 bundle exec jekyll build
