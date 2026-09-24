@@ -28,7 +28,7 @@ author:
   name: "Bryan Zin"
   pronouns: # example: "she/her"
   bio: "Independent researcher, YC founder, Apple Engineer"
-  education: "Cornell University · B.S. in Mechanical Engineering" # shown under the bio in the sidebar
+  education: "Cornell University<br>B.S. in Mechanical Engineering" # shown under the bio in the sidebar
   location: "San Francisco, CA"
   employer:
   uri: # URL
