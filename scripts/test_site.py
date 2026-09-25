@@ -19,10 +19,10 @@ SITE = os.environ.get("SITE_DIR", os.path.join(ROOT, "_site"))
 
 # Nav order comes from _data/navigation.yml. Header link 0 is the site title.
 # CV is the former Experience page and keeps /experience/. Contact was removed.
-EXPECTED_NAV = ["Home", "Research", "Projects", "CV", "Resume"]
+EXPECTED_NAV = ["About", "Research", "Projects", "CV", "Resume"]
 
 # permalink -> text that must appear in the rendered page body.
-# "/" is the workbench (index.html, its own layout). The plain Home moved to /about/.
+# "/" is the workbench (index.html, its own layout). The plain About page is at /about/.
 EXPECTED_PAGES = {
     "/": "Tidy desk",
     "/about/": "Selected work",
@@ -75,7 +75,8 @@ EXPECTED_SNIPPETS = {
         '<p class="bio">Independent researcher, YC founder, Apple Engineer</p>',
         '<p class="edu">Cornell University<br>B.S. in Mechanical Engineering</p>',
         '<a href="mailto:bz297@cornell.edu">Email</a>',
-        '<span class="paperclip"></span>\n      <p class="cover-title">Resume</p>',
+        '<span class="paperclip"></span>\n      <p class="cover-title">Resume</p>\n      <div class="sheet">',
+        'Welcome to my workspace! Feel free to move things around and explore!',
         '<div class="ph ph-inline" data-ph="freshfleet"></div>',
     ],
 }
@@ -321,6 +322,19 @@ def check_titles(fail):
             fail(f"{route} title is {actual!r}, expected {expected!r}")
 
 
+def check_favicons(fail):
+    workbench = read("/")
+    plain = read("/about/")
+    if 'href="/images/workbench-favicon.svg"' not in workbench:
+        fail("the workbench is missing its BZ favicon")
+    if '<img class="logo" src="/images/workbench-favicon.svg" alt="">' not in workbench:
+        fail("the workbench navigation is missing its BZ logo")
+    if 'href="/images/favicon.svg"' not in plain:
+        fail("the plain site lost its original favicon")
+    if "workbench-favicon" in plain:
+        fail("the workbench favicon leaked into the plain site")
+
+
 def check_internal_links(fail):
     """Every internal href/src on every page must resolve to a file in _site."""
     for route in list(EXPECTED_PAGES) + ["/sitemap/", "/404.html"]:
@@ -359,6 +373,7 @@ def main():
         check_escaped_pipes,
         check_sun_tooltip,
         check_titles,
+        check_favicons,
         check_internal_links,
     ):
         check(fail)
