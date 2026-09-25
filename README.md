@@ -1,6 +1,6 @@
-# bzin22.github.io
+# bryanzin.com
 
-Bryan Zin's personal site, published at https://bzin22.github.io. GitHub Pages
+Bryan Zin's personal site, published at https://bryanzin.com. GitHub Pages
 builds it with Jekyll on every push to `master`.
 
 ## Where the content lives
@@ -20,7 +20,7 @@ builds it with Jekyll on every push to `master`.
   bio, optional education line, photo, email, GitHub, LinkedIn). The workbench
   badge in `index.html` has its own text.
 - `files/` holds downloads such as `bryan-zin-cv.pdf`. They are served at
-  https://bzin22.github.io/files/bryan-zin-cv.pdf.
+  https://bryanzin.com/files/bryan-zin-cv.pdf.
 - `images/` holds the profile photo (`bryan-zin.png`), the resume preview
   (`bryan-zin-resume.png`), the Research figure (`scrisk-result.png`), the favicons, and the
   template's theme screenshots under `images/themes/`.
