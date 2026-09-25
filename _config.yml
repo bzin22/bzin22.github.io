@@ -15,7 +15,7 @@ name: &name "Bryan Zin"
 description: &description "Bryan Zin’s research and projects in applied machine learning, supply-chain risk, model evaluation, and computational analysis of firms and markets."
 url: "https://bryanzin.com"
 baseurl: "" # the subpath of your site, e.g. "/blog"
-repository: "bzin22/bryanzin.com"
+repository: "bzin22/bzin22.github.io"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.

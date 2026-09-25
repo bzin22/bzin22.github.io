@@ -1,4 +1,4 @@
-# Agent Guidelines for bryanzin.com
+# Agent Guidelines for bzin22.github.io
 
 **This file contains important information for coding agents working in this repo.**
 

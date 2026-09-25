@@ -1,4 +1,4 @@
-# bryanzin.com
+# bzin22.github.io
 
 Bryan Zin's personal site, published at https://bryanzin.com. GitHub Pages
 builds it with Jekyll on every push to `master`.
