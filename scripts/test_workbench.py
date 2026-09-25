@@ -57,7 +57,9 @@ async function run() {
     button: d.getElementById('tidy').textContent.trim(),
     pressed: d.getElementById('tidy').hasAttribute('aria-pressed'),
     open: [...d.querySelectorAll('.win:not(.closed)')].map(e => e.id),
-    homeHeading: d.querySelector('#home .content h1').textContent.trim(),
+    aboutLabels: [...d.querySelectorAll('.menubar nav a[data-open="home"], #home .bar .title, #home .cover-title')].map(e => e.textContent.trim()),
+    aboutHeading: !!d.querySelector('#home .content h1'),
+    aboutArt: !!d.querySelector('#home .cover img, #home .cover svg, #home .cover i'),
     cvArt: ['reframe', 'apple', 'freshfleet'].every(name => !!d.querySelector('#cv [data-ph="' + name + '"]')),
     cvText: d.getElementById('cv').textContent.includes('UR10e robot arm'),
     removed: ['print', 'p-freshfleet', 'p-reframe', 'p-apple', 'freshfleet'].every(id => !d.getElementById(id))};
@@ -271,8 +273,10 @@ def check(r, fail):
         return
     if r["initial"]["button"] != "Tidy desk" or r["initial"]["pressed"] or r["initial"]["open"]:
         fail("the page did not load aligned with Tidy desk as an action button")
-    if r["initial"]["homeHeading"] != "About me":
-        fail("the fancy Home heading is not About me")
+    if r["initial"]["aboutLabels"] != ["About", "About me", "About me"] or r["initial"]["aboutHeading"]:
+        fail("the workbench About labels or duplicate heading are wrong")
+    if r["initial"]["aboutArt"]:
+        fail("the About card still contains illustrations")
     if r["moved"]["before"] == r["moved"]["after"]:
         fail("the desk item did not move before Tidy desk was clicked")
     if r["tidy"]["button"] != "Tidy desk" or r["tidy"]["pressed"]:
