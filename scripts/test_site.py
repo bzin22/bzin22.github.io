@@ -19,7 +19,7 @@ SITE = os.environ.get("SITE_DIR", os.path.join(ROOT, "_site"))
 
 # Nav order comes from _data/navigation.yml. Header link 0 is the site title.
 # CV is the former Experience page and keeps /experience/. Contact was removed.
-EXPECTED_NAV = ["About", "Research", "Projects", "CV", "Resume"]
+EXPECTED_NAV = ["About me", "Research", "Projects", "CV", "Resume"]
 
 # permalink -> text that must appear in the rendered page body.
 # "/" is the workbench (index.html, its own layout). The plain About page is at /about/.
@@ -27,7 +27,7 @@ EXPECTED_PAGES = {
     "/": "Tidy desk",
     "/about/": "Selected work",
     "/research/": "Supply-chain language and stock-market reactions",
-    "/projects/": "Technical preparation",
+    "/projects/": "Technical skills",
     "/experience/": "Reframe Innovations",
     "/resume/": 'src="/images/bryan-zin-resume.png?v=2"',
 }
@@ -55,6 +55,9 @@ EXPECTED_SNIPPETS = {
         'href="/research/">Research overview</a>',
         'href="/projects/">Selected projects</a>',
         'href="https://github.com/bzin22/adam-optimizer-recreation">Code and experiments</a>',
+        'src="/images/gallery/bryan_hiking_hawaii.jpg"',
+        'src="/images/gallery/bryan_diving_morray_eel.jpg"',
+        '<figcaption>',
     ],
     "/research/": [
         'src="/images/scrisk-result.png"',
@@ -62,6 +65,15 @@ EXPECTED_SNIPPETS = {
         "<figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, 2010–2019. Bars show 95% intervals clustered by firm. Final sample: 52,533 calls from 2,026 firms. Portfolios share observations when scores are tied.</figcaption>",
     ],
     "/projects/": ['<p><a href="https://github.com/bzin22/adam-optimizer-recreation">Repository</a></p>'],
+    "/experience/": [
+        'src="/images/gallery/apple_iphone_15_pro_max.jpg"',
+        'src="/images/gallery/apple_iphone_17.jpg"',
+        'src="/images/gallery/apple_iphone_air_2025.jpg"',
+        'src="/images/gallery/freshfleet_robot_diagram.jpg"',
+        'src="/images/gallery/freshfleet_robot_still_image.jpg"',
+        'src="/images/gallery/freshfleet_robot_vacuum.jpg"',
+        '<figcaption>',
+    ],
     "/resume/": ['<a href="/files/bryan-zin-cv.pdf">Download my resume (PDF)</a>'],
     # The workbench uses the site's own images and PDF, and its sun leads back to the plain site.
     "/": [
@@ -77,7 +89,9 @@ EXPECTED_SNIPPETS = {
         '<a href="mailto:bz297@cornell.edu">Email</a>',
         '<span class="paperclip"></span>\n      <p class="cover-title">Resume</p>\n      <div class="sheet">',
         'Welcome to my workspace! Feel free to move things around and explore!',
-        '<div class="ph ph-inline" data-ph="freshfleet"></div>',
+        'src="/images/gallery/apple_iphone_15_pro_max.jpg"',
+        'src="/images/gallery/freshfleet_robot_diagram.jpg"',
+        'src="/images/gallery/bryan_hiking_hawaii.jpg"',
     ],
 }
 
@@ -270,14 +284,14 @@ def check_workbench_removed(fail):
     if projects and "Freshfleet" in projects.group(0):
         fail("/ Projects folder still contains Freshfleet")
     cv = re.search(r'<section [^>]*id="cv".*?</section>', body, re.S)
-    if not cv or any(f'data-ph="{name}"' not in cv.group(0) for name in ("reframe", "apple", "freshfleet")) or "UR10e robot arm" not in cv.group(0):
+    if not cv or any(f'aria-label="{name}" data-carousel' not in cv.group(0) for name in ("Reframe", "Apple", "Freshfleet Robotics")) or "UR10e robot arm" not in cv.group(0):
         fail("/ CV is missing the Reframe, Apple, or Freshfleet content")
     for old_id in ("print", "p-freshfleet", "p-reframe", "p-apple", "freshfleet"):
         if re.search(rf'id="{old_id}"', body):
             fail(f"/ still has the separate {old_id} desk object")
-    if "Freshfleet: robotic cleaning end effectors" in read("/projects/"):
+    if "Freshfleet Robotics" in read("/projects/"):
         fail("/projects/ still contains the Freshfleet case study")
-    if "Freshfleet: robotic cleaning end effectors" not in read("/experience/"):
+    if "Freshfleet Robotics" not in read("/experience/"):
         fail("/experience/ is missing the Freshfleet case study")
 
 

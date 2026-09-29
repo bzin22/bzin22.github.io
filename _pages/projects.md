@@ -30,7 +30,7 @@ The project demonstrates numerical implementation, experiment design, and diagno
 
 [Repository](https://github.com/bzin22/adam-optimizer-recreation)
 
-## Technical preparation
+## Technical skills
 
 **Programming languages:** Python.
 

@@ -60,7 +60,8 @@ async function run() {
     aboutLabels: [...d.querySelectorAll('.menubar nav a[data-open="home"], #home .bar .title, #home .cover-title')].map(e => e.textContent.trim()),
     aboutHeading: !!d.querySelector('#home .content h1'),
     aboutArt: !!d.querySelector('#home .cover img, #home .cover svg, #home .cover i'),
-    cvArt: ['reframe', 'apple', 'freshfleet'].every(name => !!d.querySelector('#cv [data-ph="' + name + '"]')),
+    cvArt: ['Reframe', 'Apple', 'Freshfleet Robotics'].every(name => !!d.querySelector('#cv [data-carousel][aria-label="' + name + '"]')),
+    aboutGallery: !!d.querySelector('#home [data-carousel][aria-label="About me"]'),
     cvText: d.getElementById('cv').textContent.includes('UR10e robot arm'),
     removed: ['print', 'p-freshfleet', 'p-reframe', 'p-apple', 'freshfleet'].every(id => !d.getElementById(id))};
   // Move a desk item so Tidy desk has a real change to undo.
@@ -88,6 +89,7 @@ async function run() {
   const pr = d.getElementById('projects').getBoundingClientRect();
   out.openFromMenu = {closed: d.getElementById('projects').classList.contains('closed'),
     cx: center(pr)[0], cy: center(pr)[1], wantCx: w.innerWidth / 2, wantCy: (menuH + w.innerHeight) / 2,
+    width: pr.width, height: pr.height, wantWidth: w.innerWidth * .75, wantHeight: (w.innerHeight - menuH) * .85,
     top: pr.top, bottom: pr.bottom, menuH: menuH, viewH: w.innerHeight};
   });
 
@@ -113,10 +115,23 @@ async function run() {
   await sleep(450);
   const cr = d.getElementById('cv').getBoundingClientRect();
   out.openFromDesk = {closed: d.getElementById('cv').classList.contains('closed'),
+    width: cr.width, height: cr.height, wantWidth: w.innerWidth * .75, wantHeight: (w.innerHeight - menuH) * .85,
     cx: center(cr)[0], cy: center(cr)[1], wantCx: w.innerWidth / 2, wantCy: (menuH + w.innerHeight) / 2};
   });
 
-  // 5. Tidy desk closes open windows and restores the moved item to the aligned grid.
+  // 5. The Apple carousel advances inside the CV window.
+  await step('carousel', async () => {
+    const gallery = d.querySelector('#cv [data-carousel][aria-label="Apple"]');
+    const viewport = gallery.querySelector('.image-carousel__viewport');
+    gallery.scrollIntoView({block: 'center'});
+    await sleep(100);
+    gallery.querySelector('[data-carousel-next]').click();
+    await sleep(750);
+    out.carousel = {count: gallery.querySelector('.image-carousel__count').textContent.trim(),
+      position: viewport.scrollLeft, width: viewport.clientWidth};
+  });
+
+  // 6. Tidy desk closes open windows and restores the moved item to the aligned grid.
   await step('tidy', async () => {
   w.scrollTo(0, 0);
   out.beforeTidyOpen = [...d.querySelectorAll('.win:not(.closed)')].map(e => e.id);
@@ -150,6 +165,13 @@ async function run() {
   d.getElementById('tidy').click(); await sleep(450);
   out.secondTidy = {button: d.getElementById('tidy').textContent.trim(),
     open: [...d.querySelectorAll('.win:not(.closed)')].map(e => e.id), boxes: boxesOf()};
+  });
+  await step('aboutImage', async () => {
+    d.querySelector('.menubar nav a[data-open="home"]').click();
+    await sleep(500);
+    const img = d.querySelector('#home .image-carousel__slide img');
+    out.aboutImage = {complete: img.complete, width: img.naturalWidth,
+      display: w.getComputedStyle(img).display, frame: img.parentElement.getBoundingClientRect().width};
   });
   await report(JSON.stringify(out));
 }
@@ -216,7 +238,7 @@ def check(r, fail):
     if "error" in r:
         fail(f"harness crashed: {r['error']}")
         return
-    for name in ("underline", "openFromMenu", "resize", "openFromDesk", "tidy", "putAway", "secondTidy"):
+    for name in ("underline", "openFromMenu", "resize", "openFromDesk", "carousel", "tidy", "putAway", "secondTidy", "aboutImage"):
         if isinstance(r.get(name), dict) and "error" in r[name]:
             fail(f"{name} step threw: {r[name]['error']}")
             r.pop(name)
@@ -233,6 +255,8 @@ def check(r, fail):
         if o["closed"]:
             fail(f"opening {label} left it closed")
             continue
+        if abs(o["width"] - o["wantWidth"]) > 2 or abs(o["height"] - o["wantHeight"]) > 2:
+            fail(f"opening {label} did not use 75% width and 85% of the height below the navigation")
         # 2px tolerance covers sub-pixel rounding of the centered left/top.
         if abs(o["cx"] - o["wantCx"]) > 2 or abs(o["cy"] - o["wantCy"]) > 2:
             fail(f"opening {label} put its center at ({o['cx']:.0f}, {o['cy']:.0f}), "
@@ -246,6 +270,13 @@ def check(r, fail):
         fail(f"dragging the resize corner by (+80, -60) changed the size by ({rs['grown']['dw']}, {rs['grown']['dh']})")
     if rs and (rs["minW"], rs["minH"]) != (280, 220):
         fail(f"shrinking a window past its minimum left it {rs['minW']}x{rs['minH']}, expected 280x220")
+
+    carousel = r.get("carousel")
+    if not carousel or carousel["count"] != "2 / 3" or abs(carousel["position"] - carousel["width"]) > 2:
+        fail("the Apple carousel did not advance to image 2")
+    image = r.get("aboutImage")
+    if not image or not image["complete"] or image["width"] == 0 or image["frame"] == 0:
+        fail(f"the About carousel's first photo did not load: {image}")
 
     # The bio is 13 words. Beside a 92px photo it wrapped to 6 lines in the tidy grid
     # (about 2 words a line). Full width under the photo it needs 3 at the 220px text width.
@@ -273,7 +304,7 @@ def check(r, fail):
         return
     if r["initial"]["button"] != "Tidy desk" or r["initial"]["pressed"] or r["initial"]["open"]:
         fail("the page did not load aligned with Tidy desk as an action button")
-    if r["initial"]["aboutLabels"] != ["About", "About me", "About me"] or r["initial"]["aboutHeading"]:
+    if r["initial"]["aboutLabels"] != ["About me", "About me", "About me"] or r["initial"]["aboutHeading"]:
         fail("the workbench About labels or duplicate heading are wrong")
     if r["initial"]["aboutArt"]:
         fail("the About card still contains illustrations")
@@ -285,8 +316,8 @@ def check(r, fail):
     if not r["beforeTidyOpen"]:
         fail("no windows were open before Tidy desk, so the tidy check proves nothing")
     t = r["tidy"]
-    if not r["initial"]["cvArt"] or not r["initial"]["cvText"] or not r["initial"]["removed"]:
-        fail("the CV illustrations or desk object cleanup is missing")
+    if not r["initial"]["cvArt"] or not r["initial"]["aboutGallery"] or not r["initial"]["cvText"] or not r["initial"]["removed"]:
+        fail("the About/CV galleries or desk object cleanup is missing")
     if t["open"]:
         fail(f"Tidy desk left these windows open: {t['open']}")
     if t["tilted"]:
