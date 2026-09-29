@@ -15,8 +15,9 @@ permalink: /
 <link rel="apple-touch-icon" sizes="180x180" href="{{ '/images/workbench-apple-touch-icon-180x180.png' | relative_url }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="{{ '/assets/css/image-carousel.css' | relative_url }}">
 <style>
   :root {
     --mat: #2f5f50;
@@ -32,7 +33,8 @@ permalink: /
     --blue: #476d8a;
     --manila: #ecd49c;
     --manila-dark: #d9ba74;
-    --board: #a9763f;
+    --title-font: "IBM Plex Sans", system-ui, sans-serif;
+    --title-size: 22px;
     --tape: rgba(241, 228, 186, 0.88);
     --bar-h: 36px;
     --menu-h: 38px;
@@ -161,7 +163,7 @@ permalink: /
     width: 12px; height: 16px; flex: none; opacity: .45;
     background: radial-gradient(circle, currentColor 1.3px, transparent 1.6px) 0 0 / 6px 5.4px;
   }
-  .bar .title { font: 700 23px/1 "Caveat", cursive; white-space: nowrap; }
+  .bar .title { font: 700 var(--title-size)/1.2 var(--title-font); white-space: nowrap; }
   .bar .kind {
     font: 500 10.5px "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase;
     opacity: .6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -191,11 +193,10 @@ permalink: /
   .win.closed { cursor: grab; }
 
   .content h1, .content h2, .content h3 {
-    font-family: "Fraunces", Georgia, serif; font-weight: 700; line-height: 1.2;
+    font-family: var(--title-font); font-size: var(--title-size); font-weight: 700; line-height: 1.2;
     margin: 1.3em 0 .45em;
   }
-  .content h1 { font-size: 30px; margin-top: .5em; }
-  .content h2 { font-size: 21px; }
+  .content h1 { margin-top: .5em; }
   .content > :first-child { margin-top: .5em; }
   .content p { margin: 0 0 .9em; }
   .content ul { padding-left: 1.1em; margin: 0 0 1em; }
@@ -219,6 +220,7 @@ permalink: /
 
   /* notebook: Research */
   .notebook { background: #fdfcf6; }
+  .notebook.closed { background: transparent; border-radius: 3px 8px 8px 3px; }
   .notebook .bar { background: #1f2622; color: #f3eedb; }
   .notebook .content {
     padding-left: 40px;
@@ -246,16 +248,17 @@ permalink: /
   .folder .sheet + .sheet { margin-top: 12px; }
 
   /* clipboard: CV */
-  .clipboard { background: var(--board); }
-  .clipboard .bar { color: #fff5e3; background: linear-gradient(#b8844b, #a06d38); }
+  .clipboard { background: var(--manila); }
+  .clipboard .bar { color: var(--ink); background: var(--manila-dark); }
   .clipboard .content { padding: 10px 14px 14px; }
-  .clipboard .sheet { background: #fff; padding: 4px 24px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  .clipboard .sheet { background: var(--paper); padding: 4px 24px 18px; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+  .win .image-carousel { --global-text-color: var(--ink); --global-fig-caption-color: var(--ink-soft); --global-border-color: var(--paper-edge); --global-base-color: var(--accent); --global-bg-color: #fff; }
 
   /* paper: Resume */
-  .paper { background: #f1ede2; }
-  .paper .bar { background: #e2dccb; }
+  .paper { background: var(--manila); }
+  .paper .bar { background: var(--manila-dark); }
   .paper .content { padding: 10px 16px 18px; }
-  .resume-preview { background: #e2dccb; padding: 10px; margin-top: 14px; }
+  .resume-preview { background: var(--manila); padding: 10px; margin-top: 14px; }
   .resume-img { display: block; width: 100%; height: auto; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
   .dl {
     display: inline-flex; align-items: center; gap: 8px;
@@ -267,22 +270,24 @@ permalink: /
 
   /* covers (closed state) */
   .cover { width: 100%; height: 100%; position: relative; }
-  .cv-cover { background: var(--board); padding: 30px 14px 14px; border-radius: 6px; }
+  .cv-cover { background: var(--manila); padding: 30px 14px 14px; border-radius: 6px; }
   .cv-cover .clip {
     position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
     width: 86px; height: 30px; border-radius: 6px 6px 3px 3px;
     background: linear-gradient(#e3e5e8, #9ea3aa); border: 1px solid #6c7178;
     box-shadow: 0 2px 3px rgba(0,0,0,.3);
   }
-  .cv-cover .sheet { background: #fff; padding: 14px 16px; min-height: 230px; font-size: 13px; }
-  .cover-title { font: 700 30px/1 "Caveat", cursive; margin: 0 0 8px; }
+  .cv-cover .sheet { background: var(--paper); padding: 14px 16px; min-height: 230px; font-size: 13px; }
+  .cover-title { font: 700 var(--title-size)/1.2 var(--title-font); margin: 0 0 8px; }
   .cover-list { list-style: none; margin: 0; padding: 0; font-size: 12.5px; line-height: 1.4; }
   .cover-list li { padding: 6px 0; border-bottom: 1px dashed rgba(0,0,0,.18); }
-  .folder-cover { padding-top: 22px; }
+  .cv-cover .cover-list li > span { display: block; white-space: nowrap; }
+  .cv-cover .cover-list .meta { margin: 0; font: 400 11.5px/1.45 "IBM Plex Sans", system-ui, sans-serif; }
+  .folder-cover { padding-top: 30px; }
   .folder-cover .tab {
-    position: absolute; top: 0; left: 0; width: 46%; height: 26px;
+    position: absolute; top: 0; left: 0; min-width: 46%; height: 34px;
     background: var(--manila-dark); border-radius: 6px 10px 0 0;
-    font: 700 21px/26px "Caveat", cursive; padding-left: 12px;
+    font: 700 var(--title-size)/34px var(--title-font); padding: 0 14px;
   }
   .folder-cover .front { background: var(--manila); padding: 14px 16px 16px; border-radius: 0 6px 6px 6px; position: relative; }
   .folder-cover .peek {
@@ -294,15 +299,14 @@ permalink: /
       radial-gradient(circle at 20% 30%, rgba(255,255,255,.14) 0 2px, transparent 3px) 0 0 / 9px 11px,
       radial-gradient(circle at 60% 70%, rgba(255,255,255,.1) 0 3px, transparent 4px) 0 0 / 13px 7px,
       #1d211f;
-    color: #f3eedb; padding: 26px 18px 22px 30px; border-radius: 3px 8px 8px 3px; min-height: 260px;
+    color: #f3eedb; padding: 26px 18px 22px 30px; border-radius: 3px 8px 8px 3px; min-height: 260px; overflow: hidden;
   }
   .notebook-cover::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 14px; background: #0f1210; }
   .notebook-cover .label { background: var(--paper); color: var(--ink); padding: 10px 12px; }
-  .notebook-cover .label .cover-title { font-size: 28px; }
-  .notebook-cover .label p { margin: 0; font-size: 12.5px; line-height: 1.4; }
+  .notebook-cover .label p:not(.cover-title) { margin: 0; font-size: 12.5px; line-height: 1.4; }
   .index-cover { background: var(--paper); padding: 12px 16px; border-top: 3px solid var(--accent); }
-  .resume-cover { background: #e2dccb; padding: 16px 14px 14px; }
-  .resume-cover .sheet { background: #fff; padding: 8px; }
+  .resume-cover { background: var(--manila); padding: 16px 14px 14px; }
+  .resume-cover .sheet { background: var(--paper); padding: 8px; }
   .resume-cover .cover-title { margin: 4px 6px 8px; }
   .resume-cover img { display: block; width: 100%; height: auto; }
   .paperclip {
@@ -329,7 +333,7 @@ permalink: /
     border: 3px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25);
     pointer-events: none;
   }
-  .badge h1 { font: 700 24px/1.1 "Fraunces", Georgia, serif; margin: 2px 0 6px; }
+  .badge h1 { font: 700 var(--title-size)/1.2 var(--title-font); margin: 2px 0 6px; }
   .badge .bio { margin: 12px 0 0; color: var(--ink-soft); }
   .badge .edu { margin: 4px 0 0; font: 500 11.5px/1.45 "IBM Plex Mono", monospace; color: var(--ink-soft); }
   .badge ul { list-style: none; padding: 0; margin: 14px 0 0; border-top: 1.5px dashed rgba(0,0,0,.2); padding-top: 10px; }
@@ -339,21 +343,6 @@ permalink: /
     margin: 12px -18px -16px; height: 12px; border-radius: 0 0 10px 10px;
     background: var(--accent);
   }
-
-  /* CV illustrations */
-  .ph { position: relative; overflow: hidden; border-radius: 2px; }
-  .ph svg { display: block; width: 100%; height: 100%; }
-  .ph-inline { aspect-ratio: 16 / 9; margin: .4em 0 1.2em; border: 1px solid rgba(0,0,0,.12); }
-  .ph-label {
-    position: absolute; left: 10px; bottom: 10px; right: 10px;
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    font: 500 12px/1.3 "IBM Plex Mono", monospace;
-  }
-  .ph-label b {
-    background: var(--accent); color: #fff; font-weight: 600; letter-spacing: .08em;
-    padding: 2px 7px; border-radius: 3px; font-size: 10.5px;
-  }
-  .ph-label span { background: rgba(255,255,255,.9); color: var(--ink); padding: 2px 7px; border-radius: 3px; }
 
   /* sticky note */
   .sticky {
@@ -421,7 +410,6 @@ permalink: /
     .folder .content, .clipboard .content, .paper .content { padding: 10px; }
     .folder .sheet, .clipboard .sheet { padding: 4px 16px 14px; }
     .badge { cursor: default; }
-    .content h1 { font-size: 27px; }
     html { scroll-padding-top: calc(var(--menu-h) + 10px); }
   }
   @media (prefers-reduced-motion: reduce) { .obj, .sun svg, .scribble path { transition: none !important; } }
@@ -432,7 +420,7 @@ permalink: /
 <header class="menubar">
   <div class="brand"><img class="logo" src="{{ '/images/workbench-favicon.svg' | relative_url }}" alt="">Bryan Zin</div>
   <nav aria-label="Sections">
-    <a href="#home" data-open="home">About</a>
+    <a href="#home" data-open="home">About me</a>
     <a href="#research" data-open="research">Research</a>
     <a href="#projects" data-open="projects">Projects</a>
     <a href="#cv" data-open="cv">CV</a>
@@ -468,7 +456,7 @@ permalink: /
   </aside>
 
   <!-- About -->
-  <section class="obj win card-index closed" id="home" data-tilt="0.6" aria-label="About">
+  <section class="obj win card-index closed" id="home" data-tilt="0.6" aria-label="About me">
     <div class="bar"><span class="grip"></span><span class="title">About me</span><span class="fill"></span><button type="button" data-toggle>put away</button></div>
     <div class="cover index-cover">
       <p class="cover-title">About me</p>
@@ -477,6 +465,7 @@ permalink: /
     <div class="content">
       <p>Hi!</p>
       <p>I was born in Yangon, Myanmar and was raised in San Francisco, CA. I've traveled a lot, both within the United States and internationally. When I travel, I enjoy hiking in national parks, exploring local towns, and going scuba diving when possible! At home, I play basketball and badminton, and I'm learning to make pottery! :)</p>
+      {% include image-carousel.html items=site.data.galleries.about label="About me" %}
       <p>My background is in mechanical engineering and manufacturing. I graduated from Cornell University with B.S. in Mechanical Engineering. At Apple, I worked on product design, validation, and failure analysis. After leaving Apple, I designed a robotic system for performing maintenance on autonomous vehicles. Shortly after that, I founded Reframe, an AI procurement tool for mechanical hardware, as part of <a href="https://www.ycombinator.com/companies/usereframe">Y Combinator’s</a> W26 batch.</p>
       <p>Currently, I work on machine learning and empirical analysis surrounding questions about supply chains, firms, and markets. My current research measures supply-chain risk in corporate disclosures and examines its relationship with stock-market reactions. My projects also examine how modeling and evaluation choices affect prediction, from chronological validation to numerical optimization.</p>
       <p>I am seeking research associate and fellowship opportunities in applied machine learning and operations research as I prepare for doctoral study.</p>
@@ -526,7 +515,6 @@ permalink: /
         <ul class="cover-list">
           <li>Predicting Hacker News engagement</li>
           <li>Reconstructing Adam optimization experiments</li>
-          <li>Technical preparation</li>
         </ul>
       </div>
     </div>
@@ -549,7 +537,7 @@ permalink: /
         <p><a href="https://github.com/bzin22/adam-optimizer-recreation">Repository</a></p>
       </div>
       <div class="sheet">
-        <h2>Technical preparation</h2>
+        <h2>Technical skills</h2>
         <p><strong>Programming languages:</strong> Python.</p>
         <p><strong>Methods demonstrated in projects:</strong> Text processing, dictionary-based NLP, chronological model evaluation, feature engineering, linear and tree-based prediction, numerical optimization, manual backpropagation, and event-study analysis.</p>
         <p><strong>Libraries and tools:</strong> NumPy, pandas, PyTorch, scikit-learn, XGBoost, Git, and automated testing.</p>
@@ -566,29 +554,28 @@ permalink: /
       <div class="sheet">
         <p class="cover-title">CV</p>
         <ul class="cover-list">
-          <li>Reframe Innovations<br><span class="meta">Founder · 2026</span></li>
-          <li>Apple<br><span class="meta">Product Design Engineer III · January 2022–May 2025</span></li>
-          <li>Freshfleet<br><span class="meta">Mechanical design</span></li>
-          <li>Education</li>
+          <li><span>Reframe Innovations</span><span class="meta">Founder</span><span class="meta">January 2026–Present</span></li>
+          <li><span>Freshfleet Robotics</span><span class="meta">Founder</span><span class="meta">May 2025–November 2025</span></li>
+          <li><span>Apple</span><span class="meta">Product Design Engineer</span><span class="meta">January 2022–May 2025</span></li>
         </ul>
       </div>
     </div>
     <div class="content">
       <div class="sheet">
         <h2>Reframe Innovations</h2>
-        <p class="meta"><strong>Founder · 2026</strong></p>
-        <div class="ph ph-inline" data-ph="reframe"></div>
+        <p class="meta"><strong>Founder · January 2026–Present</strong></p>
         <p>At Reframe, we built procurement automation for hardware teams, connecting bill-of-materials planning, supplier communication, sourcing, and purchasing workflows. The application uses TypeScript, Supabase, TanStack Query for server state, Jotai for UI state, and Trigger.dev for Gmail synchronization and background workflows.</p>
         <p>We evaluated negotiation behavior by labeling supplier conversations, documenting effective and ineffective tactics, and constructing preference pairs. We used these pairs to fine-tune gpt-oss with direct preference optimization through Unsloth.</p>
-        <h2>Apple</h2>
-        <p class="meta"><strong>Product Design Engineer III · January 2022–May 2025</strong></p>
-        <div class="ph ph-inline" data-ph="apple"></div>
-        <p>I worked on mechanical design, structural integration, and validation for iPhone 15 Pro Max, iPhone 17, and iPhone 17 Air. I developed validation protocols, analyzed yield and failure data, and worked with engineering and manufacturing teams across the United States, China, India, and Singapore.</p>
-        <h2>Freshfleet: robotic cleaning end effectors</h2>
-        <p class="meta"><strong>Mechanical design case study · Write-up in preparation</strong></p>
-        <div class="ph ph-inline" data-ph="freshfleet"></div>
-        <p>At Freshfleet, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.</p>
+        {% include image-carousel.html items=site.data.galleries.reframe label="Reframe" %}
+        <h2>Freshfleet Robotics</h2>
+        <p class="meta"><strong>Founder · May 2025–November 2025</strong></p>
+        <p>At Freshfleet Robotics, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.</p>
+        {% include image-carousel.html items=site.data.galleries.freshfleet label="Freshfleet Robotics" %}
         <p>CAD renders and a write-up of the end-effector design are in preparation.</p>
+        <h2>Apple</h2>
+        <p class="meta"><strong>Product Design Engineer · January 2022–May 2025</strong></p>
+        <p>I worked on mechanical design, structural integration, and validation for iPhone 15 Pro Max, iPhone 17, and iPhone 17 Air. I developed validation protocols, analyzed yield and failure data, and worked with engineering and manufacturing teams across the United States, China, India, and Singapore.</p>
+        {% include image-carousel.html items=site.data.galleries.apple label="Apple" %}
         <h2>Education</h2>
         <p class="meta"><strong>Cornell University — B.S. in Mechanical Engineering · December 2021</strong></p>
       </div>
@@ -621,60 +608,6 @@ permalink: /
 
 <script>
 (function () {
-  /* ---------- placeholder art ---------- */
-  var PH = {
-    freshfleet: {
-      label: 'Placeholder: Freshfleet end-effector render',
-      svg: '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-        '<defs><pattern id="bp" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M16 0H0V16" fill="none" stroke="#5b83b8" stroke-width=".5" opacity=".6"/></pattern></defs>' +
-        '<rect width="320" height="180" fill="#1e3d68"/><rect width="320" height="180" fill="url(#bp)"/>' +
-        '<g fill="none" stroke="#dbe8ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-        '<rect x="46" y="140" width="48" height="14" rx="2"/><rect x="56" y="118" width="28" height="22" rx="4"/>' +
-        '<circle cx="70" cy="112" r="9"/><path d="M76 106 L150 58"/><path d="M66 106 L140 54"/><circle cx="146" cy="54" r="10"/>' +
-        '<path d="M152 60 L206 96"/><path d="M142 64 L198 102"/><circle cx="204" cy="102" r="7"/>' +
-        '<rect x="196" y="108" width="18" height="12" rx="2"/><path d="M190 120 h30 l-4 12 h-22z"/>' +
-        '<path d="M194 134 v8 M199 134 v9 M204 134 v9 M209 134 v9 M214 134 v8" stroke-width="1.4"/>' +
-        '<path d="M170 150 q40 -12 90 0 l6 16 h-102z" stroke-dasharray="4 3"/></g>' +
-        '<g font-family="IBM Plex Mono, monospace" font-size="8" fill="#9fc0ee"><text x="226" y="100">UR10e</text><text x="228" y="130">end effector</text><path d="M224 128 h-8" stroke="#9fc0ee"/></g></svg>'
-    },
-    reframe: {
-      label: 'Placeholder: Reframe procurement tool screenshot (YC W26)',
-      svg: '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-        '<rect width="320" height="180" fill="#efe6d2"/>' +
-        '<rect x="22" y="16" width="276" height="150" rx="6" fill="#fffdf8" stroke="#2a2a22" stroke-width="1.5"/>' +
-        '<path d="M22 32 h276" stroke="#2a2a22" stroke-width="1.5"/><circle cx="32" cy="24" r="2.5" fill="#476d8a"/><circle cx="41" cy="24" r="2.5" fill="#e9b949"/><circle cx="50" cy="24" r="2.5" fill="#2f5f50"/>' +
-        '<rect x="22" y="32" width="58" height="134" fill="#f3ecdc"/>' +
-        '<g fill="#c9bfa8"><rect x="30" y="42" width="40" height="6" rx="3"/><rect x="30" y="56" width="32" height="6" rx="3"/><rect x="30" y="70" width="36" height="6" rx="3"/></g>' +
-        '<g font-family="IBM Plex Mono, monospace" font-size="7" fill="#545a4c"><text x="90" y="46">PART</text><text x="170" y="46">QTY</text><text x="206" y="46">SUPPLIER</text><text x="262" y="46">STATUS</text></g>' +
-        '<g stroke="#e2d9c4"><path d="M88 52 h204 M88 68 h204 M88 84 h204 M88 100 h204 M88 116 h204"/></g>' +
-        '<g fill="#d8cfb9"><rect x="90" y="57" width="60" height="5" rx="2"/><rect x="90" y="73" width="48" height="5" rx="2"/><rect x="90" y="89" width="66" height="5" rx="2"/><rect x="90" y="105" width="52" height="5" rx="2"/>' +
-        '<rect x="170" y="57" width="14" height="5" rx="2"/><rect x="170" y="73" width="10" height="5" rx="2"/><rect x="170" y="89" width="14" height="5" rx="2"/><rect x="170" y="105" width="12" height="5" rx="2"/>' +
-        '<rect x="206" y="57" width="40" height="5" rx="2"/><rect x="206" y="73" width="34" height="5" rx="2"/><rect x="206" y="89" width="44" height="5" rx="2"/><rect x="206" y="105" width="30" height="5" rx="2"/></g>' +
-        '<rect x="262" y="56" width="26" height="8" rx="4" fill="#2f5f50" opacity=".7"/><rect x="262" y="72" width="26" height="8" rx="4" fill="#e9b949"/><rect x="262" y="88" width="26" height="8" rx="4" fill="#2f5f50" opacity=".7"/><rect x="262" y="104" width="26" height="8" rx="4" fill="#476d8a" opacity=".8"/>' +
-        '<rect x="186" y="126" width="102" height="30" rx="8" fill="#476d8a" opacity=".12" stroke="#476d8a"/><g fill="#476d8a" opacity=".5"><rect x="194" y="134" width="70" height="4" rx="2"/><rect x="194" y="143" width="50" height="4" rx="2"/></g></svg>'
-    },
-    apple: {
-      label: 'Placeholder: iPhone product design and validation photo',
-      svg: '<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-        '<rect width="320" height="180" fill="#dcd8cf"/>' +
-        '<g fill="none" stroke="#2a2a22" stroke-width="1.6">' +
-        '<rect x="126" y="34" width="66" height="128" rx="14" transform="rotate(-8 159 98)" fill="#c9c4b8" opacity=".6"/>' +
-        '<rect x="140" y="26" width="66" height="128" rx="14" fill="#ebe8e1"/><rect x="146" y="32" width="54" height="116" rx="10" stroke-dasharray="3 3"/>' +
-        '<rect x="160" y="36" width="26" height="7" rx="3.5" fill="#2a2a22"/></g>' +
-        '<g stroke="#476d8a" stroke-width="1.2" fill="#476d8a" font-family="IBM Plex Mono, monospace" font-size="8">' +
-        '<path d="M214 26 h14 M214 154 h14 M222 28 v124" fill="none"/><text x="230" y="93" stroke="none">H</text>' +
-        '<path d="M140 164 v8 M206 164 v8 M142 168 h62" fill="none"/><text x="168" y="178" stroke="none">W</text></g>' +
-        '<g fill="none" stroke="#476d8a" stroke-width="1.3"><circle cx="82" cy="72" r="20"/><path d="M82 48 v48 M58 72 h48"/><text x="54" y="112" font-family="IBM Plex Mono, monospace" font-size="8" fill="#476d8a" stroke="none">drop test</text></g>' +
-        '<g fill="#2a2a22" opacity=".55"><rect x="40" y="130" width="60" height="4" rx="2"/><rect x="40" y="140" width="44" height="4" rx="2"/><rect x="40" y="150" width="52" height="4" rx="2"/></g></svg>'
-    }
-  };
-  document.querySelectorAll('[data-ph]').forEach(function (el) {
-    var p = PH[el.getAttribute('data-ph')];
-    el.setAttribute('role', 'img');
-    el.setAttribute('aria-label', p.label);
-    el.innerHTML = p.svg + '<div class="ph-label"><b>PLACEHOLDER</b><span>' + p.label.replace('Placeholder: ', '') + '</span></div>';
-  });
-
   /* ---------- menu scribbles ---------- */
   document.querySelectorAll('.menubar nav a').forEach(function (a) {
     // The path runs x=2..98 of 100 so the round caps (1.2px) stay inside the word's box.
@@ -701,12 +634,11 @@ permalink: /
   var desk = document.getElementById('desk');
   var mobile = window.matchMedia('(max-width: 860px)');
   var z = 10;
-  var REF_W = 1440, REF_H = 962;
-  var OPEN_SIZE = { home: [580, 598], research: [456, 588], projects: [660, 720], cv: [620, 700], resume: [600, 760] };
+  var OPEN_SIZE = { width: .75, height: .85 };
 
   function metrics() {
     var W = desk.clientWidth, H = desk.clientHeight;
-    return { W: W, H: H, sw: Math.min(1, Math.max(.72, W / REF_W)), sh: Math.min(1.12, Math.max(.8, H / REF_H)) };
+    return { W: W, H: H };
   }
   function setTilt(el, deg) { el.style.setProperty('--tilt', deg + 'deg'); }
 
@@ -731,13 +663,12 @@ permalink: /
   }
   function openWin(el) {
     if (mobile.matches) return;
-    var id = el.id, m = metrics(), v = visibleArea();
+    var m = metrics(), v = visibleArea();
     el.classList.remove('closed');
     el.setAttribute('data-tilt', 0); setTilt(el, 0);
     el.classList.remove('popped'); void el.offsetWidth; el.classList.add('popped');
-    var s = OPEN_SIZE[id];
-    el.style.width = Math.min(s[0] * m.sw, m.W - 24) + 'px';
-    el.style.height = Math.min(s[1] * m.sh, v.bottom - v.top - 24) + 'px';
+    el.style.width = Math.min(m.W * OPEN_SIZE.width, m.W - 24) + 'px';
+    el.style.height = Math.min((v.bottom - v.top) * OPEN_SIZE.height, v.bottom - v.top - 24) + 'px';
     centerWin(el);
     focusObj(el);
   }
@@ -904,5 +835,6 @@ permalink: /
   init();
 })();
 </script>
+<script defer src="{{ '/assets/js/image-carousel.js' | relative_url }}"></script>
 </body>
 </html>

@@ -1,0 +1,46 @@
+about:
+  - image: bryan_at_apple.jpg
+    alt: Bryan with his Apple colleagues at Apple Park, beneath a rainbow arch.
+    caption: With my team at Apple Park.
+  - image: bryan_at_yc.jpg
+    alt: Bryan standing beside a Y Combinator sign.
+    caption: Outside Y Combinator.
+  - image: bryan_hiking_hawaii.jpg
+    alt: Bryan on a green mountain ridge in Hawaii.
+    caption: Hiking at Pali Notches in Hawaii.
+  - image: bryan_diving.jpg
+    alt: Bryan in scuba gear beside a dive boat.
+    caption: On a dive boat at the Similan Islands in Thailand.
+  - image: bryan_diving_morray_eel.jpg
+    alt: A moray eel beneath a coral ledge underwater.
+    caption: A moray eel on a dive.
+
+reframe:
+  - image: reframe_production_dashboard.jpg
+    alt: Reframe production dashboard listing robot assemblies, parts, and item statuses beside an AI assistant panel.
+    caption: Production dashboard with assemblies, parts, and status tracking.
+  - image: reframe_waterfall_schedules.jpg
+    alt: Reframe waterfall schedule showing production runs, component lead times, buffers, and project deadlines.
+    caption: Production schedule showing component lead times and project deadlines.
+
+apple:
+  - image: apple_iphone_15_pro_max.jpg
+    alt: Annotated iPhone 15 Pro Max display assembly and a product photo.
+    caption: iPhone 15 Pro Max display assembly.
+  - image: apple_iphone_17.jpg
+    alt: Annotated iPhone 17 internal assembly and a product photo.
+    caption: iPhone 17 internal antenna components.
+  - image: apple_iphone_air_2025.jpg
+    alt: Annotated iPhone Air display and housing assemblies with a product photo.
+    caption: iPhone Air internal sealing.
+
+freshfleet:
+  - image: freshfleet_robot_diagram.jpg
+    alt: CAD diagram of a cleaning end effector, its vacuum mechanism, and electronics on a robot arm.
+    caption: CAD overview of the cleaning end effector.
+  - image: freshfleet_robot_still_image.jpg
+    alt: Cleaning end effector and vacuum hose mounted on a robot arm in a workshop.
+    caption: End effector mounted on the robot arm.
+  - image: freshfleet_robot_vacuum.jpg
+    alt: Robot arm with a vacuum cleaning tool positioned near a vehicle seat.
+    caption: Test run on a Tesla seat.

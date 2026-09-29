@@ -15,8 +15,11 @@ builds it with Jekyll on every push to `master`.
   at `/experience/`), `resume.md`, plus `sitemap.md` and `404.md`. `/contact/`
   redirects to About and `/cv/` redirects to Resume. The sun button in the plain
   header goes back to the workbench.
-- `_data/navigation.yml` sets the header menu: About, Research, Projects, CV,
+- `_data/navigation.yml` sets the header menu: About me, Research, Projects, CV,
   Resume.
+- `_data/galleries.yml` sets the image order, alt text, and captions for the
+  About, Reframe, Apple, and Freshfleet Robotics carousels on both layouts. Display-sized JPEGs
+  are in `images/gallery/`; the original PNGs remain in `images/`.
 - `_config.yml` holds site-wide settings and the plain sidebar profile (name,
   bio, optional education line, photo, email, GitHub, LinkedIn). The workbench
   badge in `index.html` has its own text.
@@ -24,7 +27,7 @@ builds it with Jekyll on every push to `master`.
   https://bryanzin.com/files/bryan-zin-cv.pdf.
 - `images/` holds the profile photo (`bryan-zin.png`), the resume preview
   (`bryan-zin-resume.png`), the Research figure (`scrisk-result.png`), separate
-  favicons for the workbench and plain site, and the
+  favicons for the workbench and plain site, carousel source images, and the
   template's theme screenshots under `images/themes/`.
 
 The theme itself (`_includes/`, `_layouts/`, `_sass/`, `assets/`) comes from the
@@ -75,7 +78,7 @@ If you are using [Visual Studio Code](https://code.visualstudio.com/) you can us
 ## Checking the site locally
 
 `scripts/test_site.py` checks the built site in `_site/`. It asserts the
-workbench and the five plain pages render their expected content, the nav is About, Research, Projects, CV,
+workbench and the five plain pages render their expected content, the nav is About me, Research, Projects, CV,
 Resume in that order, each page title is right, `/contact/` and `/cv/` are
 redirects, the Research figure, About links, and resume download link are present,
 removed copy stays removed, every internal link and asset resolves to a built

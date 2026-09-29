@@ -2,6 +2,7 @@
 permalink: /about/
 title: "About me"
 author_profile: true
+gallery: true
 redirect_from:
   - /about.html
   - /contact/
@@ -10,6 +11,8 @@ redirect_from:
 Hi!
 
 I was born in Yangon, Myanmar and was raised in San Francisco, CA. I've traveled a lot, both within the United States and internationally. When I travel, I enjoy hiking in national parks, exploring local towns, and going scuba diving when possible! At home, I play basketball and badminton, and I'm learning to make pottery! :)
+
+{% include image-carousel.html items=site.data.galleries.about label="About me" %}
 
 My background is in mechanical engineering and manufacturing. I graduated from Cornell University with B.S. in Mechanical Engineering. At Apple, I worked on product design, validation, and failure analysis. After leaving Apple, I designed a robotic system for performing maintenance on autonomous vehicles. Shortly after that, I founded Reframe, an AI procurement tool for mechanical hardware, as part of [Y Combinator’s](https://www.ycombinator.com/companies/usereframe) W26 batch.
 

@@ -1,0 +1,17 @@
+<div class="image-carousel" role="region" aria-roledescription="carousel" aria-label="{{ include.label }}" data-carousel>
+  <div class="image-carousel__viewport" tabindex="0" aria-label="{{ include.label }} images">
+    {% for item in include.items %}
+    <figure class="image-carousel__slide" aria-label="Image {{ forloop.index }} of {{ include.items.size }}">
+      <div class="image-carousel__frame">
+        <img src="{{ '/images/gallery/' | append: item.image | relative_url }}" alt="{{ item.alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+      </div>
+      <figcaption>{{ item.caption }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+  <div class="image-carousel__controls">
+    <button class="image-carousel__arrow" type="button" data-carousel-prev aria-label="Previous {{ include.label }} image">&#8592;</button>
+    <span class="image-carousel__count" aria-live="polite">1 / {{ include.items.size }}</span>
+    <button class="image-carousel__arrow" type="button" data-carousel-next aria-label="Next {{ include.label }} image">&#8594;</button>
+  </div>
+</div>
