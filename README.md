@@ -23,8 +23,9 @@ builds it with Jekyll on every push to `master`.
 - `_config.yml` holds site-wide settings and the plain sidebar profile (name,
   bio, optional education line, photo, email, GitHub, LinkedIn). The workbench
   badge in `index.html` has its own text.
-- `files/` holds downloads such as `bryan-zin-cv.pdf`. They are served at
-  https://bryanzin.com/files/bryan-zin-cv.pdf.
+- `files/bryan-zin-full-cv.pdf` is the full CV download linked from both CV layouts.
+  Replace this file to update the downloadable CV. The separate one-page resume
+  remains at `files/bryan-zin-cv.pdf` to preserve its existing download URL.
 - `images/` holds the profile photo (`bryan-zin.png`), the resume preview
   (`bryan-zin-resume.png`), the Research figure (`scrisk-result.png`), separate
   favicons for the workbench and plain site, carousel source images, and the

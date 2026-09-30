@@ -29,7 +29,7 @@ EXPECTED_PAGES = {
     "/research/": "Supply-chain language and stock-market reactions",
     "/projects/": "Technical skills",
     "/experience/": "Reframe Innovations",
-    "/resume/": 'src="/images/bryan-zin-resume.png?v=2"',
+    "/resume/": 'src="/images/bryan-zin-resume.png?v=3"',
 }
 
 # permalink -> exact <title> text. The workbench uses the name alone.
@@ -79,7 +79,7 @@ EXPECTED_SNIPPETS = {
     "/": [
         'src="/images/bryan-zin.png"',
         'src="/images/scrisk-result.png"',
-        'src="/images/bryan-zin-resume.png?v=2"',
+        'src="/images/bryan-zin-resume.png?v=3"',
         'href="/files/bryan-zin-cv.pdf"',
         '<a class="sun" href="/about/" data-tip="If you prefer something plainer"',
         '<button class="tidy" type="button" id="tidy" title="Line everything up">Tidy desk</button>',
