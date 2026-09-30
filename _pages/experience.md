@@ -23,6 +23,10 @@ We evaluated negotiation behavior by labeling supplier conversations, documentin
 
 At Freshfleet Robotics, I designed compliant end effectors for cleaning vehicle seats and floors with a UR10e robot arm, including the cleaning mechanism, electronics, and actuation.
 
+- **Cleaning hardware and control:** I built functional cleaning prototypes with custom end effectors, electrical systems, and circuit design. I developed microcontroller firmware for actuation and hardware control, achieving a three-minute cleaning cycle per seat.
+- **Robot motion planning:** I implemented real-time path planning and dynamic collision avoidance in ROS 2 for the UR10e robot arm, and managed an external software contractor to accelerate robotics programming and optimize motion planning.
+- **Prototype funding and deployment planning:** I secured $130,000 in pre-seed funding and led deployment negotiations with fleet operator Moove to validate technical specifications against operational constraints.
+
 {% include image-carousel.html items=site.data.galleries.freshfleet label="Freshfleet Robotics" %}
 
 CAD renders and a write-up of the end-effector design are in preparation.
@@ -32,6 +36,10 @@ CAD renders and a write-up of the end-effector design are in preparation.
 **Product Design Engineer · January 2022–May 2025**
 
 I worked on mechanical design, structural integration, and validation for iPhone 15 Pro Max, iPhone 17, and iPhone 17 Air. I developed validation protocols, analyzed yield and failure data, and worked with engineering and manufacturing teams across the United States, China, India, and Singapore.
+
+- **iPhone 15 Pro Max, display integration:** I designed and tested the frame integrating the OLED display into the titanium housing. I investigated display delamination and quality defects during engineering development, using CT scans, time-of-flight simulations, Fourier-transform infrared spectroscopy (FTIR), and finite element analysis (FEA) to guide corrective actions.
+- **iPhone 17,  antenna module:** I designed and tested the antenna module, working on components for Wi-Fi, GPS, 5G+, NFC, and Bluetooth. I addressed bandwidth variation and cellular signal strength through clad-housing design changes and tolerance analyses of grounding clips, electrical cables, and shielding components.
+- **iPhone Air, sealing and validation:** I engineered thin adhesive structures to achieve IP68 water and dust resistance within the device’s height constraints. I developed pneumatic pressure and leak-testing protocols to validate seal integrity under thermal and mechanical stress cycling.
 
 {% include image-carousel.html items=site.data.galleries.apple label="Apple" %}
 
@@ -57,7 +65,7 @@ At BAE Systems, I designed a hardware interface connecting APKWS electronics wit
 
 **Handheld Electronic Device · US 20240064220 A1**
 
-Patent publication covering mechanical architecture and structural integration of the display module into a metal housing.
+Patent publication covering mechanical architecture and structural integration of the display module into a mechanical housing.
 
 [View on Google Patents](https://patents.google.com/patent/US20240064220A1/en)
 
