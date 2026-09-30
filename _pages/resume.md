@@ -11,7 +11,7 @@ redirect_from:
 <div class="resume-frame">
   <img
     class="resume-image"
-    src="{{ '/images/bryan-zin-resume.png' | relative_url }}?v=2"
+    src="{{ '/images/bryan-zin-resume.png' | relative_url }}?v=3"
     alt="Bryan Zin resume"
     width="2550"
     height="3300"
