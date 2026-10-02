@@ -491,19 +491,19 @@ permalink: /
     <div class="content">
       <h2>Research direction</h2>
       <p>I am interested in how firms make operational decisions under uncertainty, how disruptions move through production networks, and what can be learned about these processes from text and market data. My current work focuses on measurement and empirical evaluation. Longer term, I want to develop computational models that help evaluate how operational and policy decisions affect firms and markets.</p>
-      <h2>Supply-chain language and stock-market reactions</h2>
-      <p class="meta"><strong>Independent research · 2026 · Ongoing</strong></p>
-      <p><strong>Question.</strong> Is the language managers use to discuss supply-chain risk and its resolution associated with abnormal stock returns around earnings announcements?</p>
-      <p><strong>Data and methods.</strong> The analysis covers 58,305 earnings calls from 2,200 companies covering 2010–2019. The final portfolio sample contains 52,533 calls from 2,026 firms after market-data and industry-classification filters. The study uses reconstructed supply-chain, risk, and resolution dictionaries, with the supply-chain vocabulary derived using PPMI and truncated SVD. I compare text measures with cumulative abnormal returns from a Carhart four-factor model.</p>
-      <p><strong>Current finding.</strong> Mean two-day abnormal returns decline from +0.52% in the lowest fractional risk portfolio to −0.41% in the highest. The input data produced a significant number of supply chain risk scores with a value of zero, spanning the entirety of the first quintile and much of the second.</p>
+      <h2>Supply-chain risk language and stock-market reactions</h2>
+      <p class="meta"><em>Evidence from US hardware firms · Independent research · 2026–present</em></p>
+      <p>Does the way managers discuss supply-chain problems convey information associated with stock-market reactions? Motivated by my experience in hardware product development, I study this question using 11,950 earnings calls from 378 US hardware firms covering fiscal years 2010–2019.</p>
+      <p>Building on Theile et al. (2026), I construct dictionary-based measures of supply-chain risk and resolution language, using a vocabulary derived from 50,000 annual filings. The analysis combines Carhart four-factor abnormal returns, portfolios that allocate tied scores proportionally, and regressions with firm and calendar-quarter fixed effects.</p>
+      <p>Calls in the highest-risk portfolio have two-day abnormal returns <strong>1.69 percentage points below</strong> those in the lowest-risk portfolio. With fixed effects, a one-standard-deviation increase in risk language is associated with a <strong>0.82 percentage point lower return</strong>. On the 5,476-call subsample with earnings-surprise data, adding a provider-reported surprise control reduces the estimate from −0.85 to −0.71 percentage points. Evidence for resolution language is weaker.</p>
       <figure class="research-figure">
         <span class="tape" style="top:-10px;left:-14px;transform:rotate(-8deg)"></span>
         <span class="tape" style="top:-10px;right:-14px;transform:rotate(7deg)"></span>
-        <img src="{{ '/images/scrisk-result.png' | relative_url }}" alt="Mean two-day abnormal returns decrease across fractional risk portfolios, from 0.52% in Q1 to −0.41% in Q5; error bars show firm-clustered 95% intervals." width="1980" height="1530" decoding="async">
-        <figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, 2010–2019. Bars show 95% intervals clustered by firm. Final sample: 52,533 calls from 2,026 firms. Portfolios share observations when scores are tied.</figcaption>
+        <img src="{{ '/images/scrisk-hardware-result.png' | relative_url }}" alt="Mean two-day abnormal returns by fractional SCRisk portfolio: 1.13% in Q1 and −0.56% in Q5; error bars show firm-clustered 95% confidence intervals." width="1895" height="1130" decoding="async">
+        <figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, fiscal years 2010–2019. Bars show 95% confidence intervals clustered by firm. Sample: 11,950 calls from 378 US hardware firms. Portfolios share observations when scores are tied.</figcaption>
       </figure>
-      <p><strong>Scope and limitations.</strong> Events use reported earnings-release dates, which may differ from conference-call dates; the analysis makes no after-hours adjustment. Portfolio intervals account for repeated observations within firms; the analysis does not yet include controlled regressions or common-date dependence.</p>
-      <p><strong>Next question.</strong> I plan to examine a separately defined subset of hardware companies with documented international supply-chain exposure, retaining the full-sample baseline.</p>
+      <p>These findings describe associations: other earnings news, sample selection, and event timing limit causal interpretation. My ongoing work examines whether the relationship is stronger for firms that depend on critical suppliers they cannot readily replace.</p>
+      <p><a href="{{ '/files/supply-chain-risk-hardware-report.pdf' | relative_url }}">Read the report (PDF)</a> · <a href="https://github.com/bzin22/supply_chain_risk_and_reactions">Research repository</a></p>
     </div>
   </section>
 
@@ -528,6 +528,7 @@ permalink: /
         <p>I compared simple historical baselines, Ridge regression, and XGBoost. The combined-feature Ridge model achieved a test Spearman correlation of 0.297, compared with 0.050 for the trailing-mean baseline. RMSE on log-transformed scores improved by about 3.6%, showing that the features helped ranking more than prediction of score magnitude. XGBoost remained behind Ridge on ranking after early stopping.</p>
         <p>The project also includes PyTorch implementations of CBOW and skip-gram objectives with negative sampling, with targeted training experiments on text8. The full embedding variants and their downstream Hacker News comparison remain unfinished.</p>
         <p><strong>Tools:</strong> Python, pandas, scikit-learn, XGBoost, PyTorch.</p>
+        <p><a href="https://github.com/bzin22/HN-prediction">Repository</a></p>
       </div>
       <div class="sheet">
         <h2>Reconstructing Adam optimization experiments</h2>

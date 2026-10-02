@@ -18,6 +18,8 @@ The project also includes PyTorch implementations of CBOW and skip-gram objectiv
 
 **Tools:** Python, pandas, scikit-learn, XGBoost, PyTorch.
 
+[Repository](https://github.com/bzin22/HN-prediction)
+
 ## Reconstructing Adam optimization experiments
 
 **Independent implementation study · MNIST experiments complete**

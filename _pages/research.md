@@ -8,31 +8,24 @@ author_profile: true
 
 I am interested in how firms make operational decisions under uncertainty, how disruptions move through production networks, and what can be learned about these processes from text and market data. My current work focuses on measurement and empirical evaluation. Longer term, I want to develop computational models that help evaluate how operational and policy decisions affect firms and markets.
 
-## Supply-chain language and stock-market reactions
+## Supply-chain risk language and stock-market reactions
 
-**Independent research · 2026 · Ongoing**
+*Evidence from US hardware firms · Independent research · 2026–present*
 
-**Question.** Is the language managers use to discuss supply-chain risk and its resolution associated with abnormal stock returns around earnings announcements?
+Does the way managers discuss supply-chain problems convey information associated with stock-market reactions? Motivated by my experience in hardware product development, I study this question using 11,950 earnings calls from 378 US hardware firms covering fiscal years 2010–2019.
 
-**Data and methods.** The analysis covers 58,305 earnings calls from 2,200 companies covering 2010–2019. The final portfolio sample contains 52,533 calls from 2,026 firms after market-data and industry-classification filters. The study uses reconstructed supply-chain, risk, and resolution dictionaries, with the supply-chain vocabulary derived using PPMI and truncated SVD. I compare text measures with cumulative abnormal returns from a Carhart four-factor model.
+Building on Theile et al. (2026), I construct dictionary-based measures of supply-chain risk and resolution language, using a vocabulary derived from 50,000 annual filings. The analysis combines Carhart four-factor abnormal returns, portfolios that allocate tied scores proportionally, and regressions with firm and calendar-quarter fixed effects.
 
-**Current finding.** Mean two-day abnormal returns decline from +0.52% in the lowest fractional risk portfolio to −0.41% in the highest. The input data produced a significant number of supply chain risk scores with a value of zero, spanning the entirety of the first quintile and much of the second.
+Calls in the highest-risk portfolio have two-day abnormal returns **1.69 percentage points below** those in the lowest-risk portfolio. With fixed effects, a one-standard-deviation increase in risk language is associated with a **0.82 percentage point lower return**. On the 5,476-call subsample with earnings-surprise data, adding a provider-reported surprise control reduces the estimate from −0.85 to −0.71 percentage points. Evidence for resolution language is weaker.
 
 <figure class="research-figure">
-  <img
-    src="{{ '/images/scrisk-result.png' | relative_url }}"
-    alt="Mean two-day abnormal returns decrease across fractional risk portfolios, from 0.52% in Q1 to −0.41% in Q5; error bars show firm-clustered 95% intervals."
-    width="1980"
-    height="1530"
-    loading="lazy"
-    decoding="async"
-  >
-  <figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, 2010–2019. Bars show 95% intervals clustered by firm. Final sample: 52,533 calls from 2,026 firms. Portfolios share observations when scores are tied.</figcaption>
+  <img src="{{ '/images/scrisk-hardware-result.png' | relative_url }}" alt="Mean two-day abnormal returns by fractional SCRisk portfolio: 1.13% in Q1 and −0.56% in Q5; error bars show firm-clustered 95% confidence intervals." width="1895" height="1130" loading="lazy" decoding="async">
+  <figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, fiscal years 2010–2019. Bars show 95% confidence intervals clustered by firm. Sample: 11,950 calls from 378 US hardware firms. Portfolios share observations when scores are tied.</figcaption>
 </figure>
 
-**Scope and limitations.** Events use reported earnings-release dates, which may differ from conference-call dates; the analysis makes no after-hours adjustment. Portfolio intervals account for repeated observations within firms; the analysis does not yet include controlled regressions or common-date dependence.
+These findings describe associations: other earnings news, sample selection, and event timing limit causal interpretation. My ongoing work examines whether the relationship is stronger for firms that depend on critical suppliers they cannot readily replace.
 
-**Next question.** I plan to examine a separately defined subset of hardware companies with documented international supply-chain exposure, retaining the full-sample baseline.
+<a href="{{ '/files/supply-chain-risk-hardware-report.pdf' | relative_url }}">Read the report (PDF)</a> · <a href="https://github.com/bzin22/supply_chain_risk_and_reactions">Research repository</a>
 
 <style>
   .research-figure {

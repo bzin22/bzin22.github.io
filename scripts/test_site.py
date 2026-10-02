@@ -26,7 +26,7 @@ EXPECTED_NAV = ["About me", "Research", "Projects", "CV", "Resume"]
 EXPECTED_PAGES = {
     "/": "Tidy desk",
     "/about/": "Selected work",
-    "/research/": "Supply-chain language and stock-market reactions",
+    "/research/": "Supply-chain risk language and stock-market reactions",
     "/projects/": "Technical skills",
     "/experience/": "Reframe Innovations",
     "/resume/": 'src="/images/bryan-zin-resume.png?v=3"',
@@ -60,9 +60,9 @@ EXPECTED_SNIPPETS = {
         '<figcaption>',
     ],
     "/research/": [
-        'src="/images/scrisk-result.png"',
-        'alt="Mean two-day abnormal returns decrease across fractional risk portfolios, from 0.52% in Q1 to −0.41% in Q5; error bars show firm-clustered 95% intervals."',
-        "<figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, 2010–2019. Bars show 95% intervals clustered by firm. Final sample: 52,533 calls from 2,026 firms. Portfolios share observations when scores are tied.</figcaption>",
+        'src="/images/scrisk-hardware-result.png"',
+        'alt="Mean two-day abnormal returns by fractional SCRisk portfolio: 1.13% in Q1 and −0.56% in Q5; error bars show firm-clustered 95% confidence intervals."',
+        "<figcaption>Mean CAR(0,1) by fractional SCRisk portfolio, fiscal years 2010–2019. Bars show 95% confidence intervals clustered by firm. Sample: 11,950 calls from 378 US hardware firms. Portfolios share observations when scores are tied.</figcaption>",
     ],
     "/projects/": ['<p><a href="https://github.com/bzin22/adam-optimizer-recreation">Repository</a></p>'],
     "/experience/": [
@@ -78,7 +78,7 @@ EXPECTED_SNIPPETS = {
     # The workbench uses the site's own images and PDF, and its sun leads back to the plain site.
     "/": [
         'src="/images/bryan-zin.png"',
-        'src="/images/scrisk-result.png"',
+        'src="/images/scrisk-hardware-result.png"',
         'src="/images/bryan-zin-resume.png?v=3"',
         'href="/files/bryan-zin-cv.pdf"',
         '<a class="sun" href="/about/" data-tip="If you prefer something plainer"',
