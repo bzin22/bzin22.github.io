@@ -29,7 +29,6 @@ At Freshfleet Robotics, I designed compliant end effectors for cleaning vehicle 
 
 {% include image-carousel.html items=site.data.galleries.freshfleet label="Freshfleet Robotics" %}
 
-CAD renders and a write-up of the end-effector design are in preparation.
 
 ## Apple
 
