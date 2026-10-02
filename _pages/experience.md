@@ -25,7 +25,7 @@ At Freshfleet Robotics, I designed compliant end effectors for cleaning vehicle 
 
 - **Cleaning hardware and control:** I built functional cleaning prototypes with custom end effectors, electrical systems, and circuit design. I developed microcontroller firmware for actuation and hardware control, achieving a three-minute cleaning cycle per seat.
 - **Robot motion planning:** I implemented real-time path planning and dynamic collision avoidance in ROS 2 for the UR10e robot arm, and managed an external software contractor to accelerate robotics programming and optimize motion planning.
-- **Prototype funding and deployment planning:** I secured $130,000 in pre-seed funding and led deployment negotiations with fleet operator Moove to validate technical specifications against operational constraints.
+- **Prototype funding and deployment planning:** I secured $200,000 in pre-seed funding and led deployment negotiations with fleet operator Moove to validate technical specifications against operational constraints.
 
 {% include image-carousel.html items=site.data.galleries.freshfleet label="Freshfleet Robotics" %}
 
