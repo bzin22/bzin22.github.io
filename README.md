@@ -26,8 +26,9 @@ builds it with Jekyll on every push to `master`.
 - `files/bryan-zin-full-cv.pdf` is the full CV download linked from both CV layouts.
   Replace this file to update the downloadable CV. The separate one-page resume
   remains at `files/bryan-zin-cv.pdf` to preserve its existing download URL.
+- `files/supply-chain-risk-hardware-report.pdf` is the September 2026 research report linked from both Research layouts. The hardware figure is extracted from Figure 1 on page 5.
 - `images/` holds the profile photo (`bryan-zin.png`), the resume preview
-  (`bryan-zin-resume.png`), the Research figure (`scrisk-result.png`), separate
+  (`bryan-zin-resume.png`), the Research figure (`scrisk-hardware-result.png`), separate
   favicons for the workbench and plain site, carousel source images, and the
   template's theme screenshots under `images/themes/`.
 

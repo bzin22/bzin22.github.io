@@ -30,3 +30,6 @@ jobs:
         run: bundle exec jekyll build --strict_front_matter
         env:
           JEKYLL_ENV: production
+
+      - name: Check analytics execution
+        run: node scripts/test_analytics.js

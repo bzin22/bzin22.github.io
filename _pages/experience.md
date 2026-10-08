@@ -13,7 +13,7 @@ gallery: true
 
 At Reframe, we built procurement automation for hardware teams, connecting bill-of-materials planning, supplier communication, sourcing, and purchasing workflows. The application uses TypeScript, Supabase, TanStack Query for server state, Jotai for UI state, and Trigger.dev for Gmail synchronization and background workflows.
 
-We evaluated negotiation behavior by labeling supplier conversations, documenting effective and ineffective tactics, and constructing preference pairs. We used these pairs to fine-tune gpt-oss with direct preference optimization through Unsloth.
+We evaluated negotiation behavior by labeling supplier conversations, documenting effective and ineffective tactics, and constructing preference pairs. We used these pairs to fine-tune gpt-oss with direct preference optimization using MLX.
 
 {% include image-carousel.html items=site.data.galleries.reframe label="Reframe" %}
 
@@ -29,7 +29,6 @@ At Freshfleet Robotics, I designed compliant end effectors for cleaning vehicle 
 
 {% include image-carousel.html items=site.data.galleries.freshfleet label="Freshfleet Robotics" %}
 
-CAD renders and a write-up of the end-effector design are in preparation.
 
 ## Apple
 
